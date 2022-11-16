@@ -8,10 +8,10 @@ sys.path.append(code_dir)
 
 import unittest
 
-import knapsack_greedy as kg
+import knapsack as kg
 
 
-class Test_knapsack_greedy(unittest.TestCase):
+class Test_knapsack(unittest.TestCase):
     def setUp(self) -> None:
         self.bagger = kg.Item('bagger', 10, 5)
         self.items = kg.buildItems()
@@ -67,6 +67,11 @@ class Test_knapsack_greedy(unittest.TestCase):
         self.assertEqual(len(self.taken), 4, "taken LIST SIZE is Wrong")
         self.assertEqual(str(self.taken[1]), "<clock, 175.0, 10.0>", "the CONTENT of the taken list is WORNG")
         self.assertEqual(self.totalValue, 255.0, "the total value of the taken is WRONG")
+
+    def test_generating_powerset_from_simple_list(self):
+        # preps
+        startList = [1,2]
+        self.assertEqual(kg.genPowerSet(startList), [[], [1], [2], [1,2]])
 
 if __name__ == '__main__':
     unittest.main()

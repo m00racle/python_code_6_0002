@@ -97,6 +97,14 @@ def printGreedy(items, constraint, keyFunction) -> None:
     print("Total Values of items taken: ", totalValue)
     for item in taken :
         print("   ", item)
+
+def genPowerSet(L : list) -> list:
+    """  
+        Generate power set
+        Params: L (list of objects) : [objects] that will be processed 
+        Returns : powerset : [[]] (list of list) 
+    """
+    pass
     
 def runGreedy(maxWeight=20):
     # preps list of all items
