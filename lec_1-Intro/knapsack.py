@@ -98,6 +98,16 @@ def printGreedy(items, constraint, keyFunction) -> None:
     for item in taken :
         print("   ", item)
 
+def getBinaryRep(n : int, numDigits : int) -> str:
+    """  
+    Generate bunary representation of the sequence (NOT THE NUMBER)
+    PARAMS: 
+    n : int (The number you want to get representation)
+    numDigits : int (the number of digits of the representation)
+    """
+    result = ''
+    return result
+
 def genPowerSet(L : list) -> list:
     """  
         Generate power set

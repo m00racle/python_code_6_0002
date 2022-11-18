@@ -68,6 +68,11 @@ class Test_knapsack(unittest.TestCase):
         self.assertEqual(str(self.taken[1]), "<clock, 175.0, 10.0>", "the CONTENT of the taken list is WORNG")
         self.assertEqual(self.totalValue, 255.0, "the total value of the taken is WRONG")
 
+    def test_generate_binary_reps_digits(self):
+        self.assertEqual(kg.getBinaryRep(0,4), '0000', "4 digits binary rep for 0 is WRONG")
+        self.assertEqual(kg.getBinaryRep(1,6), '000001', "6 digits binary rep for 1 is WRONG")
+        self.assertEqual(kg.getBinaryRep(2,8), '00000010', "8 digits binary rep for 2 is WRONG")
+
     def test_generating_powerset_from_simple_list(self):
         # preps
         startList = [1,2]
