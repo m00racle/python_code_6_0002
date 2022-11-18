@@ -77,7 +77,7 @@ class Test_knapsack(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             kg.getBinaryRep(8, 3)
         
-        self.assertTrue("not enough digits" in cm.exception)
+        self.assertTrue("not enough digits" in cm.exception.args)
 
     def test_generate_binary_all_1s(self):
         self.assertEqual(kg.getBinaryRep(15,4), "1111", "4 digits binary reps for 15 is WRONG")

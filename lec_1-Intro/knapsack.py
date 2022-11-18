@@ -106,10 +106,15 @@ def getBinaryRep(n : int, numDigits : int) -> str:
     numDigits : int (the number of digits of the representation)
     """
     result = ''
+    # get all the binary body
     while n > 0:
         result = result + str(n % 2)
         n = n // 2
     
+    # ensure the binary rep does not longer than specified number of digits:
+    if len(result) > numDigits:
+        raise ValueError("not enough digits")
+    # get the fillion of 0s for the rest of digits:
     for i in range(numDigits - len(result)):
         result = '0' + result
     
