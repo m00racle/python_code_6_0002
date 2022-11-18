@@ -106,6 +106,13 @@ def getBinaryRep(n : int, numDigits : int) -> str:
     numDigits : int (the number of digits of the representation)
     """
     result = ''
+    while n > 0:
+        result = result + str(n % 2)
+        n = n // 2
+    
+    for i in range(numDigits - len(result)):
+        result = '0' + result
+    
     return result
 
 def genPowerSet(L : list) -> list:

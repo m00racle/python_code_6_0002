@@ -71,7 +71,17 @@ class Test_knapsack(unittest.TestCase):
     def test_generate_binary_reps_digits(self):
         self.assertEqual(kg.getBinaryRep(0,4), '0000', "4 digits binary rep for 0 is WRONG")
         self.assertEqual(kg.getBinaryRep(1,6), '000001', "6 digits binary rep for 1 is WRONG")
-        self.assertEqual(kg.getBinaryRep(2,8), '00000010', "8 digits binary rep for 2 is WRONG")
+        self.assertEqual(kg.getBinaryRep(15,8), '00001111', "8 digits binary rep for 15 is WRONG")
+
+    def test_generate_binary_larger_than_digits_invoke_error(self):
+        with self.assertRaises(ValueError) as cm:
+            kg.getBinaryRep(8, 3)
+        
+        self.assertTrue("not enough digits" in cm.exception)
+
+    def test_generate_binary_all_1s(self):
+        self.assertEqual(kg.getBinaryRep(15,4), "1111", "4 digits binary reps for 15 is WRONG")
+        
 
     def test_generating_powerset_from_simple_list(self):
         # preps
