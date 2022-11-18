@@ -146,7 +146,7 @@ def genPowerSet(L : list) -> list:
         
     return powerset
 
-def optKnapsacl01(pset : list, maxWeight : int, getVal, getWeight) -> tuple :
+def optKnapsack01(pset : list, maxWeight : int, getVal, getWeight) -> tuple :
     """  
     Given:
     pset : powerset list of list all combinations of Items

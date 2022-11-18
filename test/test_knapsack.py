@@ -89,11 +89,11 @@ class Test_knapsack(unittest.TestCase):
         self.assertEqual(self.powerset, [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]])
 
     def test_optKnapsack_value(self):
-        self.optVal, self.optList = kg.optKnapsacl01(kg.genPowerSet(self.items), 20, kg.Item.getValue, kg.Item.getWeight)
+        self.optVal, self.optList = kg.optKnapsack01(kg.genPowerSet(self.items), 20, kg.Item.getValue, kg.Item.getWeight)
         self.assertEqual(self.optVal, 275)
     
     def test_optKnapsack_opt_list(self):
-        self.optVal, self.optList = kg.optKnapsacl01(kg.genPowerSet(self.items), 20, kg.Item.getValue, kg.Item.getWeight)
+        self.optVal, self.optList = kg.optKnapsack01(kg.genPowerSet(self.items), 20, kg.Item.getValue, kg.Item.getWeight)
         self.optResult = []
         for item in self.optList:
             self.subResult = []
