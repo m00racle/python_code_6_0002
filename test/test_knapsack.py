@@ -85,9 +85,8 @@ class Test_knapsack(unittest.TestCase):
 
     def test_generating_powerset_from_simple_list(self):
         # preps
-        powerset = kg.genPowerSet([1,2])
-        for t in [[], [1], [2], [1,2]] :
-            self.assertTrue(t in powerset)
+        powerset = kg.genPowerSet([1,2,3])
+        self.assertEqual(powerset, [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]])
 
 if __name__ == '__main__':
     unittest.main()
