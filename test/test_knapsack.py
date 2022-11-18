@@ -85,8 +85,24 @@ class Test_knapsack(unittest.TestCase):
 
     def test_generating_powerset_from_simple_list(self):
         # preps
-        powerset = kg.genPowerSet([1,2,3])
-        self.assertEqual(powerset, [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]])
+        self.powerset = kg.genPowerSet([1,2,3])
+        self.assertEqual(self.powerset, [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]])
+
+    def test_optKnapsack_value(self):
+        self.optVal, self.optList = kg.optKnapsacl01(kg.genPowerSet(self.items), 20, kg.Item.getValue, kg.Item.getWeight)
+        self.assertEqual(self.optVal, 275)
+    
+    def test_optKnapsack_opt_list(self):
+        self.optVal, self.optList = kg.optKnapsacl01(kg.genPowerSet(self.items), 20, kg.Item.getValue, kg.Item.getWeight)
+        self.optResult = []
+        for item in self.optList:
+            self.subResult = []
+            self.subResult.append(item.getName())
+            self.subResult.append(item.getValue())
+            self.subResult.append(item.getWeight())
+            self.optResult.append(self.subResult)
+        
+        self.assertEqual(self.optResult, [["clock", 175.0, 10.0], ["painting", 90.0, 9.0], ["book", 10.0, 1.0]])
 
 if __name__ == '__main__':
     unittest.main()

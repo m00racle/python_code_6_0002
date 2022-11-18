@@ -143,8 +143,38 @@ def genPowerSet(L : list) -> list:
                 subset.append(L[j])
         # append the subset into powerset
         powerset.append(subset)
-        print(powerset)
+        
     return powerset
+
+def optKnapsacl01(pset : list, maxWeight : int, getVal, getWeight) -> tuple :
+    """  
+    Given:
+    pset : powerset list of list all combinations of Items
+    maxWeight : maximum wight the knapsack can carry
+    getVal : lambda function to getValue (float) of the item (using lambda function)
+    getWeight: lambda function to getWeight (float) of the item
+
+    Return: tuple
+    optVal : optimum Value of all items taken
+    optList : optimum list of items taken
+    """
+    optVal = 0
+    optList = []
+    # begin with iterate the list of items in pset
+    for items in pset:
+        currentWeight = 0
+        currentValue = 0
+        for item in items:
+            currentWeight += getWeight(item)
+            currentValue += getVal(item)
+        if currentWeight <= maxWeight:
+            if currentValue > optVal:
+                optList = items
+                optVal = currentValue
+
+
+    return (optVal, optList)
+
     
 def runGreedy(maxWeight=20):
     # preps list of all items
@@ -162,5 +192,5 @@ def runGreedy(maxWeight=20):
 
 
 if __name__ == '__main__':
-    print(genPowerSet([1,2,3]))
+    runGreedy()
 
