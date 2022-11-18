@@ -108,7 +108,7 @@ def getBinaryRep(n : int, numDigits : int) -> str:
     result = ''
     # get all the binary body
     while n > 0:
-        result = result + str(n % 2)
+        result = str(n % 2) + result
         n = n // 2
     
     # ensure the binary rep does not longer than specified number of digits:
@@ -126,7 +126,25 @@ def genPowerSet(L : list) -> list:
         Params: L (list of objects) : [objects] that will be processed 
         Returns : powerset : [[]] (list of list) 
     """
-    pass
+    powerset = []
+    # define how many element the powerset will have:
+    powerElement = 2**(len(L))
+    
+    # iterate to put subset into powerset according to binary rep rule:
+    for i in range(0, powerElement):
+        # get binary representation for i-th element of powerset
+        binrep = getBinaryRep(i, len(L))
+        # prepare subset to put the elements of the powerset
+        subset = []
+
+        for j in range(len(L)):
+            # using binary rep rule if the bit is 1 it goes to subset if 0 then not
+            if binrep[j] == '1':
+                subset.append(L[j])
+        # append the subset into powerset
+        powerset.append(subset)
+        print(powerset)
+    return powerset
     
 def runGreedy(maxWeight=20):
     # preps list of all items
@@ -144,5 +162,5 @@ def runGreedy(maxWeight=20):
 
 
 if __name__ == '__main__':
-    runGreedy()
+    print(genPowerSet([1,2,3]))
 
