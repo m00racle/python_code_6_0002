@@ -184,6 +184,11 @@ def optKnapsack01(pset : list, maxWeight : int, getVal, getWeight) -> tuple :
 
     return (optVal, optList)
 
+def printOpt(items, constraint, getVal, getWeight) -> None:
+    (totalValue, taken) = optKnapsack01(genPowerSet(items), constraint, getVal, getWeight)
+    print("Total Values of items taken: ", totalValue)
+    for item in taken :
+        print("   ", item)
     
 def runGreedy(maxWeight=20):
     # preps list of all items
@@ -197,6 +202,9 @@ def runGreedy(maxWeight=20):
 
     print("Use Greedy by Density to fill knapsack in size", maxWeight)
     printGreedy(items, maxWeight, density)
+
+    print("use knapsack 0/1 optimization with max constraing: ", maxWeight)
+    printOpt(items, maxWeight, Item.getValue, Item.getWeight)
 
 
 
