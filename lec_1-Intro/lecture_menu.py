@@ -1,10 +1,10 @@
 import knapsack as kg
 
 def opt_menu()->None:
-    names = ['wine', 'beer', 'pizza', 'burger', 'fries', 'coke', 'apple', 'donut']
-    values = [89, 90, 30, 50, 90, 79, 90, 10]
-    weights = [123, 154, 258, 354, 365, 150, 95, 185]
-    maxWeight = 750
+    names = ['wine', 'beer', 'pizza', 'burger', 'fries', 'cola', 'apple', 'donut', 'cake']
+    values = [89,90,95,100,90,79,50,10]
+    weights = [123,154,258,354,365,150,95,195]
+    maxWeight = 1000
 
     # make Items.
     items = kg.buildItemsArgs(names, values, weights)
