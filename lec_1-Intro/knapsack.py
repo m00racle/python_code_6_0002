@@ -63,6 +63,15 @@ def buildItems():
         Items.append(Item(names[i], values[i], weights[i]))
     return Items
 
+def buildItemsArgs(names: list, values: list, weights: list) -> list:
+    # initiate empty list of Items
+    Items = []
+    # for loop iterate all items to be appended in Items
+    for i in range(len(values)):
+        Items.append(Item(names[i], values[i], weights[i]))
+
+    return Items
+
 def greedy(items, constraint, keyFunction):
     """  
     Given list of items sort it according to key function and take the available

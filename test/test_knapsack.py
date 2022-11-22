@@ -49,6 +49,14 @@ class Test_knapsack(unittest.TestCase):
         self.assertEqual(len(self.items), 6, "list SIZE is WRONG")
         self.assertEqual(str(self.items[2]), "<radio, 20.0, 4.0>", "the list SEQUENCE is WRONG")
 
+    def test_build_items_using_arguments(self):
+        names = ['clock', 'painting', 'radio', 'vase', 'book', 'computer']
+        values = [175, 90, 20, 50, 10, 200]
+        weights = [10, 9, 4, 2, 1, 20]
+        self.ex = kg.buildItemsArgs(names, values, weights)
+        self.assertEqual(len(self.ex), 6, "list SIZE is WRONG")
+        self.assertEqual(str(self.ex[2]), "<radio, 20.0, 4.0>", "the list SEQUENCE is WRONG")
+
     # integration testing
     def test_greedy_by_value(self):
         (self.taken, self.totalValue) = kg.greedy(self.items, 20.0, kg.value)
