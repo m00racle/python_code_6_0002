@@ -64,16 +64,20 @@ def greedy_cow_transport(cows,limit=10):
     cow_list = sorted(list(cows.keys()), key=lambda x : cows[x], reverse=True)
 
     # pop the cow from behind and append it to the list of trip
+    weight = 0
+    trip = []
     while len(cow_list) > 0:
-        weight = 0
-        trip = []
-        while len(cow_list) > 0:
-            weight += cows[cow_list[-1]]
-            if weight > limit : break
+        weight += cows[cow_list[-1]]
+        if weight > limit:
+            result.append(trip)
+            trip = []
+            weight = 0
+            
+        else:
             trip.append(cow_list.pop())
-        
-        result.append(trip)
-
+    
+    # append the final trip to result:
+    result.append(trip)
     # append the trip list into larger result list
     return result
 
