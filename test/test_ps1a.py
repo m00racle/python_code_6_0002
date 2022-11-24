@@ -12,7 +12,12 @@ from problem_set_1 import ps1a as p
 
 class Test_ps1a(unittest.TestCase):
     def setUp(self) -> None:
-        return super().setUp()
+        self.cows = p.load_cows(code_dir + "/test_cow_data.txt")
     
     def test_load_cows(self):
-        self.assertEqual(p.load_cows(code_dir + "/test_cow_data.txt"), {"Maggie" : 3, "Herman" : 7, "Betsy" : 9})
+        self.assertEqual(self.cows, {"Maggie" : 3, "Herman" : 7, "Betsy" : 9})
+
+    def test_brute_force_cow_transport_simple(self):
+        self.assertEqual(p.greedy_cow_transport(self.cows), [["Maggie", "Herman"], ["Betsy"]])
+
+    

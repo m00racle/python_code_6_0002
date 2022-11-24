@@ -25,7 +25,7 @@ def load_cows(filename):
     Returns:
     a dictionary of cow name (string), weight (int) pairs
     """
-    # TODO: Your code here
+    # : Your code here
     cows = {}
     f = open(filename, "r")
     for x in f:
@@ -58,7 +58,24 @@ def greedy_cow_transport(cows,limit=10):
     trips
     """
     # TODO: Your code here
-    pass
+    result = []
+    # turn all the keys in cows dictionary into list.
+    # sort the list from the most weight using the value from cows[key]
+    cow_list = sorted(list(cows.keys()), key=lambda x : cows[x], reverse=True)
+
+    # pop the cow from behind and append it to the list of trip
+    while len(cow_list) > 0:
+        weight = 0
+        trip = []
+        while len(cow_list) > 0:
+            weight += cows[cow_list[-1]]
+            if weight > limit : break
+            trip.append(cow_list.pop())
+        
+        result.append(trip)
+
+    # append the trip list into larger result list
+    return result
 
 # Problem 3
 def brute_force_cow_transport(cows,limit=10):
