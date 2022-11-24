@@ -1,0 +1,22 @@
+$ f:/Code/code_6_0002/.venv/Scripts/python.exe f:/Code/code_6_0002/problem_set_1/ps1a.py
+test
+using greedy transport:
+[['Florence', 'Lola', 'Milkshake', 'Moo Moo'], ['Maggie', 
+'Millie'], ['Oreo'], ['Herman'], ['Henrietta'], ['Betsy']]
+
+number of trips: 6
+time to run: 0.0
+
+using brute force:
+[['Henrietta'], ['Millie', 'Lola', 'Moo Moo'], ['Betsy'], 
+['Milkshake', 'Oreo', 'Florence'], ['Maggie', 'Herman']]  
+number of trips: 5
+time to run: 0.3580813407897949
+
+1. From the run result greedy algorithm runs faster with time to run too small to measure = 0.0.
+Meanwhile, the brute force algorithm takes 0.36 miliseconds to run.
+
+2. Greedy algorithm takes 6 trips to complete the cow transport which is not optimal compared to the brute force which able to complete the whole cow transport only in 5 trips.
+
+3. This is because Greedy algorithm only taking consideration of forward combinations. No way to reverse the possible combination after it was sorted out in a list. 
+Meanwhile, brute force take a look to all possible combinations thus it takes more time to run. The best thing we can do to decrease the time to run is to stop the process once one part of one combination failed to comply with restriction.
