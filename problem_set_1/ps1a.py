@@ -144,16 +144,22 @@ def compare_cow_transport_algorithms():
     # TODO: Your code here
     print("test")
     cows = load_cows(dir + "/ps1_cow_data.txt")
-    cows_test = load_cows(dir + "/test_cow_data.txt")
+    
     print("using greedy transport:")
+    start = time.time()
     greedy_result = greedy_cow_transport(cows)
+    end = time.time()
     print(greedy_result)
     print(f'number of trips: {len(greedy_result)}')
+    print(f"time to run: {end - start}")
 
     print("\nusing brute force:")
+    start = time.time()
     brute_result = brute_force_cow_transport(cows)
+    end = time.time()
     print(brute_result)
     print(f'number of trips: {len(brute_result)}')
+    print(f"time to run: {end - start}")
     
 
 if __name__ == '__main__':
