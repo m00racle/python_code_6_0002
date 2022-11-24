@@ -3,10 +3,11 @@
 # Name:
 # Collaborators:
 # Time:
-
+import os
 from ps1_partition import get_partitions
 import time
 
+dir = os.path.dirname(__file__)
 #================================
 # Part A: Transporting Space Cows
 #================================
@@ -25,7 +26,13 @@ def load_cows(filename):
     a dictionary of cow name (string), weight (int) pairs
     """
     # TODO: Your code here
-    pass
+    cows = {}
+    f = open(filename, "r")
+    for x in f:
+        st = x.split(",")
+        cows[st[0]] = int(st[1])
+    
+    return cows
 
 # Problem 2
 def greedy_cow_transport(cows,limit=10):
@@ -93,4 +100,8 @@ def compare_cow_transport_algorithms():
     Does not return anything.
     """
     # TODO: Your code here
-    pass
+    print("test")
+    print(load_cows(dir + '/ps1_cow_data.txt'))
+
+if __name__ == '__main__':
+    compare_cow_transport_algorithms()
