@@ -104,7 +104,28 @@ def brute_force_cow_transport(cows,limit=10):
     trips
     """
     # TODO: Your code here
-    pass
+    
+    cow_list = list(cows.keys())
+    result = []
+    trips = len(cow_list)
+    for partition in get_partitions(cow_list):
+        if len(partition) > trips: continue
+        valid = True
+        for loads in partition:
+            weight = 0
+            for cow in loads:
+                weight += cows[cow]
+                if weight > limit :
+                    valid = False
+                    # break from the cow in loads loop
+                    break
+            # break from the loads in partition loop
+            if not valid: break
+        if valid and len(partition) < trips:
+            trips = len(partition)
+            result = partition
+
+    return result
         
 # Problem 4
 def compare_cow_transport_algorithms():
@@ -123,10 +144,17 @@ def compare_cow_transport_algorithms():
     # TODO: Your code here
     print("test")
     cows = load_cows(dir + "/ps1_cow_data.txt")
+    cows_test = load_cows(dir + "/test_cow_data.txt")
     print("using greedy transport:")
     greedy_result = greedy_cow_transport(cows)
     print(greedy_result)
     print(f'number of trips: {len(greedy_result)}')
+
+    print("\nusing brute force:")
+    brute_result = brute_force_cow_transport(cows)
+    print(brute_result)
+    print(f'number of trips: {len(brute_result)}')
+    
 
 if __name__ == '__main__':
     compare_cow_transport_algorithms()
