@@ -122,7 +122,11 @@ def compare_cow_transport_algorithms():
     """
     # TODO: Your code here
     print("test")
-    print(load_cows(dir + '/ps1_cow_data.txt'))
+    cows = load_cows(dir + "/ps1_cow_data.txt")
+    print("using greedy transport:")
+    greedy_result = greedy_cow_transport(cows)
+    print(greedy_result)
+    print(f'number of trips: {len(greedy_result)}')
 
 if __name__ == '__main__':
     compare_cow_transport_algorithms()
