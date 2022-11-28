@@ -21,5 +21,6 @@ class Test_ps1a(unittest.TestCase):
         self.assertEqual(p.greedy_cow_transport(self.cows), [["Maggie", "Herman"], ["Betsy"]])
 
     def test_simple_brute_force(self):
-        self.assertTrue(["Maggie", "Herman"] in p.brute_force_cow_transport(self.cows) and ["Betsy"] in p.brute_force_cow_transport(self.cows))
+        result = p.brute_force_cow_transport(self.cows)
+        self.assertTrue(["Maggie", "Herman"] in result and ["Betsy"] in result)
         
