@@ -22,5 +22,6 @@ class Test_ps1a(unittest.TestCase):
 
     def test_simple_brute_force(self):
         result = p.brute_force_cow_transport(self.cows)
-        self.assertTrue(["Maggie", "Herman"] in result and ["Betsy"] in result)
+        # self.assertTrue(["Maggie", "Herman"] in result and ["Betsy"] in result)
+        self.assertTrue(result, [['Betsy'], ['Maggie', 'Herman']])
         
