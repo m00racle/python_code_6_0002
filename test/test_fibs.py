@@ -25,4 +25,25 @@ class Test_fibs(unittest.TestCase):
         fibo = f.fibs(6, self.memo)
         self.assertEqual(fibo, [8, {'calls':24}])
 
+    # Testing fastFibs() function
+
+    def test_fastFibs_0_retuns_0_memo_0(self):
+        res = f.fastFibs(0, self.memo)
+        self.assertEqual(res, [0, self.memo])
+    
+    def test_fastFib_1_returns_1_memo_0(self):
+        res = f.fastFibs(1, self.memo)
+        self.assertEqual(res, [1, self.memo])
+    
+    def test_fatsFib_2_returns_1_memo_calls_2(self):
+        fibo, mem = f.fastFibs(2, self.memo)
+        self.assertEqual(fibo, 1, "FIBO NUMBER is wrong")
+        self.assertEqual(mem['calls'], 2, "Call number is wrong")
+
+    def test_fastFib_6_returns_fibo_8(self):
+        fibo, mem = f.fastFibs(6, self.memo)
+        self.assertEqual(fibo, 8)
+        self.assertEqual(mem[2], 1)
+        self.assertEqual(mem[3], 2)
+
     
