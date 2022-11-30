@@ -32,3 +32,14 @@ class Thing(object):
 
     def getCostName(self) -> str:
         return self.cost_name
+
+def buildThings(datas : dict, value_custom = 'value', cost_custom = 'cost') -> list:
+    """  
+    given datas : dict {name : [value, cost]} 
+    returns list of Thing type
+    """
+    result = []
+    for name in datas.keys():
+        result.append(Thing(name, datas[name][0], datas[name][1], value_name=value_custom, cost_name=cost_custom))
+    return result
+

@@ -44,4 +44,21 @@ class TestGenClassKnapsack(unittest.TestCase):
         self.assertTrue(type(self.b.getCost()) is float, "getCost FAILED to return float number")
         self.assertEqual(self.b.getCost(), 15.0, "getCost returns WRONG VALUE")
 
-    
+    def test_build_things_returns_list_of_correct_things(self):
+        # prepare
+        
+        datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 1], 'book' : [10, 20], 'computer' : [200, 20]}
+        itemList = gk.buildThings(datas, cost_custom='weight')
+        result = []
+        for item in itemList:
+            result.append(str(item))
+        
+        compare = ['<clock; value: 175.0; weight: 10.0>', \
+            '<painting; value: 90.0; weight: 9.0>',\
+                '<radio; value: 20.0; weight: 4.0>',\
+                    '<vase; value: 50.0; weight: 1.0>',\
+                        '<book; value: 10.0; weight: 20.0>',\
+                            '<computer; value: 200.0; weight: 20.0>']
+        
+        self.assertEqual(result, compare)
+
