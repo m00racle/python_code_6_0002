@@ -22,6 +22,13 @@ def hcfRecurs(x : int, y : int) -> int:
         return x
     else:
         return hcfRecurs(y, x % y)
+    
+def lcm(x : int, y : int) -> int:
+    """  
+    given x : int and y : int
+    returns int : lowest common multiple for x and y
+    """
+    return (x * (y / hcfRecurs(x,y))) if y > x else (y * (x / hcfRecurs(x,y)))
 
 def solution(s):
     i = 0

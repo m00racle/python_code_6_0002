@@ -23,3 +23,10 @@ class Test_gcd(unittest.TestCase):
     
     def test_recurs_gcd_commutative(self):
         self.assertEqual(g.hcfRecurs(516, 1220), 4)
+    
+    def test_lcm_returns(self):
+        self.assertEqual(g.lcm(1220, 516), 157380)
+    
+    def test_lcm_commutative(self):
+        self.assertFalse(g.lcm(516, 1220) == 0)
+        self.assertEqual(g.lcm(516, 1220), g.lcm(1220, 516))
