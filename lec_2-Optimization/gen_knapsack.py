@@ -43,3 +43,24 @@ def buildThings(datas : dict, value_custom = 'value', cost_custom = 'cost') -> l
         result.append(Thing(name, datas[name][0], datas[name][1], value_name=value_custom, cost_name=cost_custom))
     return result
 
+def greedy(things: list, constraint : float, keyFunction, descending=True) -> list:
+    """  
+    using greedy algoritm to solve knapsack problem
+    given things : list = list of Thing type objects, constraint : int = max/min value of constraint
+    keyFunction : function or lambda to determine comparables
+    descending : boolean = True (default) the optimization to maximize
+    returns list : optimum knapsack Thing type objects
+    """
+    result = []
+    
+    totalCost = 0
+
+    thingsCopy = sorted(things, key=keyFunction, reverse=descending)
+    
+    for thing in thingsCopy:
+
+        if (totalCost + thing.getCost()) <= constraint:
+            result.append(thing)
+            totalCost += thing.getCost()
+            
+    return result

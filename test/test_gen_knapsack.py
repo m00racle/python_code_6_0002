@@ -62,3 +62,79 @@ class TestGenClassKnapsack(unittest.TestCase):
         
         self.assertEqual(result, compare)
 
+class TestGenGreedyKnapsack(unittest.TestCase):
+    def setUp(self) -> None:
+        self.datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 2], 'book' : [10, 1], 'computer' : [200, 20]}
+        # self.s = samples of things to be tested
+        self.s = gk.buildThings(self.datas, cost_custom='weight')
+
+    def test_greedy_by_value_returns_correct_data_things(self):
+        # prepare
+        compare = ["<computer; value: 200.0; weight: 20.0>"]
+        totalValue = 0
+        totalWeight = 0
+        result = []
+        # action
+        optByVal = gk.greedy(self.s, 20, lambda x : x.getValue())
+        for thing in optByVal:
+            result.append(str(thing))
+            totalValue += thing.getValue()
+            totalWeight += thing.getCost()
+        
+        # assert
+        self.assertEqual(len(result), 1, "the amount of things is WRONG")
+        self.assertEqual(result, compare, "the list of things is WRONG")
+        self.assertTrue(totalWeight <= 20, "the total weight violate constraint")
+        self.assertEqual(totalValue, 200.0, "the total value of things is wrong")
+    
+    def test_greedy_by_reverse_weight_returns_correct_data_things(self):
+         # prepare
+        compare = \
+            ["<book; value: 10.0; weight: 1.0>",\
+                "<vase; value: 50.0; weight: 2.0>",\
+                    "<radio; value: 20.0; weight: 4.0>",\
+                        "<painting; value: 90.0; weight: 9.0>"]
+        totalValue = 0
+        totalWeight = 0
+        result = []
+        # action
+        optByWeight = gk.greedy(self.s, 20, lambda x : 1/x.getCost())
+        for thing in optByWeight:
+            result.append(str(thing))
+            totalValue += thing.getValue()
+            totalWeight += thing.getCost()
+        
+        # assert
+        self.assertEqual(len(result), 4, "the amount of things is WRONG")
+        self.assertEqual(result, compare, "the list of things is WRONG")
+        self.assertTrue(totalWeight <= 20, "the total weight violate constraint")
+        self.assertEqual(totalValue, 170.0, "the total value of things is wrong")
+
+    def test_greedy_by_reverse_weight_must_equal_by_ascending_weight(self):
+        optByWeight = gk.greedy(self.s, 20, lambda x : 1/x.getCost())
+        optByAscWeight = gk.greedy(self.s, 20, lambda x : x.getCost(), descending=False)
+        self.assertEqual(optByWeight, optByAscWeight)
+
+    def test_greedy_by_density_returns_correct_data_things(self):
+         # prepare
+        compare = \
+            ["<vase; value: 50.0; weight: 2.0>",\
+                "<clock; value: 175.0; weight: 10.0>",\
+                "<book; value: 10.0; weight: 1.0>",\
+                    "<radio; value: 20.0; weight: 4.0>"]
+        totalValue = 0
+        totalWeight = 0
+        result = []
+        # action
+        optByDensity = gk.greedy(self.s, 20, lambda x : x.getValue()/x.getCost())
+        for thing in optByDensity:
+            result.append(str(thing))
+            totalValue += thing.getValue()
+            totalWeight += thing.getCost()
+        
+        # assert
+        self.assertEqual(len(result), 4, "the amount of things is WRONG")
+        self.assertEqual(result, compare, "the list of things is WRONG")
+        self.assertTrue(totalWeight <= 20, "the total weight violate constraint")
+        self.assertEqual(totalValue, 255.0, "the total value of things is wrong")
+    
