@@ -80,3 +80,4 @@ x = 1220
 y = 516
 print(f"the HCF for {x} and {y} using loop: {hcfLoop(x,y)}")
 print(f"the HCF for {x} and {y} using recursion: {hcfRecurs(x,y)}")
+print(f"lcm for {x} and {y} is {lcm(x,y)}")
