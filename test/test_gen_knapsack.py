@@ -199,18 +199,20 @@ class TestDynamicKnapsack(unittest.TestCase):
     
     def test_simple_things(self):
         # arrange
-        print_out = '<c; value: 8.0; weight: 3.0>\n<b; value: 7.0; weight: 2.0>\n'
+        print_out = '<b; value: 7.0; weight: 3.0>\n<c; value: 8.0; weight: 2.0>\n'
         expected_total_value = 15.0
 
         cap = io.StringIO()
         sys.stdout = cap
 
         # action
-        [cons, avail, taken, val] = None # TODO: change with the fucntion
+        [cons, avail, taken, val] = gk.dynamicKnapsack(self.things, 5)
+        for thing in taken:
+            print(thing)
         sys.stdout = sys.__stdout__
         printed = cap.getvalue()
 
         # assert
         self.assertEqual(printed, print_out)
         self.assertEqual(val, expected_total_value)
-        self.fail('NO TEST')
+        # self.fail('NO TEST')

@@ -204,3 +204,31 @@ def bruteKnapsack(inputs: list, constraint : float, valueFunction, costFunction)
             opt_list = output_list
     
     return (max_value, opt_list)
+
+def dynamicKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0) -> list:
+    """  
+    Descrioption: function to optimize knapsack case using dynamic programming
+
+    Parameter:
+    consider : list = list of Thing type objects to be optimized
+    avail : float = the constraint of knapsack available capacity
+    taken : list = list of Thing type objects taken durin optimization (default = [])
+    val : float = value of all taken objects (default = 0)
+    """
+    if taken == None : taken = []
+    if consider == [] :
+        return [consider, avail, taken, val]
+    elif avail < 0 :
+        # set value to be 0 because this should not even considered
+        return [consider, avail, taken, 0]
+    else :
+        consThing = consider[0]
+        nextAvail = avail - consThing.getCost()
+        nextTaken = (*taken, consThing)
+        nextVal = val + consThing.getValue()
+        cons_1, avail_1, taken_1, val_1 = dynamicKnapsack(consider[1:], nextAvail, nextTaken, nextVal)
+        
+        cons_2, avail_2, taken_2, val_2 = dynamicKnapsack(consider[1:], avail, taken, val)
+
+        if val_2 < val_1 : return [cons_1, avail_1, taken_1, val_1]
+        else : return [cons_2, avail_2, taken_2, val_2]
