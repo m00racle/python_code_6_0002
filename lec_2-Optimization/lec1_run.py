@@ -49,8 +49,17 @@ def run():
         print(f'{food},')
         total_calories += food.getCost()
         total_value += food.getValue()
-    print(f'total value for greedy by calories: {total_value}')
-    print(f'total calories of greedy by calories: {total_calories}')
+    print(f'total value for greedy by inverse calories: {total_value}')
+    print(f'total calories of greedy by inverse calories: {total_calories}')
+
+    print(f'\nusing Brute Force to find best menu below {constraint} calories:')
+    total_value, menuList = bruteKnapsack(foods, constraint, Thing.getValue, lambda x : x.getCost())
+    total_calories = 0
+    for food in menuList :
+        print(f'{food}')
+        total_calories += food.getCost()
+    print(f'total value for Brute force algorithm: {total_value}')
+    print(f'total calories for Brute force algorithm: {total_calories}')
     
 
 if __name__ == '__main__':
