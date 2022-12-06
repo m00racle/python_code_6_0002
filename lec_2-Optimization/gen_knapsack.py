@@ -97,11 +97,14 @@ def greedy(
     descending=True #if True sorted descending False otherwise
 ) -> list:
     """  
-    using greedy algoritm to solve knapsack problem
-    given things : list = list of Thing type objects, constraint : int = max/min value of constraint
+    Description: using greedy algoritm to solve knapsack problem
+
+    Parameters:
+    things : list = list of Thing type objects, constraint : int = max/min value of constraint
     keyFunction : function or lambda to determine comparables
     descending : boolean = True (default) the optimization to maximize
-    returns list : optimum knapsack Thing type objects
+
+    returns: list = optimum list of knapsack Thing type objects
     """
     result = []
     
