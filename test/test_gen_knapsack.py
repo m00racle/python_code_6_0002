@@ -1,4 +1,4 @@
-import os, sys, unittest
+import os, sys, unittest, io
 
 test_dir = os.path.dirname(__file__)
 code_dir = os.path.normpath(test_dir + "/../lec_2-Optimization")
@@ -183,3 +183,39 @@ class TestBruteKanpsack(unittest.TestCase):
             self.optResult.append(self.subResult)
         
         self.assertEqual(self.optResult, [["clock", 175.0, 10.0], ["painting", 90.0, 9.0], ["book", 10.0, 1.0]])
+
+class TestDynamicKnapsack(unittest.TestCase):
+    """  
+    test for dynamic optimization for knapsack
+    """
+    def setUp(self) -> None:
+        self.datas = {
+            'a' : [6,3],
+            'b' : [7,3],
+            'c' : [8,2],
+            'd' : [9,5]
+        }
+        self.things = gk.buildThings(self.datas, cost_custom = 'weight')
+    
+    def test_simple_things(self):
+        # arrange
+        print_out = '<b; value: 7.0; weight: 3.0>\n<c; value: 8.0; weight: 2.0>\n'
+        expected_total_value = 15.0
+
+        cap = io.StringIO()
+        sys.stdout = cap
+
+        # action
+        result = gk.dynamicKnapsack(self.things, 5)
+        # result = [considered: list, avail: float, taken : tuple, val : float]
+        taken = result[-2]
+        val = result[-1]
+        for thing in taken:
+            print(thing)
+        sys.stdout = sys.__stdout__
+        printed = cap.getvalue()
+
+        # assert
+        self.assertEqual(printed, print_out, "printed out is WRONG")
+        self.assertEqual(val, expected_total_value, "TOTAL VALUE is WRONG")
+        # self.fail('NO TEST')
