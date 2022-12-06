@@ -10,7 +10,7 @@ import gen_knapsack as gk
 class TestGenClassKnapsack(unittest.TestCase):
     def setUp(self) -> None:
         self.d = gk.Thing("default", 95, 11)
-        self.b = gk.Thing("custom", 99, 15, 'price', 'weight')
+        self.b = gk.Thing("custom", 99, 15, value_name='price', cost_name='weight')
     
     def test_print_default_thing_instance(self):
         self.assertEqual(str(self.d), "<default; value: 95.0; cost: 11.0>")
@@ -48,7 +48,7 @@ class TestGenClassKnapsack(unittest.TestCase):
         # prepare
         
         datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 1], 'book' : [10, 20], 'computer' : [200, 20]}
-        itemList = gk.buildThings(datas, cost_custom='weight')
+        itemList = gk.buildThings(datas, cost_custom = 'weight')
         result = []
         for item in itemList:
             result.append(str(item))
@@ -137,4 +137,49 @@ class TestGenGreedyKnapsack(unittest.TestCase):
         self.assertEqual(result, compare, "the list of things is WRONG")
         self.assertTrue(totalWeight <= 20, "the total weight violate constraint")
         self.assertEqual(totalValue, 255.0, "the total value of things is wrong")
+
+class TestBruteKanpsack(unittest.TestCase):
+    """  
+    test all knapsack solver using brute force
+    """
+    def setUp(self) -> None:
+        self.datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 2], 'book' : [10, 1], 'computer' : [200, 20]}
+        # self.s = samples of things to be tested
+        self.s = gk.buildThings(self.datas, cost_custom='weight')
+
+    # start with the supprot
+    def test_generate_binary_reps_digits(self):
+        self.assertEqual(gk.getBinaryRep(0,4), '0000', "4 digits binary rep for 0 is WRONG")
+        self.assertEqual(gk.getBinaryRep(2,6), '000010', "6 digits binary rep for 2 is WRONG")
+        self.assertEqual(gk.getBinaryRep(15,8), '00001111', "8 digits binary rep for 15 is WRONG")
+
+    def test_generate_binary_larger_than_digits_invoke_error(self):
+        with self.assertRaises(ValueError) as cm:
+            gk.getBinaryRep(8, 3)
+        
+        self.assertTrue("not enough digits" in cm.exception.args)
+
+    def test_generate_binary_all_1s(self):
+        self.assertEqual(gk.getBinaryRep(15,4), "1111", "4 digits binary reps for 15 is WRONG")
+        
+
+    def test_generating_powerset_from_simple_list(self):
+        # preps
+        self.powerset = gk.genPowerSet([1,2,3])
+        self.assertEqual(self.powerset, [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]])
+
+    def test_optKnapsack_value(self):
+        self.optVal, self.optList = gk.bruteKnapsack(gk.genPowerSet(self.s), 20, gk.Thing.getValue, gk.Thing.getCost)
+        self.assertEqual(self.optVal, 275)
     
+    def test_optKnapsack_opt_list(self):
+        self.optVal, self.optList = gk.bruteKnapsack(gk.genPowerSet(self.s), 20, gk.Thing.getValue, gk.Thing.getCost)
+        self.optResult = []
+        for item in self.optList:
+            self.subResult = []
+            self.subResult.append(item.getName())
+            self.subResult.append(item.getValue())
+            self.subResult.append(item.getCost())
+            self.optResult.append(self.subResult)
+        
+        self.assertEqual(self.optResult, [["clock", 175.0, 10.0], ["painting", 90.0, 9.0], ["book", 10.0, 1.0]])
