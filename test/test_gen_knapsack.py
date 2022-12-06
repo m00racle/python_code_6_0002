@@ -206,13 +206,16 @@ class TestDynamicKnapsack(unittest.TestCase):
         sys.stdout = cap
 
         # action
-        [cons, avail, taken, val] = gk.dynamicKnapsack(self.things, 5)
+        result = gk.dynamicKnapsack(self.things, 5)
+        # result = [considered: list, avail: float, taken : tuple, val : float]
+        taken = result[-2]
+        val = result[-1]
         for thing in taken:
             print(thing)
         sys.stdout = sys.__stdout__
         printed = cap.getvalue()
 
         # assert
-        self.assertEqual(printed, print_out)
-        self.assertEqual(val, expected_total_value)
+        self.assertEqual(printed, print_out, "printed out is WRONG")
+        self.assertEqual(val, expected_total_value, "TOTAL VALUE is WRONG")
         # self.fail('NO TEST')

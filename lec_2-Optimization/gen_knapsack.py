@@ -212,13 +212,18 @@ def dynamicKnapsack(consider: list, avail: float, taken: tuple = (), val: float 
     Parameter:
     consider : list = list of Thing type objects to be optimized
     avail : float = the constraint of knapsack available capacity
-    taken : list = list of Thing type objects taken durin optimization (default = [])
+    taken : tuple = list of Thing type objects taken durin optimization (default = ())
+    NOTE: I use tuple since it is immutable, if I use list then it will reference the same list 
+          which will return to None or [] each recursive calls!!
     val : float = value of all taken objects (default = 0)
+
+    return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
     if taken == None : taken = []
-    if consider == [] :
+    if consider == [] or avail == 0 :
         return [consider, avail, taken, val]
-    elif avail < 0 :
+    elif avail  < consider[0].getCost() :
+        # insufficient available capacity to stored the next thing in the scenario
         # set value to be 0 because this should not even considered
         return [consider, avail, taken, 0]
     else :
