@@ -36,6 +36,13 @@ class Thing(object):
         self.cost_name = refs['cost_name']
 
     def __str__(self) -> str:
+        """  
+        Description: string representation of the class
+        this function is called whenever print(Item.type.instance) is executed
+
+        return:
+        string : print output as class Representation
+        """
         text = '<' + self.name + '; ' + self.value_name + ': ' + str(self.value) + '; ' + self.cost_name + ': ' + str(self.cost) + '>'
         return text 
 
@@ -77,14 +84,18 @@ def buildThings(datas : dict, **kwargs) -> list:
     for custom in kwargs:
         if custom in addon:
             addon[custom] = kwargs[custom]
-        
-
+    
     result = []
     for name in datas.keys():
         result.append(Thing(name, datas[name][0], datas[name][1], value_name=addon['value_custom'], cost_name=addon['cost_custom']))
     return result
 
-def greedy(things: list, constraint : float, keyFunction, descending=True) -> list:
+def greedy( 
+    things: list, #list of Item type objects
+    constraint : float, # constraint of the cost
+    keyFunction, # function to be used to sorted the Item list
+    descending=True #if True sorted descending False otherwise
+) -> list:
     """  
     using greedy algoritm to solve knapsack problem
     given things : list = list of Thing type objects, constraint : int = max/min value of constraint
