@@ -165,3 +165,33 @@ def genPowerSet(inputSet : list) -> list:
         powerSet.append(subset)
     
     return powerSet
+
+def bruteKnapsack(powerSet: list, constraint : float, valueFunction, costFunction) -> tuple:
+    """  
+    Description: function for knapsack optimization with Brute Force Algorithm
+
+    Parameter:
+    inputs: powerSet = list of Things type objects
+
+    Return: tuple = (float: total value of Things in list, list of Thing type objects)
+    """
+    
+    opt_list = []
+    max_value = 0
+    for set in powerSet:
+        total_value = 0
+        total_cost = 0
+        output_list = []
+
+        for item in set:
+            if total_cost + costFunction(item) <= constraint:
+                output_list.append(item)
+                total_value = total_value + valueFunction(item)
+                total_cost = total_cost + costFunction(item)
+            else: 
+                break
+        if total_value > max_value:
+            max_value = total_value
+            opt_list = output_list
+    
+    return (max_value, opt_list)

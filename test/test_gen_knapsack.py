@@ -142,6 +142,11 @@ class TestBruteKanpsack(unittest.TestCase):
     """  
     test all knapsack solver using brute force
     """
+    def setUp(self) -> None:
+        self.datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 2], 'book' : [10, 1], 'computer' : [200, 20]}
+        # self.s = samples of things to be tested
+        self.s = gk.buildThings(self.datas, cost_custom='weight')
+
     # start with the supprot
     def test_generate_binary_reps_digits(self):
         self.assertEqual(gk.getBinaryRep(0,4), '0000', "4 digits binary rep for 0 is WRONG")
@@ -164,17 +169,17 @@ class TestBruteKanpsack(unittest.TestCase):
         self.assertEqual(self.powerset, [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]])
 
     def test_optKnapsack_value(self):
-        self.optVal, self.optList = gk.optKnapsack01(gk.genPowerSet(self.items), 20, gk.Thing.getValue, gk.Thing.getCost)
+        self.optVal, self.optList = gk.bruteKnapsack(gk.genPowerSet(self.s), 20, gk.Thing.getValue, gk.Thing.getCost)
         self.assertEqual(self.optVal, 275)
     
     def test_optKnapsack_opt_list(self):
-        self.optVal, self.optList = gk.optKnapsack01(gk.genPowerSet(self.items), 20, gk.Thing.getValue, gk.Thing.getCost)
+        self.optVal, self.optList = gk.bruteKnapsack(gk.genPowerSet(self.s), 20, gk.Thing.getValue, gk.Thing.getCost)
         self.optResult = []
         for item in self.optList:
             self.subResult = []
             self.subResult.append(item.getName())
             self.subResult.append(item.getValue())
-            self.subResult.append(item.getWeight())
+            self.subResult.append(item.getCost())
             self.optResult.append(self.subResult)
         
         self.assertEqual(self.optResult, [["clock", 175.0, 10.0], ["painting", 90.0, 9.0], ["book", 10.0, 1.0]])
