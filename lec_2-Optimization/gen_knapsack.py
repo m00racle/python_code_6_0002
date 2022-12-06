@@ -7,7 +7,10 @@ class Thing(object):
     """  
     more general form to describe Item in knapsack we call them thing now to differentiate to previous knapsack Item
     """
-    def __init__(self, name : str, value : float, cost : float, **kwargs) -> None:
+    def __init__(self, name : str, value : float, cost : float, *, 
+    value_name : str = 'value',
+    cost_name : str= 'cost',
+    **kwargs) -> None:
         """  
         initialize class Thing:
         parameters:
@@ -20,8 +23,8 @@ class Thing(object):
         cost_name : str = the definition of the cost variable of the thing (default = 'cost')
         """
         refs = {
-            'value_name' : 'value',
-            'cost_name' : 'cost'
+            'value_name' : value_name,
+            'cost_name' : cost_name
         }
 
         for r in kwargs:
@@ -61,33 +64,42 @@ class Thing(object):
     def getCostName(self) -> str:
         return self.cost_name
 
-def buildThings(datas : dict, **kwargs) -> list:
+def buildThings(data : dict, *, 
+    value_custom : str = 'value',
+    cost_custom : str = 'cost',
+    **kwargs) -> list:
     """  
     Description: helper function to make list of Item type objects
 
     Parameter:
-    datas : dict {name : [value, cost]} = dictionary with Item's name as key and list of value, cost as value
-
-    Return:
-    list of Thing type objects
+    data : dict {name : [value, cost]} = dictionary with Item's name as key and list of value, cost as value
 
     kwargs:
     value_custom : str = the name of the value variable name (default = value)
     cost_custom : str = the name of the cost variable (default = cost)
-    ***************************************************************************
+
+    Return:
+    list of Thing type objects
+
     """
     addon = {
-        'value_custom' : 'value',
-        'cost_custom' : 'cost'
+        'value_custom' : value_custom,
+        'cost_custom' : cost_custom
     }
 
     for custom in kwargs:
         if custom in addon:
             addon[custom] = kwargs[custom]
+        else : continue
     
     result = []
-    for name in datas.keys():
-        result.append(Thing(name, datas[name][0], datas[name][1], value_name=addon['value_custom'], cost_name=addon['cost_custom']))
+    # this is kwargs for the Thing init function:
+    customs = {
+        'value_name' : addon['value_custom'], 
+        'cost_name' : addon['cost_custom']
+    }
+    for name in data.keys():
+        result.append(Thing(name, data[name][0], data[name][1], **customs))
     return result
 
 def greedy( 

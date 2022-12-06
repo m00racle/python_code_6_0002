@@ -48,17 +48,39 @@ class TestGenClassKnapsack(unittest.TestCase):
         # prepare
         
         datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 1], 'book' : [10, 20], 'computer' : [200, 20]}
-        itemList = gk.buildThings(datas, cost_custom = 'weight')
+        itemList = gk.buildThings(datas, big='price' ,cost_custom = 'force')
         result = []
         for item in itemList:
             result.append(str(item))
         
-        compare = ['<clock; value: 175.0; weight: 10.0>', \
-            '<painting; value: 90.0; weight: 9.0>',\
-                '<radio; value: 20.0; weight: 4.0>',\
-                    '<vase; value: 50.0; weight: 1.0>',\
-                        '<book; value: 10.0; weight: 20.0>',\
-                            '<computer; value: 200.0; weight: 20.0>']
+        compare = ['<clock; value: 175.0; force: 10.0>', \
+            '<painting; value: 90.0; force: 9.0>',\
+                '<radio; value: 20.0; force: 4.0>',\
+                    '<vase; value: 50.0; force: 1.0>',\
+                        '<book; value: 10.0; force: 20.0>',\
+                            '<computer; value: 200.0; force: 20.0>']
+        
+        self.assertEqual(result, compare)
+    
+    def test_build_things_using_kwargs(self):
+        # prepare
+        
+        datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 1], 'book' : [10, 20], 'computer' : [200, 20]}
+        mod_params = {'cost_custom' : 'berat', 'value_custom' : 'price', 'gost' : 1, 'real' : 12}
+        itemList = gk.buildThings(datas, value_custo='harga', **mod_params)
+        # value_custo is to test the * limiter that requires all params after that to state the variable name,
+        # value_custo is mispronounce to avoid value_custom conflict. 
+        # although it is already stated but apparently this is still considered as conlict not winning for kwargs
+        result = []
+        for item in itemList:
+            result.append(str(item))
+        
+        compare = ['<clock; price: 175.0; berat: 10.0>', \
+            '<painting; price: 90.0; berat: 9.0>',\
+                '<radio; price: 20.0; berat: 4.0>',\
+                    '<vase; price: 50.0; berat: 1.0>',\
+                        '<book; price: 10.0; berat: 20.0>',\
+                            '<computer; price: 200.0; berat: 20.0>']
         
         self.assertEqual(result, compare)
 
