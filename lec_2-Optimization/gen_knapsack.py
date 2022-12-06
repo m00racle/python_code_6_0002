@@ -116,3 +116,19 @@ def greedy(
             totalCost += thing.getCost()
             
     return result
+
+# start the brute force functions
+# begin with building function to return binary reps of decimal numbers
+
+def getBinaryRep(dec : int, numDiggits : int) -> str:
+    """  
+    Description: function to return binary representation of a decimal number within certain number of binary digits
+
+    Parameters:
+    dec : int = the interger which required to be transformed into binary rep.
+    numDigits : int = number of digits will be used to represent the integer dec
+
+    return: str = string representation of binary rep for dec : int
+    throw: ValueError if the number of digits is insufficient to represent the dec : int
+    
+    """
