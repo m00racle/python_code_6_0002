@@ -10,7 +10,7 @@ import gen_knapsack as gk
 class TestGenClassKnapsack(unittest.TestCase):
     def setUp(self) -> None:
         self.d = gk.Thing("default", 95, 11)
-        self.b = gk.Thing("custom", 99, 15, 'price', 'weight')
+        self.b = gk.Thing("custom", 99, 15, value_name='price', cost_name='weight')
     
     def test_print_default_thing_instance(self):
         self.assertEqual(str(self.d), "<default; value: 95.0; cost: 11.0>")
@@ -48,7 +48,7 @@ class TestGenClassKnapsack(unittest.TestCase):
         # prepare
         
         datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 1], 'book' : [10, 20], 'computer' : [200, 20]}
-        itemList = gk.buildThings(datas, cost_custom='weight')
+        itemList = gk.buildThings(datas, cost_custom = 'weight')
         result = []
         for item in itemList:
             result.append(str(item))
