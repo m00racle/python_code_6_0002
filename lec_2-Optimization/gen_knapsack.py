@@ -120,7 +120,7 @@ def greedy(
 # start the brute force functions
 # begin with building function to return binary reps of decimal numbers
 
-def getBinaryRep(dec : int, numDiggits : int) -> str:
+def getBinaryRep(dec : int, numDigits : int) -> str:
     """  
     Description: function to return binary representation of a decimal number within certain number of binary digits
 
@@ -132,3 +132,36 @@ def getBinaryRep(dec : int, numDiggits : int) -> str:
     throw: ValueError if the number of digits is insufficient to represent the dec : int
     
     """
+    reps = ''
+    while dec > 0:
+        reps = str(dec % 2) + reps
+        dec = dec // 2
+    
+    # test if numDigits is sufficient:
+    if len(reps) > numDigits : raise ValueError('not enough digits')
+
+    for i in range(numDigits - len(reps)):
+        reps = str(0) + reps
+
+    return reps
+
+def genPowerSet(inputSet : list) -> list:
+    """  
+    Description: function to create Power set from a set
+
+    Parameter:
+    inputSet : list = list of objects that represent a set
+
+    Returns : list of list = list of all subsets of the original set a.k.a power set
+    """
+    powerSet = []
+    for i in range(2**(len(inputSet))):
+        subset = []
+        binaries = getBinaryRep(i, len(inputSet))
+
+        for k in range(len(binaries)):
+            if binaries[k] == '1' : subset.append(inputSet[k])
+        
+        powerSet.append(subset)
+    
+    return powerSet

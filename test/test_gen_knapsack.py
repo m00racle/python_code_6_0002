@@ -164,7 +164,7 @@ class TestBruteKanpsack(unittest.TestCase):
         self.assertEqual(self.powerset, [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]])
 
     def test_optKnapsack_value(self):
-        self.optVal, self.optList = kg.optKnapsack01(gk.genPowerSet(self.items), 20, gk.Thing.getValue, gk.Thing.getCost)
+        self.optVal, self.optList = gk.optKnapsack01(gk.genPowerSet(self.items), 20, gk.Thing.getValue, gk.Thing.getCost)
         self.assertEqual(self.optVal, 275)
     
     def test_optKnapsack_opt_list(self):
