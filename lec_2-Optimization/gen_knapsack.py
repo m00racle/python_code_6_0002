@@ -7,7 +7,10 @@ class Thing(object):
     """  
     more general form to describe Item in knapsack we call them thing now to differentiate to previous knapsack Item
     """
-    def __init__(self, name : str, value : float, cost : float, **kwargs) -> None:
+    def __init__(self, name : str, value : float, cost : float, *, 
+    value_name : str = 'value',
+    cost_name : str= 'cost',
+    **kwargs) -> None:
         """  
         initialize class Thing:
         parameters:
@@ -15,13 +18,13 @@ class Thing(object):
         value : float = the value of the item (definintion of value is customizable)
         cost : float = the cost of the item (definition of cost is customizable)
 
-        kwargs:
-        value_name : str = the definition of value variable of the Thing (default = 'value')
-        cost_name : str = the definition of the cost variable of the thing (default = 'cost')
+        kwargs: ( => means override/ if this name on kwargs then it will override the named variable )
+        value_custom_name : str => value_name (default = 'value') = the definition of value variable of the Thing
+        cost_custom_name : str => cost_name (default = 'cost') = the definition of the cost variable of the thing
         """
         refs = {
-            'value_name' : 'value',
-            'cost_name' : 'cost'
+            'value_custom_name' : value_name,
+            'cost_custom_name' : cost_name
         }
 
         for r in kwargs:
@@ -32,8 +35,8 @@ class Thing(object):
         self.name = name
         self.value = float(value)
         self.cost = float(cost)
-        self.value_name = refs['value_name']
-        self.cost_name = refs['cost_name']
+        self.value_name = refs['value_custom_name']
+        self.cost_name = refs['cost_custom_name']
 
     def __str__(self) -> str:
         """  
@@ -61,33 +64,44 @@ class Thing(object):
     def getCostName(self) -> str:
         return self.cost_name
 
-def buildThings(datas : dict, **kwargs) -> list:
+def buildThings(data : dict, *, 
+    value_custom : str = 'value',
+    cost_custom : str = 'cost',
+    **kwargs) -> list:
     """  
     Description: helper function to make list of Item type objects
 
     Parameter:
-    datas : dict {name : [value, cost]} = dictionary with Item's name as key and list of value, cost as value
+    data : dict {name : [value, cost]} = dictionary with Item's name as key and list of value, cost as value
+
+    kwargs: ( => means override/ if this name on kwargs then it will override the named variable )
+    value_custom_name : str => value_custom (default = 'value') = the definition of value variable of the Thing
+    cost_custom_name : str => cost_custom (default = 'cost')
 
     Return:
     list of Thing type objects
 
-    kwargs:
-    value_custom : str = the name of the value variable name (default = value)
-    cost_custom : str = the name of the cost variable (default = cost)
-    ***************************************************************************
     """
     addon = {
-        'value_custom' : 'value',
-        'cost_custom' : 'cost'
+        'value_custom_name' : value_custom,
+        'cost_custom_name' : cost_custom
     }
 
-    for custom in kwargs:
-        if custom in addon:
-            addon[custom] = kwargs[custom]
+    for k in kwargs:
+        if k in addon :
+            addon[k] = kwargs[k]
+        else:
+            continue
+
     
     result = []
-    for name in datas.keys():
-        result.append(Thing(name, datas[name][0], datas[name][1], value_name=addon['value_custom'], cost_name=addon['cost_custom']))
+    # this is kwargs for the Thing init function:
+    customs = {
+        'value_custom_name' : addon['value_custom_name'], 
+        'cost_custom_name' : addon['cost_custom_name']
+    }
+    for name in data.keys():
+        result.append(Thing(name, data[name][0], data[name][1], **customs))
     return result
 
 def greedy( 
@@ -219,7 +233,7 @@ def dynamicKnapsack(consider: list, avail: float, taken: tuple = (), val: float 
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
-    if taken == None : taken = []
+    
     if consider == [] or avail == 0 :
         return [consider, avail, taken, val]
     elif avail  < consider[0].getCost() :
