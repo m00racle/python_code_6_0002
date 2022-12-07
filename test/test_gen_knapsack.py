@@ -67,7 +67,7 @@ class TestGenClassKnapsack(unittest.TestCase):
         
         datas = {'clock' : [175, 10], 'painting' : [90, 9], 'radio' : [20, 4], 'vase' : [50, 1], 'book' : [10, 20], 'computer' : [200, 20]}
         mod_params = {'cost_custom' : 'berat', 'value_custom' : 'price', 'gost' : 1, 'real' : 12}
-        itemList = gk.buildThings(datas, value_custo='harga', **mod_params)
+        itemList = gk.buildThings(datas, value_custom='harga', **mod_params)
         # value_custo is to test the * limiter that requires all params after that to state the variable name,
         # value_custo is mispronounce to avoid value_custom conflict. 
         # although it is already stated but apparently this is still considered as conlict not winning for kwargs
