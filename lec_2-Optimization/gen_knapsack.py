@@ -18,13 +18,13 @@ class Thing(object):
         value : float = the value of the item (definintion of value is customizable)
         cost : float = the cost of the item (definition of cost is customizable)
 
-        kwargs:
-        value_name : str = the definition of value variable of the Thing (default = 'value')
-        cost_name : str = the definition of the cost variable of the thing (default = 'cost')
+        kwargs: ( => means override/ if this name on kwargs then it will override the named variable )
+        value_custom_name : str => value_name (default = 'value') = the definition of value variable of the Thing
+        cost_custom_name : str => cost_name (default = 'cost') = the definition of the cost variable of the thing
         """
         refs = {
-            'value_name' : value_name,
-            'cost_name' : cost_name
+            'value_custom_name' : value_name,
+            'cost_custom_name' : cost_name
         }
 
         for r in kwargs:
@@ -35,8 +35,8 @@ class Thing(object):
         self.name = name
         self.value = float(value)
         self.cost = float(cost)
-        self.value_name = refs['value_name']
-        self.cost_name = refs['cost_name']
+        self.value_name = refs['value_custom_name']
+        self.cost_name = refs['cost_custom_name']
 
     def __str__(self) -> str:
         """  
@@ -74,29 +74,31 @@ def buildThings(data : dict, *,
     Parameter:
     data : dict {name : [value, cost]} = dictionary with Item's name as key and list of value, cost as value
 
-    kwargs:
-    value_custom : str = the name of the value variable name (default = value)
-    cost_custom : str = the name of the cost variable (default = cost)
+    kwargs: ( => means override/ if this name on kwargs then it will override the named variable )
+    value_custom_name : str => value_custom (default = 'value') = the definition of value variable of the Thing
+    cost_custom_name : str => cost_custom (default = 'cost')
 
     Return:
     list of Thing type objects
 
     """
     addon = {
-        'value_custom' : value_custom,
-        'cost_custom' : cost_custom
+        'value_custom_name' : value_custom,
+        'cost_custom_name' : cost_custom
     }
 
-    for custom in kwargs:
-        if custom in addon:
-            addon[custom] = kwargs[custom]
-        else : continue
+    for k in kwargs:
+        if k in addon :
+            addon[k] = kwargs[k]
+        else:
+            continue
+
     
     result = []
     # this is kwargs for the Thing init function:
     customs = {
-        'value_name' : addon['value_custom'], 
-        'cost_name' : addon['cost_custom']
+        'value_custom_name' : addon['value_custom_name'], 
+        'cost_custom_name' : addon['cost_custom_name']
     }
     for name in data.keys():
         result.append(Thing(name, data[name][0], data[name][1], **customs))
@@ -231,7 +233,7 @@ def dynamicKnapsack(consider: list, avail: float, taken: tuple = (), val: float 
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
-    if taken == None : taken = []
+    
     if consider == [] or avail == 0 :
         return [consider, avail, taken, val]
     elif avail  < consider[0].getCost() :
