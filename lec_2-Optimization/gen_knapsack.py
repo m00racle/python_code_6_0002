@@ -219,7 +219,7 @@ def bruteKnapsack(inputs: list, constraint : float, valueFunction, costFunction)
     
     return (max_value, opt_list)
 
-def dynamicKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0) -> list:
+def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0) -> list:
     """  
     Descrioption: function to optimize knapsack case using dynamic programming
 
@@ -245,9 +245,9 @@ def dynamicKnapsack(consider: list, avail: float, taken: tuple = (), val: float 
         nextAvail = avail - consThing.getCost()
         nextTaken = (*taken, consThing)
         nextVal = val + consThing.getValue()
-        cons_1, avail_1, taken_1, val_1 = dynamicKnapsack(consider[1:], nextAvail, nextTaken, nextVal)
+        cons_1, avail_1, taken_1, val_1 = recursiveKnapsack(consider[1:], nextAvail, nextTaken, nextVal)
         
-        cons_2, avail_2, taken_2, val_2 = dynamicKnapsack(consider[1:], avail, taken, val)
+        cons_2, avail_2, taken_2, val_2 = recursiveKnapsack(consider[1:], avail, taken, val)
 
         if val_2 < val_1 : return [cons_1, avail_1, taken_1, val_1]
         else : return [cons_2, avail_2, taken_2, val_2]

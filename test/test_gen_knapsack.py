@@ -229,7 +229,7 @@ class TestDynamicKnapsack(unittest.TestCase):
         sys.stdout = cap
 
         # action
-        result = gk.dynamicKnapsack(self.things, 5)
+        result = gk.recursiveKnapsack(self.things, 5)
         # result = [considered: list, avail: float, taken : tuple, val : float]
         taken = result[-2]
         val = result[-1]
