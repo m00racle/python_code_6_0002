@@ -1,4 +1,4 @@
-from gen_knapsack import Thing, bruteKnapsack, greedy, buildThings
+from gen_knapsack import Thing, bruteKnapsack, greedy, buildThings, recursiveKnapsack, dynamicKnapsack
 
 def run():
     """  
@@ -60,6 +60,24 @@ def run():
         total_calories += food.getCost()
     print(f'total value for Brute force algorithm: {total_value}')
     print(f'total calories for Brute force algorithm: {total_calories}')
+
+    # test real life run using recursive and dynamic knapsack
+    print(f'\nusing Recursive to find best menu below {constraint} calories:')
+    recConsider, racAvail, recTaken, recValue, recMemo = recursiveKnapsack(foods, constraint)
+    for food in recTaken:
+        print(f'{food}')
+    print(f'total value using recursion: {recValue}')
+    print(f'total calories: {constraint - racAvail}')
+    print(f'calls: {recMemo["calls"]}')
+
+    print(f'\nusing Dynamic to find best menu below {constraint} calories:')
+    dynConsider, dynAvail, dynTaken, dynValue, dynMemo = dynamicKnapsack(foods, constraint)
+    for food in dynTaken:
+        print(f'{food}')
+    print(f'total value using recursion: {dynValue}')
+    print(f'total calories: {constraint - dynAvail}')
+    print(f'calls: {dynMemo["calls"]}')
+    print(f'pulls: {dynMemo["pull"]}')
     
 
 if __name__ == '__main__':
