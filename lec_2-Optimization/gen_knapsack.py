@@ -230,6 +230,7 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
     NOTE: I use tuple since it is immutable, if I use list then it will reference the same list 
           which will return to None or [] each recursive calls!!
     val : float = value of all taken objects (default = 0)
+    memo: Here memo is only used to record number of recursive calls to recursiveKnapsack function
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """

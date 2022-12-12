@@ -229,16 +229,15 @@ class TestDynamicKnapsack(unittest.TestCase):
         sys.stdout = cap
 
         # action
-        result = gk.recursiveKnapsack(self.things, 5)
+        consider, avail, took, tot_val, memo = gk.recursiveKnapsack(self.things, 5)
         # result = [considered: list, avail: float, taken : tuple, val : float]
-        taken = result[-3]
-        val = result[-2]
-        for thing in taken:
+        
+        for thing in took:
             print(thing)
         sys.stdout = sys.__stdout__
         printed = cap.getvalue()
 
         # assert
         self.assertEqual(printed, print_out, "printed out is WRONG")
-        self.assertEqual(val, expected_total_value, "TOTAL VALUE is WRONG")
+        self.assertEqual(tot_val, expected_total_value, "TOTAL VALUE is WRONG")
         # self.fail('NO TEST')
