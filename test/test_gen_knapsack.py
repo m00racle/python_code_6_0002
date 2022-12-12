@@ -220,7 +220,7 @@ class TestDynamicKnapsack(unittest.TestCase):
         }
         self.things = gk.buildThings(self.datas, cost_custom = 'weight')
     
-    def test_simple_things(self):
+    def test_simple_things_on_recursive_knapsack(self):
         # arrange
         print_out = '<b; value: 7.0; weight: 3.0>\n<c; value: 8.0; weight: 2.0>\n'
         expected_total_value = 15.0
@@ -229,16 +229,35 @@ class TestDynamicKnapsack(unittest.TestCase):
         sys.stdout = cap
 
         # action
-        result = gk.dynamicKnapsack(self.things, 5)
+        consider, avail, took, tot_val, memo = gk.recursiveKnapsack(self.things, 5)
         # result = [considered: list, avail: float, taken : tuple, val : float]
-        taken = result[-2]
-        val = result[-1]
-        for thing in taken:
+        
+        for thing in took:
             print(thing)
         sys.stdout = sys.__stdout__
         printed = cap.getvalue()
 
         # assert
         self.assertEqual(printed, print_out, "printed out is WRONG")
-        self.assertEqual(val, expected_total_value, "TOTAL VALUE is WRONG")
+        self.assertTrue(avail >= 0, "The available value violates constraint")
+        self.assertEqual(tot_val, expected_total_value, "TOTAL VALUE is WRONG")
         # self.fail('NO TEST')
+
+    def test_dynamic_knapsack_algorithm_vs_recursive(self):
+        """  
+        this will test the dynamicKnapsack function
+        but the inputs still uses the same input as the recursive ones
+        The only main difference is the performance that must be better than the recursive
+        """
+        cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5)
+        cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5)
+
+        # assert
+        # the total value of recursive and dynamic is the same:
+        self.assertEqual(tot_val_2, tot_val_1, "total value is different")
+        # the items taken by recursive and dynamic are the same:
+        self.assertEqual(took_2, took_1, "the items is different")
+        # the memo taken in dynamic is bigger than the recursive (taken into account 'pull' key!)
+        self.assertTrue(len(memo_2) - len(memo_1) > 1, "the memoization is failed")
+        # self.assertTrue(memo_2['calls'] < memo_1['calls'], "The performance is worse than expectation")
+        
