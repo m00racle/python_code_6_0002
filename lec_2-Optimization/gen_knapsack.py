@@ -221,7 +221,7 @@ def bruteKnapsack(inputs: list, constraint : float, valueFunction, costFunction)
 
 def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0, memo={'calls' : 0}) -> list:
     """  
-    Descrioption: function to optimize knapsack case using dynamic programming
+    Description: function to optimize knapsack case using recursive programming
 
     Parameter:
     consider : list = list of Thing type objects to be optimized
@@ -230,7 +230,7 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
     NOTE: I use tuple since it is immutable, if I use list then it will reference the same list 
           which will return to None or [] each recursive calls!!
     val : float = value of all taken objects (default = 0)
-    memo: Here memo is only used to record number of recursive calls to recursiveKnapsack function
+    memo: Here memo is only used to record number of recursive calls to recursiveKnapsack function until; it founds the opt
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
@@ -246,9 +246,54 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
         nextAvail = avail - consThing.getCost()
         nextTaken = (*taken, consThing) # this *taken is a method on how to add element to a tuple!
         nextVal = val + consThing.getValue()
-        cons_1, avail_1, taken_1, val_1, memo_1 = recursiveKnapsack(consider[1:], nextAvail, nextTaken, nextVal, memo)
-        
-        cons_2, avail_2, taken_2, val_2, memo_2 = recursiveKnapsack(consider[1:], avail, taken, val, memo)
+        memo['calls'] += 1
+        cons_1, avail_1, taken_1, val_1, memo = recursiveKnapsack(consider[1:], nextAvail, nextTaken, nextVal, memo)
+        memo['calls'] += 1
+        cons_2, avail_2, taken_2, val_2, memo = recursiveKnapsack(consider[1:], avail, taken, val, memo)
 
-        if val_2 < val_1 : return [cons_1, avail_1, taken_1, val_1, memo_1]
-        else : return [cons_2, avail_2, taken_2, val_2, memo_2]
+        if val_2 < val_1 : return [cons_1, avail_1, taken_1, val_1, memo]
+        else : return [cons_2, avail_2, taken_2, val_2, memo]
+
+def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float = 0, memo={'calls' : 0, 'pull' : 0})-> list:
+    """  
+    Description: function to optimize knapsack case using recursive programming
+
+    Parameter:
+    consider : list = list of Thing type objects to be optimized
+    avail : float = the constraint of knapsack available capacity
+    taken : tuple = list of Thing type objects taken durin optimization (default = ())
+    NOTE: I use tuple since it is immutable, if I use list then it will reference the same list 
+          which will return to None or [] each recursive calls!!
+    val : float = value of all taken objects (default = 0)
+    memo: Here memo is only used to record number of recursive calls to recursiveKnapsack function until; it founds the opt
+
+    return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
+    """
+    # here is the difference from the recursive one:
+    if (len(consider), avail) in memo : 
+        memo['pull'] += 1
+        return memo[(len(consider), avail)].append(memo)
+    if consider == [] or avail == 0 :
+        return [consider, avail, taken, val, memo]
+    elif avail  < consider[0].getCost() :
+        # insufficient available capacity to stored the next thing in the scenario
+        # set value to be 0 because this should not even considered
+        return [consider, avail, taken, 0, memo]
+    else :
+        consThing = consider[0]
+        nextAvail = avail - consThing.getCost()
+        nextTaken = (*taken, consThing) # this *taken is a method on how to add element to a tuple!
+        nextVal = val + consThing.getValue()
+        memo['calls'] += 1
+        cons_1, avail_1, taken_1, val_1, memo = dynamicKnapsack(consider[1:], nextAvail, nextTaken, nextVal, memo)
+        memo['calls'] += 1
+        cons_2, avail_2, taken_2, val_2, memo = dynamicKnapsack(consider[1:], avail, taken, val, memo)
+
+        if val_2 < val_1 : 
+            # here is when we took the memo
+            memo[(len(consider), avail)] = [cons_1, avail_1, taken_1, val_1]
+            return [cons_1, avail_1, taken_1, val_1, memo]
+        else : 
+            # here also the same thing happen
+            memo[len(consider), avail] = [cons_2, avail_2, taken_2, val_2]
+            return [cons_2, avail_2, taken_2, val_2, memo]
