@@ -239,5 +239,6 @@ class TestDynamicKnapsack(unittest.TestCase):
 
         # assert
         self.assertEqual(printed, print_out, "printed out is WRONG")
+        self.assertTrue(avail >= 0, "The available value violates constraint")
         self.assertEqual(tot_val, expected_total_value, "TOTAL VALUE is WRONG")
         # self.fail('NO TEST')
