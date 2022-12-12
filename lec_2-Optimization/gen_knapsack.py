@@ -272,7 +272,7 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
     # here is the difference from the recursive one:
     if (len(consider), avail) in memo : 
         memo['pull'] += 1
-        return memo[(len(consider), avail)].append(memo)
+        return memo[(len(consider), avail)]
     if consider == [] or avail == 0 :
         return [consider, avail, taken, val, memo]
     elif avail  < consider[0].getCost() :
@@ -291,9 +291,9 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
 
         if val_2 < val_1 : 
             # here is when we took the memo
-            memo[(len(consider), avail)] = [cons_1, avail_1, taken_1, val_1]
+            memo[(len(consider), avail)] = [cons_1, avail_1, taken_1, val_1, memo]
             return [cons_1, avail_1, taken_1, val_1, memo]
         else : 
             # here also the same thing happen
-            memo[len(consider), avail] = [cons_2, avail_2, taken_2, val_2]
+            memo[len(consider), avail] = [cons_2, avail_2, taken_2, val_2, memo]
             return [cons_2, avail_2, taken_2, val_2, memo]
