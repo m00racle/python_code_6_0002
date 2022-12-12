@@ -231,8 +231,8 @@ class TestDynamicKnapsack(unittest.TestCase):
         # action
         result = gk.recursiveKnapsack(self.things, 5)
         # result = [considered: list, avail: float, taken : tuple, val : float]
-        taken = result[-2]
-        val = result[-1]
+        taken = result[-3]
+        val = result[-2]
         for thing in taken:
             print(thing)
         sys.stdout = sys.__stdout__

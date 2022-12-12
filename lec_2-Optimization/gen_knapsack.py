@@ -219,7 +219,7 @@ def bruteKnapsack(inputs: list, constraint : float, valueFunction, costFunction)
     
     return (max_value, opt_list)
 
-def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0) -> list:
+def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0, memo={'calls' : 0}) -> list:
     """  
     Descrioption: function to optimize knapsack case using dynamic programming
 
@@ -235,19 +235,19 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
     """
     
     if consider == [] or avail == 0 :
-        return [consider, avail, taken, val]
+        return [consider, avail, taken, val, memo]
     elif avail  < consider[0].getCost() :
         # insufficient available capacity to stored the next thing in the scenario
         # set value to be 0 because this should not even considered
-        return [consider, avail, taken, 0]
+        return [consider, avail, taken, 0, memo]
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
-        nextTaken = (*taken, consThing)
+        nextTaken = (*taken, consThing) # this *taken is a method on how to add element to a tuple!
         nextVal = val + consThing.getValue()
-        cons_1, avail_1, taken_1, val_1 = recursiveKnapsack(consider[1:], nextAvail, nextTaken, nextVal)
+        cons_1, avail_1, taken_1, val_1, memo_1 = recursiveKnapsack(consider[1:], nextAvail, nextTaken, nextVal, memo)
         
-        cons_2, avail_2, taken_2, val_2 = recursiveKnapsack(consider[1:], avail, taken, val)
+        cons_2, avail_2, taken_2, val_2, memo_2 = recursiveKnapsack(consider[1:], avail, taken, val, memo)
 
-        if val_2 < val_1 : return [cons_1, avail_1, taken_1, val_1]
-        else : return [cons_2, avail_2, taken_2, val_2]
+        if val_2 < val_1 : return [cons_1, avail_1, taken_1, val_1, memo_1]
+        else : return [cons_2, avail_2, taken_2, val_2, memo_2]
