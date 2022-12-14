@@ -239,8 +239,9 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
         return [consider, avail, taken, val, memo]
     elif avail  < consider[0].getCost() :
         # insufficient available capacity to stored the next thing in the scenario
-        # set value to be 0 because this should not even considered
-        return [consider, avail, taken, 0, memo]
+        # WRONG: set value to be 0 because this should not even considered
+        # CORRECT: only consider the right side only, val is not changing since not included consider[0]
+        return recursiveKnapsack(consider[1:], avail, taken, val, memo)
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
@@ -272,13 +273,21 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
     # here is the difference from the recursive one:
     if (len(consider), avail) in memo : 
         memo['pull'] += 1
-        return memo[(len(consider), avail)]
+        memo_taken = memo[(len(consider), avail)]
+        for j in memo_taken:
+            consider.remove(j)
+            nextTaken = (*taken, j)
+            nextVal = val + j.getValue()
+            nextAvail = avail + j.getCost()
+        return [consider, nextAvail, nextTaken, nextVal, memo]
+        
     if consider == [] or avail == 0 :
         return [consider, avail, taken, val, memo]
     elif avail  < consider[0].getCost() :
         # insufficient available capacity to stored the next thing in the scenario
-        # set value to be 0 because this should not even considered
-        return [consider, avail, taken, 0, memo]
+        # WRONG: set value to be 0 because this should not even considered
+        # CORECT: only consider the right side:
+        return dynamicKnapsack(consider[1:], avail, taken, val, memo)
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
@@ -291,9 +300,22 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
 
         if val_2 < val_1 : 
             # here is when we took the memo
-            memo[(len(consider), avail)] = [cons_1, avail_1, taken_1, val_1, memo]
+            memo_taken = ()
+            for i in taken_1:
+                if i in taken:
+                    continue
+                else:
+                    memo_taken = (*memo_taken, i)
+            
+            memo[(len(consider), avail)] = memo_taken
             return [cons_1, avail_1, taken_1, val_1, memo]
         else : 
             # here also the same thing happen
-            memo[len(consider), avail] = [cons_2, avail_2, taken_2, val_2, memo]
+            memo_taken = ()
+            for i in taken_2:
+                if i in taken:
+                    continue
+                else:
+                    memo_taken = (*memo_taken, i)
+            memo[len(consider), avail] = memo_taken
             return [cons_2, avail_2, taken_2, val_2, memo]
