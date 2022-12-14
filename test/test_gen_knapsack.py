@@ -256,10 +256,10 @@ class TestDynamicKnapsack(unittest.TestCase):
         # the total value of recursive and dynamic is the same:
         self.assertEqual(tot_val_2, tot_val_1, "total value is different")
         # the items taken by recursive and dynamic are the same:
-        # self.assertEqual(took_2, took_1, "the items is different")
+        self.assertEqual(took_2, took_1, "the items is different")
         # the memo taken in dynamic is bigger than the recursive (taken into account 'pull' key!)
         self.assertTrue(memo_2['pull'] > 0, "the memoization is failed")
-        # self.assertTrue(memo_2['calls'] < memo_1['calls'], "The performance is worse than expectation")
+        self.assertTrue(memo_2['calls'] < memo_1['calls'], "The performance is worse than expectation")
         
     def test_more_complex_runs_both_recursive_and_dynamic(self):
         datas = {
