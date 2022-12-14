@@ -239,8 +239,9 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
         return [consider, avail, taken, val, memo]
     elif avail  < consider[0].getCost() :
         # insufficient available capacity to stored the next thing in the scenario
-        # set value to be 0 because this should not even considered
-        return [consider, avail, taken, 0, memo]
+        # WRONG: set value to be 0 because this should not even considered
+        # CORRECT: only consider the right side only, val is not changing since not included consider[0]
+        return recursiveKnapsack(consider[1:], avail, taken, val, memo)
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
@@ -277,8 +278,9 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
         return [consider, avail, taken, val, memo]
     elif avail  < consider[0].getCost() :
         # insufficient available capacity to stored the next thing in the scenario
-        # set value to be 0 because this should not even considered
-        return [consider, avail, taken, 0, memo]
+        # WRONG: set value to be 0 because this should not even considered
+        # CORECT: only consider the right side:
+        return dynamicKnapsack(consider[1:], avail, taken, val, memo)
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
