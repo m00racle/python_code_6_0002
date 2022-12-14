@@ -261,3 +261,27 @@ class TestDynamicKnapsack(unittest.TestCase):
         self.assertTrue(len(memo_2) - len(memo_1) > 1, "the memoization is failed")
         # self.assertTrue(memo_2['calls'] < memo_1['calls'], "The performance is worse than expectation")
         
+    def test_more_complex_runs_both_recursive_and_dynamic(self):
+        datas = {
+        'wine' : [89, 123],
+        'beer' : [90, 154],
+        'pizza' : [30, 154],
+        'burger' : [50, 354],
+        'fries' : [90, 365],
+        'coke' : [79, 150],
+        'apple' : [90, 95],
+        'donut' : [10, 195]
+        }
+
+        foods = gk.buildThings(datas, cost_custom='calories')
+        constraint = 750
+
+        # action
+        recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint)
+        dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint)
+
+        # assert
+        self.assertEqual(dynValue, recValue, "Total Value is wrong")
+        self.assertEqual(dynTaken, recTaken, "List of things are wrong")
+        self.assertTrue(dynMemo['pull'] > 0, "The memoization is NOT USABLE")
+        self.assertTrue(dynMemo['calls'] < recMemo['calls'], "The dynamic performance is NOT BETTER")
