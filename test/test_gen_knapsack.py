@@ -286,7 +286,21 @@ class TestDynamicKnapsack(unittest.TestCase):
         self.assertTrue(dynMemo['pull'] > 0, "The memoization is NOT USABLE")
         self.assertTrue(dynMemo['calls'] < recMemo['calls'], "The dynamic performance is NOT BETTER")
 
-    def test_must_have_thing_included_from_start(self):
+    def test_must_have_thing_included(self):
+        e = gk.Thing('e', 6, 3, cost_name='weight')
+        must = (e,)
+        cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5 - e.getCost(), must, e.getValue())
+        cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5 - e.getCost(), must, e.getValue())
+
+        # assert
+        self.assertTrue(e in took_1, "recursive failed to take must have")
+        self.assertTrue(e in took_2, "dynamic failed to take must have")
+        # the total value of recursive and dynamic is the same:
+        self.assertEqual(tot_val_2, tot_val_1, "total value is different")
+        # the items taken by recursive and dynamic are the same:
+        self.assertEqual(took_2, took_1, "the items is different")
+
+    def test_copmplex_must_have_thing_included_from_start(self):
         """  
         In this scenario similar with the menu but In this case fries must be included in the knapsack result
         """
