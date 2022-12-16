@@ -238,6 +238,7 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
     """
     
     if consider == [] or avail == 0 :
+        if len(taken) > 0 : return [consider, avail, taken, val, memo]
         # add nothing since there are nothing to be added anymore
         return [consider, avail, (), 0, memo]
     elif avail  < consider[0].getCost() :
@@ -284,6 +285,7 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
         return memo[len(consider), avail]
         
     if consider == [] or avail == 0 :
+        if len(taken) > 0 : return [consider, avail, taken, val, memo]
         # add nothing since there are nothing to be added anymore
         return [consider, avail, (), 0, memo]
     elif avail  < consider[0].getCost() :
