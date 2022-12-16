@@ -285,3 +285,38 @@ class TestDynamicKnapsack(unittest.TestCase):
         self.assertEqual(dynTaken, recTaken, "List of things are wrong")
         self.assertTrue(dynMemo['pull'] > 0, "The memoization is NOT USABLE")
         self.assertTrue(dynMemo['calls'] < recMemo['calls'], "The dynamic performance is NOT BETTER")
+
+    def test_must_have_thing_included_from_start(self):
+        """  
+        In this scenario similar with the menu but In this case fries must be included in the knapsack result
+        """
+        datas = {
+        'wine' : [89, 123],
+        'beer' : [90, 154],
+        'pizza' : [30, 154],
+        'burger' : [50, 354],
+        # 'fries' : [90, 365], <- this is must have
+        'coke' : [79, 150],
+        'apple' : [90, 95],
+        'donut' : [10, 195]
+        }
+
+        foods = gk.buildThings(datas, cost_custom='calories')
+        fries = gk.Thing('fries', 90.0, 365, cost_name='calories')
+        must_have = (fries,)
+        constraint = 750
+
+        # action
+        recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint - fries.getCost(), 
+        taken=must_have, val=fries.getValue())
+        dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint - fries.getCost(), 
+        taken=must_have, val=fries.getValue())
+
+        # assert
+        self.assertTrue(fries in recTaken, "Recursive taken failed to include must have thing")
+        self.assertTrue(fries in dynTaken, "Dynamic taken failed to include must have thing")
+        self.assertTrue(racAvail >= 0, "the constraint is violated")
+        self.assertEqual(dynValue, recValue, "Total Value is wrong")
+        self.assertEqual(dynTaken, recTaken, "List of things are wrong")
+        self.assertTrue(dynMemo['pull'] > 0, "The memoization is NOT USABLE")
+        self.assertTrue(dynMemo['calls'] < recMemo['calls'], "The dynamic performance is NOT BETTER")
