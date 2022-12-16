@@ -222,7 +222,7 @@ class TestDynamicKnapsack(unittest.TestCase):
     
     def test_simple_things_on_recursive_knapsack(self):
         # arrange
-        print_out = '<b; value: 7.0; weight: 3.0>\n<c; value: 8.0; weight: 2.0>\n'
+        print_out = '<c; value: 8.0; weight: 2.0>\n<b; value: 7.0; weight: 3.0>\n'
         expected_total_value = 15.0
 
         cap = io.StringIO()
