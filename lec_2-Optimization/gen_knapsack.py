@@ -219,7 +219,7 @@ def bruteKnapsack(inputs: list, constraint : float, valueFunction, costFunction)
     
     return (max_value, opt_list)
 
-def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0, memo={'calls' : 0}) -> list:
+def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: float = 0, memo={}) -> list:
     """  
     Description: function to optimize knapsack case using recursive programming
 
@@ -249,7 +249,7 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
-        
+        if not('calls' in memo): memo['calls'] = 0
         memo['calls'] += 1
         cons_1, avail_1, taken_1, val_1, memo = recursiveKnapsack(consider[1:], nextAvail, taken, val, memo)
         # this is basically reverse added the thing thus the value which thing is added is get added with consThing here
@@ -262,7 +262,7 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
         if val_2 < val_1 : return [cons_1, avail_1, (*taken_1, consThing), val_1, memo]
         else : return [cons_2, avail_2, taken_2, val_2, memo]
 
-def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float = 0, memo={'calls' : 0, 'pull' : 0})-> list:
+def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float = 0, memo={})-> list:
     """  
     Description: function to optimize knapsack case using recursive programming
 
@@ -281,6 +281,7 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
     """
     # here is the difference from the recursive one:
     if (len(consider), avail) in memo : 
+        if not('pull' in memo): memo['pull'] = 0
         memo['pull'] += 1
         return memo[len(consider), avail]
         
@@ -296,7 +297,7 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
-        
+        if not('calls' in memo): memo['calls'] = 0
         memo['calls'] += 1
         cons_1, avail_1, taken_1, val_1, memo = dynamicKnapsack(consider[1:], nextAvail, taken, val, memo)
         # this is reverse taking things so added things add Value after recursive calls here 
