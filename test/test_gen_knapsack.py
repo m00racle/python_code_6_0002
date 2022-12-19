@@ -223,6 +223,7 @@ class TestDynamicKnapsack(unittest.TestCase):
     def test_simple_things_on_recursive_knapsack(self):
         # arrange
         print_out = '<c; value: 8.0; weight: 2.0>\n<b; value: 7.0; weight: 3.0>\n'
+        # NOTE: c is printed prior to b because the recursive algorithm steps is adding things backward 
         expected_total_value = 15.0
 
         cap = io.StringIO()
@@ -312,14 +313,14 @@ class TestDynamicKnapsack(unittest.TestCase):
         'beer' : [90, 154],
         'pizza' : [30, 154],
         'burger' : [50, 354],
-        # 'fries' : [90, 365], <- this is must have
+        # 'fries' : [90, 365], <- this is must have, thus omitted from datas
         'coke' : [79, 150],
         'apple' : [90, 95],
         'donut' : [10, 195]
         }
 
         foods = gk.buildThings(datas, cost_custom='calories')
-        fries = gk.Thing('fries', 90.0, 365, cost_name='calories')
+        fries = gk.Thing('fries', 90.0, 365, cost_name='calories') #create Thiung that omitted from datas
         must_have = (fries,)
         constraint = 750
 
