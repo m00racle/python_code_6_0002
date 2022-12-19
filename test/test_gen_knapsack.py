@@ -230,7 +230,7 @@ class TestDynamicKnapsack(unittest.TestCase):
         sys.stdout = cap
 
         # action
-        consider, avail, took, tot_val, memo = gk.recursiveKnapsack(self.things, 5, memo={})
+        consider, avail, took, tot_val, memo = gk.recursiveKnapsack(self.things, 5)
         # NOTE: memo = {} is to reset the memo for continuous test
         
         for thing in took:
@@ -250,8 +250,8 @@ class TestDynamicKnapsack(unittest.TestCase):
         but the inputs still uses the same input as the recursive ones
         The only main difference is the performance that must be better than the recursive
         """
-        cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5, memo={})
-        cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5, memo={})
+        cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5)
+        cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5)
         # memo={} is to reset memo for continuous tests
 
         # assert
@@ -279,8 +279,8 @@ class TestDynamicKnapsack(unittest.TestCase):
         constraint = 750
 
         # action
-        recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint, memo={})
-        dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint, memo={})
+        recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint)
+        dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint)
         # NOTE: memo = {} is to reset memo for continuous tests
 
         # assert
@@ -292,8 +292,8 @@ class TestDynamicKnapsack(unittest.TestCase):
     def test_must_have_thing_included(self):
         e = gk.Thing('e', 6, 3, cost_name='weight')
         must = (e,)
-        cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5 - e.getCost(), must, e.getValue(), memo={})
-        cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5 - e.getCost(), must, e.getValue(), memo={})
+        cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5 - e.getCost(), must, e.getValue())
+        cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5 - e.getCost(), must, e.getValue())
         # NOTE: memo = {} is to reset memo for continuous tests
 
         # assert
@@ -326,9 +326,9 @@ class TestDynamicKnapsack(unittest.TestCase):
 
         # action
         recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint - fries.getCost(), 
-        taken=must_have, val=fries.getValue(), memo={})
+        taken=must_have, val=fries.getValue())
         dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint - fries.getCost(), 
-        taken=must_have, val=fries.getValue(), memo={})
+        taken=must_have, val=fries.getValue())
         # NOTE: memo = {} is to reset memo for continuous tests
 
         # assert
