@@ -43,6 +43,17 @@ def run():
     print(f'total value for greedy by inverse weight: {total_value}')
     print(f'total weight of greedy by inverse weight: {total_weight}')
 
+    print(f'\nusing Greedy by density value/weight as key function:')
+    greedyDensity = greedy(foods, constraint, lambda x : (1 / x.getCost()))
+    total_weight = 0
+    total_value = 0
+    for food in greedyDensity:
+        print(f'{food},')
+        total_weight += food.getCost()
+        total_value += food.getValue()
+    print(f'total value for greedy by inverse weight: {total_value}')
+    print(f'total weight of greedy by inverse weight: {total_weight}')
+
     print(f'\nusing Brute Force to find best menu below {constraint} kg:')
     total_value, menuList = bruteKnapsack(foods, constraint, Thing.getValue, lambda x : x.getCost())
     total_weight = 0

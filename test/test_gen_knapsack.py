@@ -222,7 +222,8 @@ class TestDynamicKnapsack(unittest.TestCase):
     
     def test_simple_things_on_recursive_knapsack(self):
         # arrange
-        print_out = '<b; value: 7.0; weight: 3.0>\n<c; value: 8.0; weight: 2.0>\n'
+        print_out = '<c; value: 8.0; weight: 2.0>\n<b; value: 7.0; weight: 3.0>\n'
+        # NOTE: c is printed prior to b because the recursive algorithm steps is adding things backward 
         expected_total_value = 15.0
 
         cap = io.StringIO()
@@ -230,7 +231,7 @@ class TestDynamicKnapsack(unittest.TestCase):
 
         # action
         consider, avail, took, tot_val, memo = gk.recursiveKnapsack(self.things, 5)
-        # result = [considered: list, avail: float, taken : tuple, val : float]
+        # NOTE: memo = {} is to reset the memo for continuous test
         
         for thing in took:
             print(thing)
@@ -251,6 +252,7 @@ class TestDynamicKnapsack(unittest.TestCase):
         """
         cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5)
         cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5)
+        # memo={} is to reset memo for continuous tests
 
         # assert
         # the total value of recursive and dynamic is the same:
@@ -279,8 +281,60 @@ class TestDynamicKnapsack(unittest.TestCase):
         # action
         recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint)
         dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint)
+        # NOTE: memo = {} is to reset memo for continuous tests
 
         # assert
+        self.assertEqual(dynValue, recValue, "Total Value is wrong")
+        self.assertEqual(dynTaken, recTaken, "List of things are wrong")
+        self.assertTrue(dynMemo['pull'] > 0, "The memoization is NOT USABLE")
+        self.assertTrue(dynMemo['calls'] < recMemo['calls'], "The dynamic performance is NOT BETTER")
+
+    def test_must_have_thing_included(self):
+        e = gk.Thing('e', 6, 3, cost_name='weight')
+        must = (e,)
+        cons_1, avail_1, took_1, tot_val_1, memo_1 = gk.recursiveKnapsack(self.things, 5 - e.getCost(), must, e.getValue())
+        cons_2, avail_2, took_2, tot_val_2, memo_2 = gk.dynamicKnapsack(self.things, 5 - e.getCost(), must, e.getValue())
+        # NOTE: memo = {} is to reset memo for continuous tests
+
+        # assert
+        self.assertTrue(e in took_1, "recursive failed to take must have")
+        self.assertTrue(e in took_2, "dynamic failed to take must have")
+        # the total value of recursive and dynamic is the same:
+        self.assertEqual(tot_val_2, tot_val_1, "total value is different")
+        # the items taken by recursive and dynamic are the same:
+        self.assertEqual(took_2, took_1, "the items is different")
+
+    def test_copmplex_must_have_thing_included_from_start(self):
+        """  
+        In this scenario similar with the menu but In this case fries must be included in the knapsack result
+        """
+        datas = {
+        'wine' : [89, 123],
+        'beer' : [90, 154],
+        'pizza' : [30, 154],
+        'burger' : [50, 354],
+        # 'fries' : [90, 365], <- this is must have, thus omitted from datas
+        'coke' : [79, 150],
+        'apple' : [90, 95],
+        'donut' : [10, 195]
+        }
+
+        foods = gk.buildThings(datas, cost_custom='calories')
+        fries = gk.Thing('fries', 90.0, 365, cost_name='calories') #create Thiung that omitted from datas
+        must_have = (fries,)
+        constraint = 750
+
+        # action
+        recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint - fries.getCost(), 
+        taken=must_have, val=fries.getValue())
+        dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint - fries.getCost(), 
+        taken=must_have, val=fries.getValue())
+        # NOTE: memo = {} is to reset memo for continuous tests
+
+        # assert
+        self.assertTrue(fries in recTaken, "Recursive taken failed to include must have thing")
+        self.assertTrue(fries in dynTaken, "Dynamic taken failed to include must have thing")
+        self.assertTrue(racAvail >= 0, "the constraint is violated")
         self.assertEqual(dynValue, recValue, "Total Value is wrong")
         self.assertEqual(dynTaken, recTaken, "List of things are wrong")
         self.assertTrue(dynMemo['pull'] > 0, "The memoization is NOT USABLE")
