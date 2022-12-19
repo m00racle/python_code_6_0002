@@ -269,7 +269,7 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
         if val_2 < val_1 : return [cons_1, avail_1, (*taken_1, consThing), val_1, memo]
         else : return [cons_2, avail_2, taken_2, val_2, memo]
 
-def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float = 0, memo={}, **dynSet)-> list:
+def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float = 0, **dynSet)-> list:
     """  
     Description: function to optimize knapsack case using recursive programming
 
@@ -286,12 +286,13 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
-    j = {'go': False}
+    j = {'go': False, 'dynMemo' : {}}
     for i in dynSet:
         if i in j:
             j[i] = dynSet[i]
     
-    if not(j['go']): memo = {}
+    if not(j['go']): j['dynMemo'] = {}
+    memo = j['dynMemo']
 
     # here is the difference from the recursive one:
     if (len(consider), avail) in memo : 
@@ -307,19 +308,19 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
         # insufficient available capacity to stored the next thing in the scenario
         # WRONG: set value to be 0 because this should not even considered
         # CORECT: only consider the right side:
-        return dynamicKnapsack(consider[1:], avail, taken, val, memo, go=True)
+        return dynamicKnapsack(consider[1:], avail, taken, val, dynMemo = memo, go=True)
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
         if not('calls' in memo): memo['calls'] = 0
         memo['calls'] += 1
-        cons_1, avail_1, taken_1, val_1, memo = dynamicKnapsack(consider[1:], nextAvail, taken, val, memo, go=True)
+        cons_1, avail_1, taken_1, val_1, memo = dynamicKnapsack(consider[1:], nextAvail, taken, val, dynMemo = memo, go=True)
         # this is reverse taking things so added things add Value after recursive calls here 
         # remember things are added here not included during the recursive calls
         val_1 += consThing.getValue()
 
         memo['calls'] += 1
-        cons_2, avail_2, taken_2, val_2, memo = dynamicKnapsack(consider[1:], avail, taken, val, memo, go=True)
+        cons_2, avail_2, taken_2, val_2, memo = dynamicKnapsack(consider[1:], avail, taken, val, dynMemo = memo, go=True)
 
         if val_2 < val_1 : 
             # here is when we took the memo
