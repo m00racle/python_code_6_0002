@@ -236,12 +236,12 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
-    k = {'go': False, 'recMemo' : {}}
+    k = {'go': False, 'recMemo' : {'calls': 0}}
     for i in recSet:
         if i in k:
             k[i] = recSet[i]
     
-    if k['go'] == False : k['recMemo'] = {}
+    if k['go'] == False : k['recMemo'] = {'calls': 0}
     memo = k['recMemo']
 
     if consider == [] or avail == 0 :
@@ -286,12 +286,12 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
-    j = {'go': False, 'dynMemo' : {}}
+    j = {'go': False, 'dynMemo' : {'pull': 0, 'calls': 0}}
     for i in dynSet:
         if i in j:
             j[i] = dynSet[i]
     
-    if not(j['go']): j['dynMemo'] = {}
+    if not(j['go']): j['dynMemo'] = {'pull': 0, 'calls': 0}
     memo = j['dynMemo']
 
     # here is the difference from the recursive one:
