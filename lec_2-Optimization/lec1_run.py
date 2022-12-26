@@ -8,13 +8,13 @@ def run():
     datas = {
         'wine' : [89, 123],
         'beer' : [90, 154],
-        'pizza' : [30, 154],
-        'burger' : [50, 354],
+        'pizza' : [95, 258],
+        'burger' : [100, 354],
         'fries' : [90, 365],
         'coke' : [79, 150],
-        'apple' : [90, 95],
+        'apple' : [50, 95],
         'donut' : [10, 195]
-    }
+        }
 
     foods = buildThings(datas, cost_custom='calories')
     constraint = 750
