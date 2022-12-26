@@ -312,6 +312,9 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
+        if not('pull' in memo): memo['pull'] = 0
+        # NOTE: I put pull here to ensure that when memoization turns out to be not useful (in some cases they do) The debugger
+        # still able to take a look at the pull key data in the memo which should return value = 0
         if not('calls' in memo): memo['calls'] = 0
         memo['calls'] += 1
         cons_1, avail_1, taken_1, val_1, memo = dynamicKnapsack(consider[1:], nextAvail, taken, val, dynMemo = memo, go=True)
