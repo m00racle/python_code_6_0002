@@ -236,12 +236,12 @@ def recursiveKnapsack(consider: list, avail: float, taken: tuple = (), val: floa
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
-    k = {'go': False, 'recMemo' : {}}
+    k = {'go': False, 'recMemo' : {'calls': 0}}
     for i in recSet:
         if i in k:
             k[i] = recSet[i]
     
-    if k['go'] == False : k['recMemo'] = {}
+    if k['go'] == False : k['recMemo'] = {'calls': 0}
     memo = k['recMemo']
 
     if consider == [] or avail == 0 :
@@ -286,12 +286,12 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
 
     return : list = [[consideration left over], available_left: float, (optimized Thing), optimized_value: float]
     """
-    j = {'go': False, 'dynMemo' : {}}
+    j = {'go': False, 'dynMemo' : {'pull': 0, 'calls': 0}}
     for i in dynSet:
         if i in j:
             j[i] = dynSet[i]
     
-    if not(j['go']): j['dynMemo'] = {}
+    if not(j['go']): j['dynMemo'] = {'pull': 0, 'calls': 0}
     memo = j['dynMemo']
 
     # here is the difference from the recursive one:
@@ -312,6 +312,9 @@ def dynamicKnapsack(consider: list, avail: list, taken: tuple = (), val: float =
     else :
         consThing = consider[0]
         nextAvail = avail - consThing.getCost()
+        if not('pull' in memo): memo['pull'] = 0
+        # NOTE: I put pull here to ensure that when memoization turns out to be not useful (in some cases they do) The debugger
+        # still able to take a look at the pull key data in the memo which should return value = 0
         if not('calls' in memo): memo['calls'] = 0
         memo['calls'] += 1
         cons_1, avail_1, taken_1, val_1, memo = dynamicKnapsack(consider[1:], nextAvail, taken, val, dynMemo = memo, go=True)
