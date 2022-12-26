@@ -339,3 +339,28 @@ class TestDynamicKnapsack(unittest.TestCase):
         self.assertEqual(dynTaken, recTaken, "List of things are wrong")
         self.assertTrue(dynMemo['pull'] > 0, "The memoization is NOT USABLE")
         self.assertTrue(dynMemo['calls'] < recMemo['calls'], "The dynamic performance is NOT BETTER")
+
+    def test_special_menu_unable_to_use_memo_accessing_call_key_returns_zero(self):
+        datas = {
+        'wine' : [89, 123],
+        'beer' : [90, 154],
+        'pizza' : [95, 258],
+        'burger' : [100, 354],
+        'fries' : [90, 365],
+        'coke' : [79, 150],
+        'apple' : [50, 95],
+        'donut' : [10, 195]
+        }
+
+        foods = gk.buildThings(datas, cost_custom='calories')
+        constraint = 750
+
+        # action
+        recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint)
+        dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint)
+        # NOTE: memo = {} is to reset memo for continuous tests
+
+        # assert
+        self.assertTrue(dynMemo['pull'] == 0, "The memoization key: pull is INCORRECT")
+        self.assertTrue(dynMemo['calls'] == recMemo['calls'], "the memo key: calls IS INCORRECT")
+        # self.fail("NOT TEST")
