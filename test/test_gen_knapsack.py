@@ -364,3 +364,28 @@ class TestDynamicKnapsack(unittest.TestCase):
         self.assertTrue(dynMemo['pull'] == 0, "The memoization key: pull is INCORRECT")
         self.assertTrue(dynMemo['calls'] == recMemo['calls'], "the memo key: calls IS INCORRECT")
         # self.fail("NOT TEST")
+
+    def test_pass_empty_list_of_consideration_returns_correct_results(self):
+        datas = {}
+
+        foods = gk.buildThings(datas, cost_custom='calories')
+        constraint = 750
+
+        # action
+        recConsider, racAvail, recTaken, recValue, recMemo = gk.recursiveKnapsack(foods, constraint)
+        dynConsider, dynAvail, dynTaken, dynValue, dynMemo = gk.dynamicKnapsack(foods, constraint)
+        # NOTE: memo = {} is to reset memo for continuous tests
+
+        # assert
+        self.assertEqual(recValue, 0, "Total rec value is wrong")
+        self.assertEqual(recTaken, (), "taken is wrong")
+        self.assertEqual(racAvail, 750, "constraint is wrong")
+        self.assertEqual(recConsider, [], "consider list is wrong")
+        self.assertEqual(recMemo['calls'], 0, "number of calls is wrong")
+        self.assertEqual(dynValue, recValue, "Total Value is wrong")
+        self.assertEqual(dynTaken, recTaken, "List of things are wrong")
+        self.assertEqual(dynAvail, racAvail, "constraint is wrong")
+        self.assertEqual(dynConsider, recConsider, "dynconsider is wrong")
+        self.assertTrue(dynMemo['pull'] == 0, "The memoization is NOT USABLE")
+        self.assertTrue(dynMemo['calls'] == recMemo['calls'], "The dynamic calls is wrong")
+        # self.fail("NO TEST")
