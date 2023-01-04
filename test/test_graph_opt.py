@@ -6,7 +6,7 @@ sys.path.append(code_dir)
 
 from graph_opt import Node, Edge, WeightedEdge, Graph, Digraph
 
-class TestGraphModel(unittest.TestCase):
+class TestNodeEdge(unittest.TestCase):
     """  
     test scenarios for Graph and Digraph with their whole components
     """
