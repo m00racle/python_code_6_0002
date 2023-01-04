@@ -11,6 +11,7 @@ class TestGraphModel(unittest.TestCase):
     test scenarios for Graph and Digraph with their whole components
     """
     def setUp(self) -> None:
+        # make nodes passing node name in init
         self.nodeA = Node('A')
         self.nodeB = Node('B')
 
