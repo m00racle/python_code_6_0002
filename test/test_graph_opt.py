@@ -57,3 +57,19 @@ class TestNodeEdge(unittest.TestCase):
         self.assertEqual(wEdge_2.getWeight(), 2.75, "The weighted edge weight is wrong")
         # assert have the correct print out
         self.assertEqual(str(wEdge_2), "A->(2.75)B", "The weighted edge is wrong")
+
+class TestGraphs(unittest.TestCase):
+    """  
+    Testing the Graph and Digraph
+    """
+    def setUp(self) -> None:
+        """  
+        Setting working grpah and digraph on Star model
+        """
+        self.A = Node('A')
+        self.B = Node('B')
+        self.D = Node('D')
+        self.AB = Edge(self.A, self.B)
+        self.BD = Edge(self.B, self.D)
+        self.DA = Edge(self.D, self.A)
+        self.AD = Edge(self.A, self.D)
