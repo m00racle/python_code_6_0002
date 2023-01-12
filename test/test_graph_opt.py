@@ -69,7 +69,16 @@ class TestGraphs(unittest.TestCase):
         self.A = Node('A')
         self.B = Node('B')
         self.D = Node('D')
+        # add one more node for test purpose
+        self.C = Node('C')
+
+        # edge list:
         self.AB = Edge(self.A, self.B)
         self.BD = Edge(self.B, self.D)
         self.DA = Edge(self.D, self.A)
         self.AD = Edge(self.A, self.D)
+        # add faux edges for test purposes
+        self.DC = Edge(self.D, self.C)
+        self.CD = Edge(self.C, self.D)
+        # this edge is specific for graph class
+        self.DB = Edge(self.D, self.B)
