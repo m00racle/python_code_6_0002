@@ -82,3 +82,38 @@ class TestGraphs(unittest.TestCase):
         self.CD = Edge(self.C, self.D)
         # this edge is specific for graph class
         self.DB = Edge(self.D, self.B)
+
+    def propsed_test_digraph_class(self):
+        # Arrange
+        digraph = Digraph()
+        # add nodes to the digraph
+        digraph.addNode(self.A)
+        digraph.addNode(self.B)
+        digraph.addNode(self.D)
+
+        # add edges to the digraph
+        digraph.addEdge(self.AB)
+        digraph.addEdge(self.BD)
+        digraph.addEdge(self.DA)
+        digraph.addEdge(self.AD)
+
+        # Assert tests:
+        # test re-adding node A addNode(self.A) should raise ValueError('Duplicate node')
+
+        # test adding edge CD addEdge(self.CD) should raise ValueError('Node not in graph')
+
+        # test adding edge DC addEdge(self.DC) should raise ValueError('Node not in graph')
+
+        # test hasNode(self.A) should return TRUE
+
+        # test hasNode(self.C) should return FALSE
+
+        # test childrenOf(self.A) should return [self.B, self.D]
+
+        # test childrenOf(self.B) should return [self.D, ]
+
+        # test childrenOf(self.D) should return [self.A, ]
+
+        # test childrenOf(self.C) should invoke ValueError('Node not in graph')
+
+        # test str(digraph) return A->B\nB->D\nD->A\nA->D
