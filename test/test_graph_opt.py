@@ -83,7 +83,7 @@ class TestGraphs(unittest.TestCase):
         # this edge is specific for graph class
         self.DB = Edge(self.D, self.B)
 
-    def propsed_test_digraph_class(self):
+    def test_digraph_class(self):
         # Arrange
         digraph = Digraph()
         # add nodes to the digraph
@@ -99,21 +99,39 @@ class TestGraphs(unittest.TestCase):
 
         # Assert tests:
         # test re-adding node A addNode(self.A) should raise ValueError('Duplicate node')
+        with self.assertRaises(ValueError) as ve:
+            digraph.addNode(self.A)
+        self.assertEqual(str(ve.exception), "Duplicate node", "add node A should raise Value Error Duplicate node")
 
         # test adding edge CD addEdge(self.CD) should raise ValueError('Node not in graph')
+        with self.assertRaises(ValueError) as ve:
+            digraph.addEdge(self.CD)
+        self.assertEqual(str(ve.exception), "Node not in graph", "add edge CD should raise Value Error Node not in graph")
 
         # test adding edge DC addEdge(self.DC) should raise ValueError('Node not in graph')
+        with self.assertRaises(ValueError) as ve:
+            digraph.addEdge(self.DC)
+        self.assertEqual(str(ve.exception), "Node not in graph", "add node DC should raise Value Error Node not in graph")
 
-        # test hasNode(self.A) should return TRUE
+         # test hasNode(self.A) should return TRUE
+        self.assertTrue(digraph.hasNode(self.A), "has node A should return TRUE")
 
         # test hasNode(self.C) should return FALSE
+        self.assertFalse(digraph.hasNode(self.C), "has node C should return FALSE")
 
         # test childrenOf(self.A) should return [self.B, self.D]
+        self.assertEqual(digraph.childrenOf(self.A), [self.B, self.D], "children of A should be [B,D]")
 
         # test childrenOf(self.B) should return [self.D, ]
+        self.assertEqual(digraph.childrenOf(self.B), [self.D,], "children of B is [D]")
 
         # test childrenOf(self.D) should return [self.A, ]
+        self.assertEqual(digraph.childrenOf(self.D), [self.A,], "children of D should be [A]")
 
         # test childrenOf(self.C) should invoke ValueError('Node not in graph')
+        with self.assertRaises(ValueError) as ve:
+            digraph.childrenOf(self.C)
+        self.assertEqual(str(ve.exception), "Node not in graph", "childrenOf C should raise Value Error Node not in graph")
 
-        # test str(digraph) return A->B\nB->D\nD->A\nA->D
+        # test str(digraph) return A->B\nA->D\nB->D\nD->A
+        self.assertEqual(str(digraph), "A->B\nA->D\nB->D\nD->A", "str function is WRONG")
