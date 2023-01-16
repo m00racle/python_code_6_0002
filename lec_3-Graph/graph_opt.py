@@ -126,4 +126,9 @@ class Graph(Digraph):
     class represent Graph
     sub-class of Digraph
     """
+    # override 
+    def addEdge(self, edge: Edge) -> None:
+        reverseEdge = Edge(edge.getDestination(), edge.getSource())
+        super().addEdge(edge)
+        super().addEdge(reverseEdge)
     
