@@ -1,8 +1,8 @@
 ###########################
 # 6.0002 Problem Set 1b: Space Change
-# Name:
+# Name: m00racle
 # Collaborators:
-# Time:
+# Time: January 18, 2023
 # Author: charz, cdenise
 
 #================================
@@ -23,7 +23,20 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
     Returns: int, smallest number of eggs needed to make target weight
     """
     # TODO: Your code here
-    pass
+    # base case
+    if len(egg_weights) == 0 or target_weight <= 0:
+        return 0
+    # recursive case
+    if (target_weight - egg_weights[-1]) < 0:
+        # pop the last (largest) egg weights (dynamic to simpler egg weights)
+        amount = dp_make_weight(egg_weights[:-1], target_weight)
+        # no amount increment when this if case happen to be TRUE
+    else:
+        # diminish the target wieght with the largest egg weight
+        amount = dp_make_weight(egg_weights, (target_weight - egg_weights[-1]))
+        # if this case happen then the amount of egg is added by one
+        amount += 1
+    return amount
 
 # EXAMPLE TESTING CODE, feel free to add more if you'd like
 if __name__ == '__main__':
@@ -34,3 +47,6 @@ if __name__ == '__main__':
     print("Expected ouput: 9 (3 * 25 + 2 * 10 + 4 * 1 = 99)")
     print("Actual output:", dp_make_weight(egg_weights, n))
     print()
+    print("next experiment: (1, 3, 7, 13)")
+    print("target: 131")
+    print(f'result: {dp_make_weight((1, 3, 7, 13), 131)}')

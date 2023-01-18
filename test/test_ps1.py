@@ -8,7 +8,7 @@ sys.path.append(code_dir)
 
 import unittest
 
-from problem_set_1 import ps1a as p
+from problem_set_1 import ps1a as p, ps1b as pb
 
 class Test_ps1a(unittest.TestCase):
     def setUp(self) -> None:
@@ -25,3 +25,14 @@ class Test_ps1a(unittest.TestCase):
         # self.assertTrue(["Maggie", "Herman"] in result and ["Betsy"] in result)
         self.assertTrue(result, [['Betsy'], ['Maggie', 'Herman']])
         
+class Test_ps1b(unittest.TestCase):
+    """  
+    test case the ps1b Problem Set 1
+    """
+    def test_given_problem_ps1b_return_correct_amount(self):
+        """  
+        given target weight is 99
+        eggs with weight 1, 5, 10, 25 
+        assert that it return 9 as lifted amount
+        """
+        self.assertEqual(pb.dp_make_weight((1,5,10,25), 99), 9, "The number of lifted egg is wrong")
