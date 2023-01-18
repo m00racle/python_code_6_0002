@@ -47,3 +47,6 @@ if __name__ == '__main__':
     print("Expected ouput: 9 (3 * 25 + 2 * 10 + 4 * 1 = 99)")
     print("Actual output:", dp_make_weight(egg_weights, n))
     print()
+    print("next experiment: (1, 3, 7, 13)")
+    print("target: 131")
+    print(f'result: {dp_make_weight((1, 3, 7, 13), 131)}')
