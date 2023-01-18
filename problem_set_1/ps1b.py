@@ -24,7 +24,7 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
     """
     # TODO: Your code here
     # base case
-    if len(egg_weights) == 0:
+    if len(egg_weights) == 0 or target_weight <= 0:
         return 0
     # recursive case
     if (target_weight - egg_weights[-1]) < 0:
