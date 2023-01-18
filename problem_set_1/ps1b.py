@@ -1,8 +1,8 @@
 ###########################
 # 6.0002 Problem Set 1b: Space Change
-# Name:
+# Name: m00racle
 # Collaborators:
-# Time:
+# Time: January 18, 2023
 # Author: charz, cdenise
 
 #================================
