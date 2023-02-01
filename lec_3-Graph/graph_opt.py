@@ -131,4 +131,18 @@ class Graph(Digraph):
         reverseEdge = Edge(edge.getDestination(), edge.getSource())
         super().addEdge(edge)
         super().addEdge(reverseEdge)
-    
+
+"""  
+Methods of Graph optimizations
+"""
+def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : list = None) -> list:
+    """  
+    Given:
+    graph : Digraph 
+    start : Node = node designated as start of the path
+    end : Node = node designated as end of the path
+    path : list = list of taken path (default = [])
+    shortest : list = list of shortest path (in terms of number of node elements) (default = None)
+
+    Return: list = list of the shortest path from start Node to the end Node
+    """

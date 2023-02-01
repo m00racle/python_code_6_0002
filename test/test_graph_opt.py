@@ -5,6 +5,7 @@ code_dir = os.path.normpath(test_dir + "/../lec_3-Graph")
 sys.path.append(code_dir)
 
 from graph_opt import Node, Edge, WeightedEdge, Graph, Digraph
+import graph_opt as go
 
 class TestNodeEdge(unittest.TestCase):
     """  
@@ -189,3 +190,43 @@ class TestGraphs(unittest.TestCase):
 
         # test str(graph) return A->B\nA->D\nA->D\nB->A\nB->D\nB->D\nD->B\nD->A\nD->A\nD->B
         self.assertEqual(str(graph), "A->B\nA->D\nA->D\nB->A\nB->D\nB->D\nD->B\nD->A\nD->A\nD->B", "graph str WRONG")
+
+class TestDFSmethod(unittest.TestCase):
+    """  
+    testing the Depth First Search method to find the optimal path from start to target. 
+    """
+    def setUp(self) -> None:
+        """  
+        Begin with setting the graph (Digraph) used for test case
+        """
+        self.d = Digraph()
+        # create 6 nodes named 0 to 5:
+        self.n = []
+        for nom in range(6): self.n.append(Node(str(nom)))
+
+        # put all nodes in self.d
+        for nod in self.n:
+            self.d.addNode(nod)
+
+        # Now the hardest part: list all edges in the self.d
+        self.d.addEdge(Edge(self.n[0], self.n[1]))
+        self.d.addEdge(Edge(self.n[1], self.n[2]))
+        self.d.addEdge(Edge(self.n[2], self.n[3]))
+        self.d.addEdge(Edge(self.n[2], self.n[4]))
+        self.d.addEdge(Edge(self.n[3], self.n[4]))
+        self.d.addEdge(Edge(self.n[3], self.n[5]))
+        self.d.addEdge(Edge(self.n[0], self.n[2]))
+        self.d.addEdge(Edge(self.n[1], self.n[0]))
+        self.d.addEdge(Edge(self.n[3], self.n[1]))
+        self.d.addEdge(Edge(self.n[4], self.n[0]))
+
+
+    def test_DFS_digraph_return_correct_list_of_nodes(self):
+        """  
+        Given g as Digraph with list of nodes N and list of Edges e
+        Test using DFS it returns sp the most optimal path 
+        path = list of nodes from start to end which has the shortest length.
+        """
+        result = go.DFS(self.d, self.n[0], self.n[5])
+        # assert
+        self.assertEqual(result, [self.n[0], self.n[2], self.n[3], self.n[5]])
