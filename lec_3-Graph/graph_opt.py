@@ -135,7 +135,22 @@ class Graph(Digraph):
 """  
 Methods of Graph optimizations
 """
-def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : list = None) -> list:
+def printPath(path: list)-> str:
+    """  
+    Given:
+    path : list = list of nodes in a path
+
+    Return : str = print (str) form of all nodes tied up together with ->
+    """
+    result = ''
+    for i in range(len(path)):
+        result = result + str(path[i])
+        if i != len(path) - 1 :
+            # add -> between them
+            result = result + '->'
+    return result
+
+def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : list = None, verbose : bool = False) -> list:
     """  
     Given:
     graph : Digraph 
@@ -149,6 +164,10 @@ def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : lis
     # add the node (start) into the path list
     path = path + [start]
 
+    if verbose : 
+        # print the step by step path:
+        print(f'Current DFS path: {printPath(path)}')
+
     # base case
     if start == end : return path
 
@@ -157,7 +176,7 @@ def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : lis
         # only pick children that is not yet in the path list to avoid circular edges:
         if child not in path :
             if shortest == None or len(path) < len(shortest):
-                newPath = DFS(graph, child, end, path, shortest)
+                newPath = DFS(graph, child, end, path, shortest, verbose)
                 if newPath != None:
                     shortest = newPath
     
