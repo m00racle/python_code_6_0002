@@ -146,3 +146,19 @@ def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : lis
 
     Return: list = list of the shortest path from start Node to the end Node
     """
+    # add the node (start) into the path list
+    path = path + [start]
+
+    # base case
+    if start == end : return path
+
+    # recursive case:
+    for child in graph.childrenOf(start) :
+        # only pick children that is not yet in the path list to avoid circular edges:
+        if child not in path :
+            if shortest == None or len(path) < len(shortest):
+                newPath = DFS(graph, child, end, path, shortest)
+                if newPath != None:
+                    shortest = newPath
+    
+    return shortest
