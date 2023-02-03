@@ -298,17 +298,14 @@ class TestOptMethod(unittest.TestCase):
         printed = \
             "Current DFS path: 0\n" + \
             "Current DFS path: 0->1\n" + \
-            "Current DFS path: 0->1->2\n" + \
-            "Current DFS path: 0->1->2->3\n" + \
-            "Current DFS path: 0->1->2->3->4\n" + \
-            "Current DFS path: 0->1->2->3->5\n" + \
-            "Current DFS path: 0->1->2->4\n" + \
             "Current DFS path: 0->2\n" + \
+            "Current DFS path: 0->1->2\n" + \
             "Current DFS path: 0->2->3\n" + \
+            "Current DFS path: 0->2->4\n" + \
+            "Current DFS path: 0->1->2->3\n" + \
+            "Current DFS path: 0->1->2->4\n" + \
             "Current DFS path: 0->2->3->4\n" + \
             "Current DFS path: 0->2->3->5\n" + \
-            "Current DFS path: 0->2->3->1\n" + \
-            "Current DFS path: 0->2->4\n" + \
             "Shortest path found by DFS: 0->2->3->5\n"
 
         # action

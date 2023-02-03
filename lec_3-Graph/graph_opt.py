@@ -187,7 +187,7 @@ def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : lis
     
     return shortest
 
-def BFS(graph: Digraph, start: Node, end: Node):
+def BFS(graph: Digraph, start: Node, end: Node, verbose=False):
     """  
     Given:
     graph: Digraph
