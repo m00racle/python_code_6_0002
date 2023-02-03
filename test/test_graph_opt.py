@@ -296,22 +296,22 @@ class TestOptMethod(unittest.TestCase):
         sys.stdout = capOut
         
         printed = \
-            "Current DFS path: 0\n" + \
-            "Current DFS path: 0->1\n" + \
-            "Current DFS path: 0->2\n" + \
-            "Current DFS path: 0->1->2\n" + \
-            "Current DFS path: 0->2->3\n" + \
-            "Current DFS path: 0->2->4\n" + \
-            "Current DFS path: 0->1->2->3\n" + \
-            "Current DFS path: 0->1->2->4\n" + \
-            "Current DFS path: 0->2->3->4\n" + \
-            "Current DFS path: 0->2->3->5\n" + \
-            "Shortest path found by DFS: 0->2->3->5\n"
+            "Current BFS path: 0\n" + \
+            "Current BFS path: 0->1\n" + \
+            "Current BFS path: 0->2\n" + \
+            "Current BFS path: 0->1->2\n" + \
+            "Current BFS path: 0->2->3\n" + \
+            "Current BFS path: 0->2->4\n" + \
+            "Current BFS path: 0->1->2->3\n" + \
+            "Current BFS path: 0->1->2->4\n" + \
+            "Current BFS path: 0->2->3->4\n" + \
+            "Current BFS path: 0->2->3->5\n" + \
+            "Shortest path found by BFS: 0->2->3->5\n"
 
         # action
         # put the run here in verbose
         result = go.BFS(self.d, self.n[0], self.n[5], verbose=True)
-        print(f'Shortest path found by DFS: {go.printPath(result)}')
+        print(f'Shortest path found by BFS: {go.printPath(result)}')
 
         # capture
         sys.stdout = sys.__stdout__
