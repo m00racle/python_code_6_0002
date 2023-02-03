@@ -1,10 +1,11 @@
-import sys, os, unittest
+import sys, os, unittest, io
 
 test_dir = os.path.dirname(__file__)
 code_dir = os.path.normpath(test_dir + "/../lec_3-Graph")
 sys.path.append(code_dir)
 
 from graph_opt import Node, Edge, WeightedEdge, Graph, Digraph
+import graph_opt as go
 
 class TestNodeEdge(unittest.TestCase):
     """  
@@ -103,6 +104,11 @@ class TestGraphs(unittest.TestCase):
             digraph.addNode(self.A)
         self.assertEqual(str(ve.exception), "Duplicate node", "add node A should raise Value Error Duplicate node")
 
+        # test getNode of non existing node should raise Name Error with name arguments as its args:
+        with self.assertRaises(NameError) as ne:
+            digraph.getNode('C')
+        self.assertEqual(ne.exception.args[0], 'C', 'The NameError should consist of Node name C')
+
         # test adding edge CD addEdge(self.CD) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             digraph.addEdge(self.CD)
@@ -111,10 +117,13 @@ class TestGraphs(unittest.TestCase):
         # test adding edge DC addEdge(self.DC) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             digraph.addEdge(self.DC)
-        self.assertEqual(str(ve.exception), "Node not in graph", "add node DC should raise Value Error Node not in graph")
+        self.assertEqual(str(ve.exception), "Node not in graph", "add edge DC should raise Value Error Node not in graph")
 
          # test hasNode(self.A) should return TRUE
         self.assertTrue(digraph.hasNode(self.A), "has node A should return TRUE")
+
+        # test getNode(A) return Node A:
+        self.assertEqual(digraph.getNode('A'), self.A, 'getNode(A) shoud return Node A')
 
         # test hasNode(self.C) should return FALSE
         self.assertFalse(digraph.hasNode(self.C), "has node C should return FALSE")
@@ -157,6 +166,11 @@ class TestGraphs(unittest.TestCase):
             graph.addNode(self.A)
         self.assertEqual(str(ve.exception), "Duplicate node", "add node A should raise Value Error Duplicate node")
 
+        # test getName(C) should raise NameError pass the name C as args
+        with self.assertRaises(NameError) as ne:
+            graph.getNode('C')
+        self.assertEqual(ne.exception.args[0], 'C', 'NameError must put the Name C on its args')
+
         # test adding edge CD addEdge(self.CD) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             graph.addEdge(self.CD)
@@ -165,10 +179,13 @@ class TestGraphs(unittest.TestCase):
         # test adding edge DC addEdge(self.DC) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             graph.addEdge(self.DC)
-        self.assertEqual(str(ve.exception), "Node not in graph", "add node DC should raise Value Error Node not in graph")
+        self.assertEqual(str(ve.exception), "Node not in graph", "add edge DC should raise Value Error Node not in graph")
 
          # test hasNode(self.A) should return TRUE
         self.assertTrue(graph.hasNode(self.A), "has node A should return TRUE")
+
+        # test get node named 'A' should return Node A
+        self.assertEqual(graph.getNode('A'), self.A, "graph getNode(A) should returns Node A")
 
         # test hasNode(self.C) should return FALSE
         self.assertFalse(graph.hasNode(self.C), "has node C should return FALSE")
@@ -189,3 +206,129 @@ class TestGraphs(unittest.TestCase):
 
         # test str(graph) return A->B\nA->D\nA->D\nB->A\nB->D\nB->D\nD->B\nD->A\nD->A\nD->B
         self.assertEqual(str(graph), "A->B\nA->D\nA->D\nB->A\nB->D\nB->D\nD->B\nD->A\nD->A\nD->B", "graph str WRONG")
+
+class TestOptMethod(unittest.TestCase):
+    """  
+    testing the Depth First Search method to find the optimal path from start to target. 
+    """
+    def setUp(self) -> None:
+        """  
+        Begin with setting the graph (Digraph) used for test case
+        """
+        self.d = Digraph()
+        # create 6 nodes named 0 to 5:
+        self.n = []
+        for nom in range(6): self.n.append(Node(str(nom)))
+
+        # put all nodes in self.d
+        for nod in self.n:
+            self.d.addNode(nod)
+
+        # Now the hardest part: list all edges in the self.d
+        self.d.addEdge(Edge(self.n[0], self.n[1]))
+        self.d.addEdge(Edge(self.n[1], self.n[2]))
+        self.d.addEdge(Edge(self.n[2], self.n[3]))
+        self.d.addEdge(Edge(self.n[2], self.n[4]))
+        self.d.addEdge(Edge(self.n[3], self.n[4]))
+        self.d.addEdge(Edge(self.n[3], self.n[5]))
+        self.d.addEdge(Edge(self.n[0], self.n[2]))
+        self.d.addEdge(Edge(self.n[1], self.n[0]))
+        self.d.addEdge(Edge(self.n[3], self.n[1]))
+        self.d.addEdge(Edge(self.n[4], self.n[0]))
+
+
+    def test_DFS_digraph_return_correct_list_of_nodes(self):
+        """  
+        Given g as Digraph with list of nodes N and list of Edges e
+        Test using DFS it returns sp the most optimal path 
+        path = list of nodes from start to end which has the shortest length.
+        """
+        result = go.DFS(self.d, self.n[0], self.n[5])
+        # assert
+        self.assertEqual(result, [self.n[0], self.n[2], self.n[3], self.n[5]])
+
+    def test_DFS_verbose_print_out_correct_steps(self):
+        """  
+        Given the same case but in verbose mode the run should print out the corret 
+        current path.
+        """
+        capOut = io.StringIO()
+        sys.stdout = capOut
+        
+        printed = \
+            "Current DFS path: 0\n" + \
+            ">>> Current shortest path: None\n" +\
+            "Current DFS path: 0->1\n" +\
+            ">>> Current shortest path: None\n" +\
+            "Current DFS path: 0->1->2\n" +\
+            ">>> Current shortest path: None\n" +\
+            "Current DFS path: 0->1->2->3\n" +\
+            ">>> Current shortest path: None\n" +\
+            "Current DFS path: 0->1->2->3->4\n" +\
+            ">>> Current shortest path: None\n"+\
+            "Current DFS path: 0->1->2->3->5\n"+\
+            ">>> Current shortest path: None\n"+\
+            "Current DFS path: 0->1->2->4\n"+\
+            ">>> Current shortest path: 0->1->2->3->5\n"+\
+            "Current DFS path: 0->2\n"+\
+            ">>> Current shortest path: 0->1->2->3->5\n"+\
+            "Current DFS path: 0->2->3\n"+\
+            ">>> Current shortest path: 0->1->2->3->5\n"+\
+            "Current DFS path: 0->2->3->4\n"+\
+            ">>> Current shortest path: 0->1->2->3->5\n"+\
+            "Current DFS path: 0->2->3->5\n"+\
+            ">>> Current shortest path: 0->1->2->3->5\n"+\
+            "Current DFS path: 0->2->3->1\n"+\
+            ">>> Current shortest path: 0->2->3->5\n"+\
+            "Current DFS path: 0->2->4\n"+\
+            ">>> Current shortest path: 0->2->3->5\n"+\
+            "Shortest path found by DFS: 0->2->3->5\n"
+
+        # action
+        # put the run here in verbose
+        result = go.DFS(self.d, self.n[0], self.n[5], verbose=True)
+        print(f'Shortest path found by DFS: {go.printPath(result)}')
+
+        # capture
+        sys.stdout = sys.__stdout__
+        self.assertEqual(capOut.getvalue(), printed)
+
+    def test_BFS_digraph_return_correct_list_of_nodes(self):
+        """  
+        Given g as Digraph with list of nodes N and list of Edges e
+        Test using DFS it returns sp the most optimal path 
+        path = list of nodes from start to end which has the shortest length.
+        """
+        result = go.BFS(self.d, self.n[0], self.n[5])
+        # assert
+        self.assertEqual(result, [self.n[0], self.n[2], self.n[3], self.n[5]])
+
+    def test_BFS_verbose_print_out_correct_steps(self):
+        """  
+        Given the same case but in verbose mode the run should print out the corret 
+        current path.
+        """
+        capOut = io.StringIO()
+        sys.stdout = capOut
+        
+        printed = \
+            "Current BFS path: 0\n" + \
+            "Current BFS path: 0->1\n" + \
+            "Current BFS path: 0->2\n" + \
+            "Current BFS path: 0->1->2\n" + \
+            "Current BFS path: 0->2->3\n" + \
+            "Current BFS path: 0->2->4\n" + \
+            "Current BFS path: 0->1->2->3\n" + \
+            "Current BFS path: 0->1->2->4\n" + \
+            "Current BFS path: 0->2->3->4\n" + \
+            "Current BFS path: 0->2->3->5\n" + \
+            "Shortest path found by BFS: 0->2->3->5\n"
+
+        # action
+        # put the run here in verbose
+        result = go.BFS(self.d, self.n[0], self.n[5], verbose=True)
+        print(f'Shortest path found by BFS: {go.printPath(result)}')
+
+        # capture
+        sys.stdout = sys.__stdout__
+        self.assertEqual(capOut.getvalue(), printed)
