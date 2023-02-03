@@ -191,7 +191,7 @@ class TestGraphs(unittest.TestCase):
         # test str(graph) return A->B\nA->D\nA->D\nB->A\nB->D\nB->D\nD->B\nD->A\nD->A\nD->B
         self.assertEqual(str(graph), "A->B\nA->D\nA->D\nB->A\nB->D\nB->D\nD->B\nD->A\nD->A\nD->B", "graph str WRONG")
 
-class TestDFSmethod(unittest.TestCase):
+class TestOptMethod(unittest.TestCase):
     """  
     testing the Depth First Search method to find the optimal path from start to target. 
     """
