@@ -104,6 +104,11 @@ class TestGraphs(unittest.TestCase):
             digraph.addNode(self.A)
         self.assertEqual(str(ve.exception), "Duplicate node", "add node A should raise Value Error Duplicate node")
 
+        # test getNode of non existing node should raise Name Error with name arguments as its args:
+        with self.assertRaises(NameError) as ne:
+            digraph.getNode('C')
+        self.assertEqual(ne.exception.args[0], 'C', 'The NameError should consist of Node name C')
+
         # test adding edge CD addEdge(self.CD) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             digraph.addEdge(self.CD)
@@ -112,10 +117,13 @@ class TestGraphs(unittest.TestCase):
         # test adding edge DC addEdge(self.DC) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             digraph.addEdge(self.DC)
-        self.assertEqual(str(ve.exception), "Node not in graph", "add node DC should raise Value Error Node not in graph")
+        self.assertEqual(str(ve.exception), "Node not in graph", "add edge DC should raise Value Error Node not in graph")
 
          # test hasNode(self.A) should return TRUE
         self.assertTrue(digraph.hasNode(self.A), "has node A should return TRUE")
+
+        # test getNode(A) return Node A:
+        self.assertEqual(digraph.getNode('A'), self.A, 'getNode(A) shoud return Node A')
 
         # test hasNode(self.C) should return FALSE
         self.assertFalse(digraph.hasNode(self.C), "has node C should return FALSE")
@@ -158,6 +166,11 @@ class TestGraphs(unittest.TestCase):
             graph.addNode(self.A)
         self.assertEqual(str(ve.exception), "Duplicate node", "add node A should raise Value Error Duplicate node")
 
+        # test getName(C) should raise NameError pass the name C as args
+        with self.assertRaises(NameError) as ne:
+            graph.getNode('C')
+        self.assertEqual(ne.exception.args[0], 'C', 'NameError must put the Name C on its args')
+
         # test adding edge CD addEdge(self.CD) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             graph.addEdge(self.CD)
@@ -166,10 +179,13 @@ class TestGraphs(unittest.TestCase):
         # test adding edge DC addEdge(self.DC) should raise ValueError('Node not in graph')
         with self.assertRaises(ValueError) as ve:
             graph.addEdge(self.DC)
-        self.assertEqual(str(ve.exception), "Node not in graph", "add node DC should raise Value Error Node not in graph")
+        self.assertEqual(str(ve.exception), "Node not in graph", "add edge DC should raise Value Error Node not in graph")
 
          # test hasNode(self.A) should return TRUE
         self.assertTrue(graph.hasNode(self.A), "has node A should return TRUE")
+
+        # test get node named 'A' should return Node A
+        self.assertEqual(graph.getNode('A'), self.A, "graph getNode(A) should returns Node A")
 
         # test hasNode(self.C) should return FALSE
         self.assertFalse(graph.hasNode(self.C), "has node C should return FALSE")
