@@ -101,6 +101,17 @@ class Digraph(object):
         """
         return node in self.nodes
 
+    def getNode(self, name: str) -> Node:
+        """  
+        Given: name: str = name of the node
+        Return: Node = if exist the node which has the name or riase NameError otherwise
+        """
+        for node in self.nodes:
+            if node.getName() == name: return node
+        
+        # if no name match:
+        raise NameError(name)
+
     def childrenOf(self, node: Node) -> list:
         """ 
         Given node : Node 
