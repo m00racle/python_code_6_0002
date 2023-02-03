@@ -197,3 +197,20 @@ def BFS(graph: Digraph, start: Node, end: Node, verbose=False):
 
     Returns None
     """
+    initPath = [start]
+    pathQueue = [initPath]
+    while len(pathQueue) != 0:
+        # get and remove oldest element of the pathqueue
+        tmpPath = pathQueue.pop(0)
+        if verbose: print(f'Current BFS path: {printPath(tmpPath)}')
+        lastNode = tmpPath[-1]
+        if lastNode == end:
+            return tmpPath
+        # check all children for the lastNode:
+        for nextNode in graph.childrenOf(lastNode):
+            if nextNode not in tmpPath:
+                newPath = tmpPath + [nextNode]
+                pathQueue.append(newPath)
+    
+    # if not path gets to end:
+    return None
