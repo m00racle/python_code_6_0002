@@ -143,11 +143,15 @@ def printPath(path: list)-> str:
     Return : str = print (str) form of all nodes tied up together with ->
     """
     result = ''
-    for i in range(len(path)):
-        result = result + str(path[i])
-        if i != len(path) - 1 :
-            # add -> between them
-            result = result + '->'
+    try:
+        for i in range(len(path)):
+            result = result + str(path[i])
+            if i != len(path) - 1 :
+                # add -> between them
+                result = result + '->'
+    except:
+        return None
+
     return result
 
 def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : list = None, verbose : bool = False) -> list:
@@ -167,6 +171,7 @@ def DFS(graph: Digraph, start: Node, end: Node, path : list = [], shortest : lis
     if verbose : 
         # print the step by step path:
         print(f'Current DFS path: {printPath(path)}')
+        print(f'>>> Current shortest path: {printPath(shortest)}')
 
     # base case
     if start == end : return path
