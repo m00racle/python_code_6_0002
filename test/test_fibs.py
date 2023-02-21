@@ -46,4 +46,5 @@ class Test_fibs(unittest.TestCase):
         self.assertEqual(mem[2], 1)
         self.assertEqual(mem[3], 2)
 
-    
+if __name__ == '__main__':
+    unittest.main()    

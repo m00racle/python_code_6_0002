@@ -8,7 +8,8 @@ sys.path.append(code_dir)
 
 import unittest
 
-from problem_set_1 import ps1a as p, ps1b as pb
+# from problem_set_1 
+import ps1a as p, ps1b as pb
 
 class Test_ps1a(unittest.TestCase):
     def setUp(self) -> None:
@@ -36,3 +37,6 @@ class Test_ps1b(unittest.TestCase):
         assert that it return 9 as lifted amount
         """
         self.assertEqual(pb.dp_make_weight((1,5,10,25), 99), 9, "The number of lifted egg is wrong")
+
+if __name__ == '__main__':
+    unittest.main()

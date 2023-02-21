@@ -332,3 +332,6 @@ class TestOptMethod(unittest.TestCase):
         # capture
         sys.stdout = sys.__stdout__
         self.assertEqual(capOut.getvalue(), printed)
+
+if __name__ == '__main__':
+    unittest.main()    

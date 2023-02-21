@@ -389,3 +389,6 @@ class TestDynamicKnapsack(unittest.TestCase):
         self.assertTrue(dynMemo['pull'] == 0, "The memoization is NOT USABLE")
         self.assertTrue(dynMemo['calls'] == recMemo['calls'], "The dynamic calls is wrong")
         # self.fail("NO TEST")
+
+if __name__ == '__main__':
+    unittest.main()    
