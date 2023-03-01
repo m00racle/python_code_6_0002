@@ -5,7 +5,7 @@ code_dir = os.path.normpath(test_dir + '/../lec_4_Stochastic')
 
 sys.path.append(code_dir)
 
-import roll_die as r
+import chapter12 as r
 
 class Test_roll_die(unittest.TestCase):
 

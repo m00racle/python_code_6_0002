@@ -16,6 +16,14 @@ def rollN(n)->str:
         result += str(rollDie())
     print(f"die rolls result sequence: {result}")
 
-if __name__ == '__main__':
+def run():
+    """  
+    run the page
+    """
+    # rollDie for 10 times and print the output sequence
     print("Test roll die 10 times:")
     rollN(10)
+
+
+if __name__ == '__main__':
+    run()
