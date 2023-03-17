@@ -35,7 +35,9 @@ def flipPlot(minExp, maxExp):
     pyplot.title("Difference Between Heads and Tails")
     pyplot.xlabel("Number of flips")
     pyplot.ylabel("abs(#Head - #Tail)")
-    pyplot.plot(xAxis, diffs)
+    pyplot.plot(xAxis, diffs, 'bo')
+    pyplot.yscale('log')
+    pyplot.xscale('log')
     # pyplot.show()
 
     # plotting the ratios
@@ -43,7 +45,9 @@ def flipPlot(minExp, maxExp):
     pyplot.title("Head/Tail ratios")
     pyplot.xlabel("Number of flips")
     pyplot.ylabel("#Heads/#Tails")
-    pyplot.plot(xAxis, ratios)
+    pyplot.plot(xAxis, ratios, 'r+')
+    # pyplot.yscale('log')
+    pyplot.xscale('log')
     
     # show all plots 
     pyplot.show()
