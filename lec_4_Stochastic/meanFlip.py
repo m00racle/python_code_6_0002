@@ -22,6 +22,19 @@ def stDev(x:list) -> float:
     # return square root of total / len(x)
     return sqrt(tot/len(x))
 
+def CV(x:list) -> float:
+    """  
+    Given:
+    x : list = list of number
+
+    Return:
+    float = Coeff of Variance for all numbers in list x
+    """
+    try:
+        return stDev(x)/meanList(x)
+    except ZeroDivisionError:
+        return float('nan')
+
 def simFlip(numFlips:int)-> tuple:
     """  
     Given:
