@@ -3,6 +3,7 @@
 # having the same birthday.
 
 import random
+from math import factorial as fact
 
 def sameDate(numPeople:int, numSame:int) -> bool:
     """  
@@ -34,11 +35,54 @@ def sameDate(numPeople:int, numSame:int) -> bool:
 
     return max(birthdayPeople) >= numSame
 
+# but I want to make multiple trials at the same case
+# then as parameter I will use the ratio where the simulation returns that there are 2 people...
+# or more having the same birthday in a group to the how many trials is done
+
+def simBirthday(numPeople:int, numSame:int, numTrials:int) -> float:
+    """  
+    Given:
+    numPeople:int = the number of people in the simulate group
+    numSame:int = the prediction of how many people in a group have the same birthday
+    numTrials:int = how many simulation run for the same parameters
+
+    return:float = ratio between how many times there are more than 2 people having the same...
+    #               birthday to numTrials
+    """
+    # initialize number of correct (sameDate returns True)
+    correct = 0
+
+    # iterate for range of numTrials 
+    for t in range(numTrials):
+        # increment the correct if the sameDate returns True
+        if sameDate(numPeople, numSame):
+            correct += 1
+
+    # divide the correct to numTrials and returns the output
+    return correct/float(numTrials)
+
+
 def test_run():
     """  
     running specific code to test
     """
-    how = sameDate(10, 2)
+    
+    # now let's use them to simulate different number of people in a group:
+
+    numDays = 366
+    for numPeople in [10, 20, 40, 100]:
+        print(f'for {numPeople}, estimated prob.of a shared birthdayis {simBirthday(numPeople,2,10000)}')
+        
+        # make comparison that using math formulation:
+        numerator = fact(numDays)
+
+        # NOTE: fact is math.factorial
+
+        denom = (numDays**numPeople) * fact(numDays - numPeople)
+
+        # print the math formulation 
+        print(f'Actual (math) prob. for {numPeople} = {1 - numerator/denom}\n')
+    
 
 if __name__ == '__main__':
     test_run()
