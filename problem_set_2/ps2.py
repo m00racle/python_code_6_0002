@@ -1,8 +1,8 @@
 # 6.0002 Problem Set 5
 # Graph optimization
-# Name:
-# Collaborators:
-# Time:
+# Name: Yanuar Heru Prakosa
+# Collaborators: -
+# Time: 00
 
 #
 # Finding shortest paths through MIT buildings
@@ -20,7 +20,10 @@ from graph import Digraph, Node, WeightedEdge
 # represented?
 #
 # Answer:
-#
+# Nodes represent building number
+# Edges: represents the available route from one building to another
+# the distances represented as two type total distance and outdoor distance
+# they are parameters required when isntantiating the WeightedEdge object
 
 
 # Problem 2b: Implementing load_map
@@ -43,8 +46,38 @@ def load_map(map_filename):
         a Digraph representing the map
     """
 
-    # TODO
     print("Loading map from file...")
+    # open the file:
+    f = open(map_filename, "r")
+    # read multiple lines of the file
+    lines = f.readlines()
+    f.close()
+    
+    # prep the empty list for making the graph instance
+    dg = Digraph()
+
+    for line in lines:
+        # split the parameters argument by white spaces to use it accordingly
+        # NOTE: p = paramenter argument
+        p = line.split()
+        # create source and destination nodes:
+        source = Node(p[0])
+        dest = Node(p[1])
+        
+        # create the edge from each line paramters
+        route = WeightedEdge(source, dest, p[2], p[3])
+
+        # put the Node in the graph
+        if not(dg.has_node(source)): dg.add_node(source)
+        if not(dg.has_node(dest)): dg.add_node(dest)
+        
+        # add the edge (route) to the dg digraph
+        dg.add_edge(route)
+    
+    return dg
+        
+
+
 
 # Problem 2c: Testing load_map
 # Include the lines used to test load_map below, but comment them out
@@ -140,7 +173,7 @@ class Ps2Test(unittest.TestCase):
     LARGE_DIST = 99999
 
     def setUp(self):
-        self.graph = load_map("mit_map.txt")
+        self.graph = load_map("problem_set_2/mit_map.txt")
 
     def test_load_map_basic(self):
         self.assertTrue(isinstance(self.graph, Digraph))
@@ -218,3 +251,4 @@ class Ps2Test(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    # load_map("problem_set_2/mit_map.txt")
