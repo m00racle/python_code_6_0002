@@ -91,6 +91,10 @@ def load_map(map_filename):
 # What is the objective function for this problem? What are the constraints?
 #
 # Answer:
+# - the objective function is to minimize total traveled distance
+# - constraints:
+# 	- maximum total distance
+# 	- maximum total outdoor distance
 #
 
 # Problem 3b: Implement get_best_path
