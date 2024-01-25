@@ -132,8 +132,33 @@ def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then return None.
     """
-    # TODO
-    pass
+    # update the path
+    new_path = path[0] + [start]
+    tot_dist = path[1]
+    tot_out = path[2]
+
+    # base case:
+    if start == end:
+        if tot_out > max_dist_outdoors: return None
+        return (new_path, tot_dist)
+    
+    # recursive case:
+    for edge in digraph.get_edges_for_node(Node(start)):
+        dest = str(edge.get_destination())
+
+        # only process dest that is not in path
+        if dest not in new_path:
+            tot_dist = tot_dist + edge.get_total_distance()
+            tot_out = tot_out + edge.get_outdoor_distance()
+
+            if best_path == None or tot_dist < best_dist:
+                newBests = get_best_path(digraph, dest, end, [new_path, tot_dist, tot_out], max_dist_outdoors, best_dist, best_path)
+                if newBests != None:
+                    best_path = newBests[0]
+                    best_dist = newBests[1]
+
+    if best_path == None : return None
+    return (best_path, best_dist)
 
 
 # Problem 3c: Implement directed_dfs
@@ -165,8 +190,12 @@ def directed_dfs(digraph, start, end, max_total_dist, max_dist_outdoors):
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then raises a ValueError.
     """
-    # TODO
-    pass
+    result = get_best_path(digraph, start, end, [[], 0, 0], max_dist_outdoors, 0, None)
+
+    if result == None: raise ValueError()
+    if result[1] > max_total_dist : raise ValueError()
+
+    return result[0]
 
 
 # ================================================================
@@ -177,6 +206,7 @@ class Ps2Test(unittest.TestCase):
     LARGE_DIST = 99999
 
     def setUp(self):
+        print(f"\n -> testing : {self._testMethodName}")
         self.graph = load_map("problem_set_2/mit_map.txt")
 
     def test_load_map_basic(self):
@@ -255,4 +285,4 @@ class Ps2Test(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-    # load_map("problem_set_2/mit_map.txt")
+    
