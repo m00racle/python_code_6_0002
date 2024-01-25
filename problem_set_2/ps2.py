@@ -1,8 +1,8 @@
 # 6.0002 Problem Set 5
 # Graph optimization
-# Name:
-# Collaborators:
-# Time:
+# Name: Yanuar Heru Prakosa
+# Collaborators: -
+# Time: 00
 
 #
 # Finding shortest paths through MIT buildings
@@ -20,7 +20,10 @@ from graph import Digraph, Node, WeightedEdge
 # represented?
 #
 # Answer:
-#
+# Nodes represent building number
+# Edges: represents the available route from one building to another
+# the distances represented as two type total distance and outdoor distance
+# they are parameters required when isntantiating the WeightedEdge object
 
 
 # Problem 2b: Implementing load_map
@@ -43,8 +46,38 @@ def load_map(map_filename):
         a Digraph representing the map
     """
 
-    # TODO
     print("Loading map from file...")
+    # open the file:
+    f = open(map_filename, "r")
+    # read multiple lines of the file
+    lines = f.readlines()
+    f.close()
+    
+    # prep the empty list for making the graph instance
+    dg = Digraph()
+
+    for line in lines:
+        # split the parameters argument by white spaces to use it accordingly
+        # NOTE: p = paramenter argument
+        p = line.split()
+        # create source and destination nodes:
+        source = Node(p[0])
+        dest = Node(p[1])
+        
+        # create the edge from each line paramters
+        route = WeightedEdge(source, dest, p[2], p[3])
+
+        # put the Node in the graph
+        if not(dg.has_node(source)): dg.add_node(source)
+        if not(dg.has_node(dest)): dg.add_node(dest)
+        
+        # add the edge (route) to the dg digraph
+        dg.add_edge(route)
+    
+    return dg
+        
+
+
 
 # Problem 2c: Testing load_map
 # Include the lines used to test load_map below, but comment them out
@@ -58,6 +91,10 @@ def load_map(map_filename):
 # What is the objective function for this problem? What are the constraints?
 #
 # Answer:
+# - the objective function is to minimize total traveled distance
+# - constraints:
+# 	- maximum total distance
+# 	- maximum total outdoor distance
 #
 
 # Problem 3b: Implement get_best_path
@@ -95,8 +132,31 @@ def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then return None.
     """
-    # TODO
-    pass
+    # update the path
+    path[0] = path[0] + [start]
+
+    # base case
+    if path[2] > max_dist_outdoors : return None
+    if start == end: return path
+
+    # recursive case
+    for edge in digraph.get_edges_for_node(Node(start)):
+        dest = edge.get_destination().get_name()
+        distance = edge.get_total_distance() + path[1]
+        outdoors = edge.get_outdoor_distance() + path[2]
+
+        # only if dest is not in path
+        if dest not in path[0]:
+            updated_path = [path[0], distance, outdoors]
+            new_path = get_best_path(digraph, dest, end, updated_path, max_dist_outdoors, best_dist, best_path)
+
+            if new_path != None:
+                if best_dist == None or new_path[1] < best_dist:
+                    best_path = new_path[0]
+                    best_dist = new_path[1]
+
+    if best_path == None: return None
+    return (best_path, best_dist)
 
 
 # Problem 3c: Implement directed_dfs
@@ -128,8 +188,12 @@ def directed_dfs(digraph, start, end, max_total_dist, max_dist_outdoors):
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then raises a ValueError.
     """
-    # TODO
-    pass
+    result = get_best_path(digraph, start, end, [[], 0, 0], max_dist_outdoors, None, None)
+
+    if result == None: raise ValueError("max outdoor distance violation")
+    if result[1] > max_total_dist : raise ValueError("max total distance violation")
+
+    return result[0]
 
 
 # ================================================================
@@ -140,7 +204,8 @@ class Ps2Test(unittest.TestCase):
     LARGE_DIST = 99999
 
     def setUp(self):
-        self.graph = load_map("mit_map.txt")
+        print(f"\n -> testing : {self._testMethodName}")
+        self.graph = load_map("problem_set_2/mit_map.txt")
 
     def test_load_map_basic(self):
         self.assertTrue(isinstance(self.graph, Digraph))
@@ -218,3 +283,4 @@ class Ps2Test(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    

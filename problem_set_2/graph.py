@@ -1,8 +1,8 @@
 # 6.0002 Problem Set 5
 # Graph optimization
-# Name:
-# Collaborators:
-# Time:
+# Name: Yanuar Heru Prakosa
+# Collaborators: -
+# Time: 00
 
 import unittest
 
@@ -55,16 +55,18 @@ class Edge(object):
 
 class WeightedEdge(Edge):
     def __init__(self, src, dest, total_distance, outdoor_distance):
-        pass  # TODO
+        self.total_distance = int(total_distance)
+        self.outdoor_distance = int(outdoor_distance)
+        super().__init__(src, dest)
 
     def get_total_distance(self):
-        pass  # TODO
+        return self.total_distance
 
     def get_outdoor_distance(self):
-        pass  # TODO
+        return self.outdoor_distance
 
     def __str__(self):
-        pass  # TODO
+        return '{}->{} ({}, {})'.format(self.src, self.dest, self.total_distance, self.outdoor_distance)
 
 
 class Digraph(object):
@@ -90,13 +92,22 @@ class Digraph(object):
     def add_node(self, node):
         """Adds a Node object to the Digraph. Raises a ValueError if it is
         already in the graph."""
-        pass  # TODO
+        if node in self.nodes:
+            raise ValueError('Duplicate Node')
+        else:
+            self.nodes.add(node)
+            self.edges[node] = []
 
     def add_edge(self, edge):
         """Adds an Edge or WeightedEdge instance to the Digraph. Raises a
         ValueError if either of the nodes associated with the edge is not
         in the  graph."""
-        pass  # TODO
+        source = edge.get_source()
+        destination = edge.get_destination()
+        if not(source in self.nodes and destination in self.nodes):
+            raise ValueError('Node not in graph')
+        
+        self.edges[source].append(edge)
 
 
 # ================================================================
