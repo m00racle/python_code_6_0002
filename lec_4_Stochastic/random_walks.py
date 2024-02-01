@@ -6,6 +6,7 @@ Random Walks and More About Data Visualization
 
 from math import sqrt
 import random
+from chapter12 import meanList, CV
 
 class Location(object):
     """  
@@ -155,3 +156,67 @@ class Field(object):
             raise ValueError('Drunk not in the field')
         return self.drunks[drunk]
     
+def walk(f:Field, d:Drunk, numSteps:int) -> float:
+    """  
+    Calculate the walk distance 
+    Params:
+        f : Field = Field object where the walk happens
+        d : Drunk = Drunkard specific which on the field walking
+        numSteps : int = Number of steps executed by the Drunkards
+
+    Return : float = the difference final location and its start of the walk
+    """
+    # find where the drunkard starts
+    start = f.getLoc(d)
+    # move the drunkard number of steps
+    for s in range(numSteps):
+        f.moveDrunk(d)
+    # calculate the distance to the last drunkard location from the start
+    return start.distFrom(f.getLoc(d))
+
+def simWalks(numSteps:int, numTrials:int, dClass: Drunk) -> list:
+    """  
+    Simulate multiple random walk of a drunkard
+    Params:
+        numSteps : int = number of steps for each simulation session
+        numTrials : int = number of simulation trials
+        dClass : Drunk = implementation of sub class instance of a Drunk class
+    
+    Return : List = list of distances of all simulation trials
+    """
+    Homer = dClass()
+    origin = Location(0.0, 0.0)
+    distances = []
+    # start trials
+    for t in range(numTrials):
+        # make field
+        f = Field()
+        f.addDrunk(Homer, origin)
+        # put the session result in distances
+        distances.append(walk(f, Homer, numSteps))
+    
+    return distances
+
+def drunkTest(walkLengths:tuple, numTrials:int, dClass:Drunk) -> None:
+    """  
+    Testing Random walk mean distances and Coeff of Variance
+    Params:
+        walkLengths : tuple = sequence of ints (positive) of each represent numSteps
+        numTrials : int = number of trials in simulation
+        dClass : Drunk = implementation or sub class of Drunk class
+    Return: None
+    """
+    for numSteps in walkLengths:
+        distances = simWalks(numSteps, numTrials, dClass)
+        print(f"\n{dClass.__name__} random walk of {numSteps} steps")
+        print(f"Mean = {meanList(distances)}")
+        print(f"CV = {CV(distances)}")
+        print(f"Maximum distance = {max(distances)}")
+        print(f"Minimum distances = {min(distances)}")
+
+
+# run point
+if __name__ == '__main__':
+    # run drunk test
+    drunkTest((10, 100, 1000), 100, UsualDrunk)
+    drunkTest((0,1), 100, UsualDrunk)
