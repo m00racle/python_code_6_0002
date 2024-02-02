@@ -20,6 +20,11 @@ def sameDate(numPeople:int, numSame:int) -> bool:
     dates = range(366) 
     # NOTE: range 366 returns numbers from 0 to 365
 
+    # uncomment following if you want to simulate deterministic prob on birthdays:
+    # dates = 4*list(range(0, 57)) + [58]\
+    #                + 4*list(range(59, 366))\
+    #                + 4*list(range(180, 270))
+
     # make list consist of zeros as initial condition 
     birthdayPeople = [0] * 366
     # NOTE: use list since it is mutable so we can just change specific value in specific ..
@@ -71,7 +76,7 @@ def test_run():
 
     numDays = 366
     for numPeople in [10, 20, 40, 100]:
-        print(f'for {numPeople}, estimated prob.of a shared birthdayis {simBirthday(numPeople,2,10000)}')
+        print(f'for {numPeople}, estimated prob.of a shared birthdayis {simBirthday(numPeople,3,10000)}')
         
         # make comparison that using math formulation:
         numerator = fact(numDays)
