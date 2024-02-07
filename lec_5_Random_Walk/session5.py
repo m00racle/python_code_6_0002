@@ -108,7 +108,7 @@ def simWalks(numSteps, numTrials, dClass):
         f = Field()
         f.addDrunk(Homer, origin)
         distances.append(round(walk(f, Homer,
-                                    numTrials), 1))
+                                    numSteps), 1))
     return distances
 
 def drunkTest(walkLengths, numTrials, dClass):
@@ -122,17 +122,25 @@ def drunkTest(walkLengths, numTrials, dClass):
         print(' Mean =', round(sum(distances)/len(distances), 4))
         print(' Max =', max(distances), 'Min =', min(distances))
         
-random.seed(0)
-drunkTest((10, 100, 1000, 10000), 100, UsualDrunk)
-#
+# run 1 for sanity checks
+# random.seed(0) #
+# drunkTest((10, 100, 1000, 10000), 100, UsualDrunk)
+# ###################
+
 def simAll(drunkKinds, walkLengths, numTrials):
     for dClass in drunkKinds:
         drunkTest(walkLengths, numTrials, dClass)
         
+# run 2 for comparing different drunks but only by text results:
 # random.seed(0)
 # simAll((UsualDrunk, MasochistDrunk),
 #       (1000, 10000), 100)
-       
+        # ##############
+
+# run 3: example on how to use plotting
+# NOTE: this is have NO connection to the Random Walks simulation above!! 
+        # for demonstration pruposes only
+
 # xVals = [1, 2, 3, 4]
 # yVals1 = [1, 2, 3, 4]
 # pylab.plot(xVals, yVals1, 'b-', label = 'first')
@@ -140,6 +148,7 @@ def simAll(drunkKinds, walkLengths, numTrials):
 # pylab.plot(xVals, yVals2, 'r--', label = 'second')
 # pylab.legend()
 # pylab.show()
+# #########################
 
 class styleIterator(object):
     def __init__(self, styles):
