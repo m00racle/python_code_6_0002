@@ -187,15 +187,18 @@ def simAll(drunkKinds, walkLengths, numTrials):
     pylab.ylabel('Distance from Origin')
     pylab.legend(loc = 'best')
 
-#random.seed(0)
-#numSteps = (10,100,1000,10000,100000)
-#simAll((UsualDrunk, MasochistDrunk), numSteps, 100)
-#
-#pylab.plot(numSteps, pylab.array(numSteps)**0.5, 'k-.',
+# ##run 4: Plotting mean Locations and variances for all drunks
+# random.seed(0)
+# numSteps = (10,100,1000,10000,100000)
+# simAll((UsualDrunk, MasochistDrunk), numSteps, 100)
+
+# pylab.plot(numSteps, pylab.array(numSteps)**0.5, 'k-.',
 #           label = 'Square root of steps')
-#pylab.plot(numSteps, pylab.array(numSteps)*0.05, 'g-.',
+# pylab.plot(numSteps, pylab.array(numSteps)*0.05, 'g-.',
 #           label = 'numSteps*0.05')
-#pylab.legend(loc = 'best')
+# pylab.legend(loc = 'best')
+# pylab.show()
+# ##########################
 
 def getFinalLocs(numSteps, numTrials, dClass):
     locs = []
@@ -233,8 +236,10 @@ def plotLocs(drunkKinds, numSteps, numTrials):
     pylab.ylabel('Steps North/South of Origin')
     pylab.legend(loc = 'lower center')
 
-#random.seed(0)
-#plotLocs((UsualDrunk, MasochistDrunk), 10000, 1000)
+# ## run 5: final location plots: TODO: BUG the plotLocs does not want to run!
+random.seed(0)
+plotLocs((UsualDrunk, MasochistDrunk), 10000, 1000)
+# ####
 
 class OddField(Field):
     def __init__(self, numHoles = 1000,
