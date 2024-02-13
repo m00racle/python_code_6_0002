@@ -204,7 +204,7 @@ def getFinalLocs(numSteps, numTrials, dClass):
     locs = []
     d = dClass()
     for t in range(numTrials):
-        f = OddField()
+        f = Field()
         f.addDrunk(d, Location(0, 0))
         for s in range(numSteps):
             f.moveDrunk(d)
@@ -235,6 +235,7 @@ def plotLocs(drunkKinds, numSteps, numTrials):
     pylab.xlabel('Steps East/West of Origin')
     pylab.ylabel('Steps North/South of Origin')
     pylab.legend(loc = 'lower center')
+    pylab.show()
 
 # ## run 5: final location plots: TODO: BUG the plotLocs does not want to run!
 random.seed(0)
