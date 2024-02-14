@@ -238,8 +238,8 @@ def plotLocs(drunkKinds, numSteps, numTrials):
     pylab.show()
 
 # ## run 5: final location plots: TODO: BUG the plotLocs does not want to run!
-random.seed(0)
-plotLocs((UsualDrunk, MasochistDrunk), 10000, 1000)
+# random.seed(0)
+# plotLocs((UsualDrunk, MasochistDrunk), 10000, 1000)
 # ####
 
 class OddField(Field):
@@ -285,7 +285,8 @@ def traceWalk(fieldKinds, numSteps):
     pylab.xlabel('Steps East/West of Origin')
     pylab.ylabel('Steps North/South of Origin')
     pylab.legend(loc = 'best')
+    pylab.show()
 
-#random.seed(0)
-#traceWalk((Field, OddField), 500)
+random.seed(0)
+traceWalk((Field, OddField), 500)
 
