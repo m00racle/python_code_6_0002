@@ -196,7 +196,7 @@ class Robot(object):
     Subclasses of Robot should provide movement strategies by implementing
     update_position_and_clean, which simulates a single time-step.
     """
-    def __init__(self, room, speed, capacity):
+    def __init__(self, room:RectangularRoom, speed:float, capacity:int):
         """
         Initializes a Robot with the given speed and given cleaning capacity in the 
         specified room. The robot initially has a random direction and a random 
@@ -207,20 +207,29 @@ class Robot(object):
         capacity: a positive interger; the amount of dirt cleaned by the robot 
                   in a single time-step
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        self.room = room
+        self.speed = speed
+        self.capacity = capacity
+        # initialize the position in the room
+        # remember the position initialization is in random
+        self.robot_position = room.get_random_position()
+        self.robot_direction = random.randint(0,360)
 
     def get_robot_position(self):
         """
         Returns: a Position object giving the robot's position in the room.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        return self.robot_position
 
     def get_robot_direction(self):
         """
         Returns: a float d giving the direction of the robot as an angle in
         degrees, 0.0 <= d < 360.0.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        return self.robot_direction
 
     def set_robot_position(self, position):
         """
@@ -228,7 +237,8 @@ class Robot(object):
 
         position: a Position object.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        self.robot_position = position
 
     def set_robot_direction(self, direction):
         """
@@ -236,7 +246,8 @@ class Robot(object):
 
         direction: float representing an angle in degrees
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        self.robot_direction = direction
 
     def update_position_and_clean(self):
         """
