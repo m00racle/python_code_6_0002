@@ -107,7 +107,11 @@ class RectangularRoom(object):
         Note: The amount of dirt on each tile should be NON-NEGATIVE.
               If the capacity exceeds the amount of dirt on the tile, mark it as 0.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        # I assume this requires the modification of th dirt_amount in respected tile
+        # return None meaning only modify the self.tiles[(w,h)]
+        current_dirt = self.tiles[(pos.get_x(), pos.get_y())]
+        self.tiles[(pos.get_x(), pos.get_y())] = 0 if current_dirt < capacity else current_dirt - capacity
 
     def is_tile_cleaned(self, m, n):
         """
