@@ -94,7 +94,7 @@ class RectangularRoom(object):
             for h in range(self.height):
                 self.tiles[(w,h)] = dirt_amount
     
-    def clean_tile_at_position(self, pos, capacity):
+    def clean_tile_at_position(self, pos:Position, capacity):
         """
         Mark the tile under the position pos as cleaned by capacity amount of dirt.
 
@@ -110,8 +110,11 @@ class RectangularRoom(object):
         # raise NotImplementedError
         # I assume this requires the modification of th dirt_amount in respected tile
         # return None meaning only modify the self.tiles[(w,h)]
-        current_dirt = self.tiles[(pos.get_x(), pos.get_y())]
-        self.tiles[(pos.get_x(), pos.get_y())] = 0 if current_dirt < capacity else current_dirt - capacity
+        # print(f"pos: {pos}") # debug only
+
+        current_dirt = self.tiles[(int(pos.get_x()), int(pos.get_y()))]
+        # NOTE: pos.get_x and get_y must be converted to int to match the key in the self.tiles dict!!
+        self.tiles[(int(pos.get_x()), int(pos.get_y()))] = 0 if current_dirt < capacity else current_dirt - capacity
 
     def is_tile_cleaned(self, m, n):
         """
@@ -286,7 +289,8 @@ class EmptyRoom(RectangularRoom):
         Returns: a Position object; a valid random position (inside the room).
         """
         # raise NotImplementedError
-        return random.choice(self.tiles.keys())
+        (x_start, y_start) = random.choice(list(self.tiles.keys()))
+        return Position(x_start, y_start)
 
 class FurnishedRoom(RectangularRoom):
     """
@@ -380,10 +384,19 @@ class StandardRobot(Robot):
         rotate once to a random new direction, and stay stationary) and clean the dirt on the tile
         by its given capacity. 
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        current_pos = self.get_robot_position()
+        current_direction = self.get_robot_direction()
+        next_pos = current_pos.get_new_position(current_direction, self.speed)
+        if self.room.is_position_valid(next_pos):
+            self.set_robot_position(next_pos)
+        else:
+            self.set_robot_direction(random.randint(0,360))
+        self.room.clean_tile_at_position(self.get_robot_position(), self.capacity)
+
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-#test_robot_movement(StandardRobot, EmptyRoom)
+test_robot_movement(StandardRobot, EmptyRoom)
 #test_robot_movement(StandardRobot, FurnishedRoom)
 
 # === Problem 4
