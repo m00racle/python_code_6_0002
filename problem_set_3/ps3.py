@@ -356,19 +356,27 @@ class FurnishedRoom(RectangularRoom):
         
         returns: True if pos is in the room and is unfurnished, False otherwise.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        return self.is_position_in_room(pos) and not self.is_position_furnished(pos)
         
     def get_num_tiles(self):
         """
         Returns: an integer; the total number of tiles in the room that can be accessed.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        return len(self.tiles.keys()) - len(self.furniture_tiles)
         
     def get_random_position(self):
         """
         Returns: a Position object; a valid random position (inside the room and not in a furnished area).
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        valid = False
+        while not valid:
+            (x_start, y_start) = random.choice(list(self.tiles.keys()))
+            pos_start = Position(x_start, y_start)
+            valid = self.is_position_valid(pos_start)
+        return pos_start
 
 # === Problem 3
 class StandardRobot(Robot):
@@ -399,8 +407,8 @@ class StandardRobot(Robot):
 
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-test_robot_movement(StandardRobot, EmptyRoom)
-#test_robot_movement(StandardRobot, FurnishedRoom)
+# test_robot_movement(StandardRobot, EmptyRoom)
+test_robot_movement(StandardRobot, FurnishedRoom)
 
 # === Problem 4
 class FaultyRobot(Robot):
