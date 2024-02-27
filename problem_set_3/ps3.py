@@ -140,7 +140,7 @@ class RectangularRoom(object):
         # raise NotImplementedError
         return sum(d == 0 for d in self.tiles.values())
         
-    def is_position_in_room(self, pos):
+    def is_position_in_room(self, pos:Position)->bool:
         """
         Determines if pos is inside the room.
 
@@ -148,7 +148,7 @@ class RectangularRoom(object):
         Returns: True if pos is in the room, False otherwise.
         """
         # raise NotImplementedError
-        return (pos.get_x(), pos.get_y()) in self.tiles
+        return (math.floor(pos.get_x()), math.floor(pos.get_y())) in self.tiles
         
     def get_dirt_amount(self, m, n):
         """
@@ -275,14 +275,15 @@ class EmptyRoom(RectangularRoom):
         # raise NotImplementedError
         return len(self.tiles.keys())
         
-    def is_position_valid(self, pos):
+    def is_position_valid(self, pos:Position)->bool:
         """
         pos: a Position object.
         
         Returns: True if pos is in the room, False otherwise.
         """
         # raise NotImplementedError
-        return pos.get_x() >= 0 and pos.get_x() < self.width and pos.get_y() >= 0 and pos.get_y() < self.height
+        # return pos.get_x() >= 0 and pos.get_x() < self.width and pos.get_y() >= 0 and pos.get_y() < self.height
+        return self.is_position_in_room(pos)
         
     def get_random_position(self):
         """
@@ -333,19 +334,21 @@ class FurnishedRoom(RectangularRoom):
             for j in range(f_bottom_left_y, f_bottom_left_y + furniture_height):
                 self.furniture_tiles.append((i,j))             
 
-    def is_tile_furnished(self, m, n):
+    def is_tile_furnished(self, m:int, n:int) -> bool:
         """
         Return True if tile (m, n) is furnished.
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        return (m, n) in self.furniture_tiles
         
-    def is_position_furnished(self, pos):
+    def is_position_furnished(self, pos:Position) -> bool:
         """
         pos: a Position object.
 
         Returns True if pos is furnished and False otherwise
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        return self.is_tile_furnished(math.floor(pos.get_x()), math.floor(pos.get_y()))
         
     def is_position_valid(self, pos):
         """
