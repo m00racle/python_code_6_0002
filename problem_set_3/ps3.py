@@ -112,9 +112,9 @@ class RectangularRoom(object):
         # return None meaning only modify the self.tiles[(w,h)]
         # print(f"pos: {pos}") # debug only
 
-        current_dirt = self.tiles[(int(pos.get_x()), int(pos.get_y()))]
+        current_dirt = self.tiles[(math.floor(pos.get_x()), math.floor(pos.get_y()))]
         # NOTE: pos.get_x and get_y must be converted to int to match the key in the self.tiles dict!!
-        self.tiles[(int(pos.get_x()), int(pos.get_y()))] = 0 if current_dirt < capacity else current_dirt - capacity
+        self.tiles[(math.floor(pos.get_x()), math.floor(pos.get_y()))] = 0 if current_dirt < capacity else current_dirt - capacity
 
     def is_tile_cleaned(self, m, n):
         """
