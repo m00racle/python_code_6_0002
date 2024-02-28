@@ -408,7 +408,7 @@ class StandardRobot(Robot):
 
 # Uncomment this line to see your implementation of StandardRobot in action!
 # test_robot_movement(StandardRobot, EmptyRoom)
-test_robot_movement(StandardRobot, FurnishedRoom)
+# test_robot_movement(StandardRobot, FurnishedRoom)
 
 # === Problem 4
 class FaultyRobot(Robot):
@@ -448,10 +448,21 @@ class FaultyRobot(Robot):
         StandardRobot at this time-step (checking if it can move to a new position,
         move there if it can, pick a new direction and stay stationary if it can't)
         """
-        raise NotImplementedError
+        # raise NotImplementedError
+        current_pos = self.get_robot_position()
+        current_direction = self.get_robot_direction()
+        next_pos = current_pos.get_new_position(current_direction, self.speed)
+        if self.room.is_position_valid(next_pos):
+            self.set_robot_position(next_pos)
+        else:
+            self.set_robot_direction(random.randint(0,360))
+        
+        # only clean the floor if robot not faulty
+        if not self.gets_faulty():
+            self.room.clean_tile_at_position(self.get_robot_position(), self.capacity)
         
     
-#test_robot_movement(FaultyRobot, EmptyRoom)
+# test_robot_movement(FaultyRobot, EmptyRoom)
 
 # === Problem 5
 def run_simulation(num_robots, speed, capacity, width, height, dirt_amount, min_coverage, num_trials,
