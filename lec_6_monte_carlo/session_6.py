@@ -45,11 +45,12 @@ def playRoulette(game, numSpins, pocket, bet, toPrint):
               str(100*totPocket/numSpins) + '%\n')
     return (totPocket/numSpins)
 
-random.seed(0)
-game = FairRoulette()
-for numSpins in (100, 1000000):
-    for i in range(3):
-        playRoulette(game, numSpins, 2, 1, True)
+# ## run trial Fair Roullete: TODO: uncomment below to run
+# random.seed(0)
+# game = FairRoulette()
+# for numSpins in (100, 1000000):
+#     for i in range(3):
+#         playRoulette(game, numSpins, 2, 1, True)
 
 class EuRoulette(FairRoulette):
     def __init__(self):
@@ -72,21 +73,22 @@ def findPocketReturn(game, numTrials, trialSize, toPrint):
         pocketReturns.append(trialVals)
     return pocketReturns
 
-random.seed(0)
-numTrials = 20
-resultDict = {}
-games = (FairRoulette, EuRoulette, AmRoulette)
-for G in games:
-    resultDict[G().__str__()] = []
-for numSpins in (1000, 10000, 100000, 1000000):
-    print('\nSimulate', numTrials, 'trials of',
-          numSpins, 'spins each')
-    for G in games:
-        pocketReturns = findPocketReturn(G(), numTrials,
-                                         numSpins, False)
-        expReturn = 100*sum(pocketReturns)/len(pocketReturns)
-        print('Exp. return for', G(), '=',
-             str(round(expReturn, 4)) + '%')
+# ## run various Roullete: TODO: uncomment below to run
+# random.seed(0)
+# numTrials = 20
+# resultDict = {}
+# games = (FairRoulette, EuRoulette, AmRoulette)
+# for G in games:
+#     resultDict[G().__str__()] = []
+# for numSpins in (1000, 10000, 100000, 1000000):
+#     print('\nSimulate', numTrials, 'trials of',
+#           numSpins, 'spins each')
+#     for G in games:
+#         pocketReturns = findPocketReturn(G(), numTrials,
+#                                          numSpins, False)
+#         expReturn = 100*sum(pocketReturns)/len(pocketReturns)
+#         print('Exp. return for', G(), '=',
+#              str(round(expReturn, 4)) + '%')
              
 def getMeanAndStd(X):
     mean = sum(X)/float(len(X))
