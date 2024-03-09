@@ -92,6 +92,14 @@ def getMeanAndStd(X):
 
 import scipy.integrate
 
+def gaussian(x, mu, sigma):
+    """  
+    gaussian integral method
+    """
+    factor1 = (1.0/(sigma*((2*pylab.pi)**0.5)))
+    factor2 = pylab.e**-(((x-mu)**2)/(2*sigma**2))
+    return factor1*factor2
+
 def checkEmpirical(numTrials):
   for t in range(numTrials):
      mu = random.randint(-10, 10)
