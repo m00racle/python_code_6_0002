@@ -62,17 +62,18 @@ def getMeanAndStd(X):
 
 # random.seed(1)
 # dist, numSamples = [], 1000000
-# 
+
 # for i in range(numSamples):
 #    dist.append(random.gauss(0, 100))
-#    
+   
 # weights = [1/numSamples]*len(dist)
 # v = pylab.hist(dist, bins = 100,
 #               weights = [1/numSamples]*len(dist))
-# 
+# pylab.show()
+
 # print('Fraction within ~200 of mean =',
 #      sum(v[0][30:70]))
-#
+
 def gaussian(x, mu, sigma):
     """  
     gaussian integral method
