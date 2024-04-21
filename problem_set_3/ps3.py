@@ -486,10 +486,46 @@ def run_simulation(num_robots, speed, capacity, width, height, dirt_amount, min_
     robot_type: class of robot to be instantiated (e.g. StandardRobot or
                 FaultyRobot)
     """
-    raise NotImplementedError
+   
+    # initialize list of run times just called it run_steps =[]
+    run_steps = []
+    
+    # loop 1: for in range of num_trials we run the simulations to acquire run_time each trial
+    for trial in range(num_trials):
+    # NOTE: room and robots are initialized for each trial since there are no reset function on RectangularRoom class
+        # initialize the room (remember only one room): using width, height, dirt amount choose empty room
+        room = EmptyRoom(width, height, dirt_amount)
+
+        # initialize list of robot we called it roombas and the chosen robot is called roomba
+        roombas = []
+
+        # loop but minor for in range num_robots initialize robot each using room, speed, capacity and append it to roombas
+        roombas.append(robot_type(room, speed, capacity))
+        # initialize run_step = 0
+        run_step = 0
+
+        # loop 2: while number_cleaned_tiles / num_tiles < min_coverage :
+        while room.get_num_cleaned_tiles()/room.get_num_tiles() < min_coverage:
+            # increment run step by 1
+            run_step += 1
+
+            # loop 3: for each roomba in roombas:
+            for roomba in roombas:
+                # update their status position and cleaning jobs 
+                roomba.update_position_and_clean()
+                # NOTE: this will also update the room tiles properties on cleaned or not (changing variable)
+        
+            # back to loop 2 while still valid
+        # back to loop 1
+        # append the run_step to the run steps list
+        run_steps.append(run_step)
+        # then loop agai reset room, roombas,. and run_step initial value
+
+    # finish loop back to main return the average on the run_steps list components
+    return sum(run_steps)/len(run_steps)
 
 
-# print ('avg time steps: ' + str(run_simulation(1, 1.0, 1, 5, 5, 3, 1.0, 50, StandardRobot)))
+print ('avg time steps: ' + str(run_simulation(1, 1.0, 1, 5, 5, 3, 1.0, 50, StandardRobot)))
 # print ('avg time steps: ' + str(run_simulation(1, 1.0, 1, 10, 10, 3, 0.8, 50, StandardRobot)))
 # print ('avg time steps: ' + str(run_simulation(1, 1.0, 1, 10, 10, 3, 0.9, 50, StandardRobot)))
 # print ('avg time steps: ' + str(run_simulation(1, 1.0, 1, 20, 20, 3, 0.5, 50, StandardRobot)))
