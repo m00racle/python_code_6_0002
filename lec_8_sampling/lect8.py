@@ -225,12 +225,17 @@ def compareDists():
     plotDiffs(sampleSizes, ediffs,
               'Sample SD vs Population SD',
               'Exponential population', 'r')
-
+"""
+compare distributions
+"""
 # compareDists()  
-#
-#popSizes = (10000, 100000, 1000000)
-#sampleSizes = range(20, 600, 1)
-#for size in popSizes:
+
+"""
+compare multiple population size?
+"""
+# popSizes = (10000, 100000, 1000000)
+# sampleSizes = range(20, 600, 1)
+# for size in popSizes:
 #    population = []
 #    for i in range(size):
 #        population.append(random.expovariate(0.5))
@@ -239,14 +244,18 @@ def compareDists():
 #              'Sample SD vs Population SD, Uniform',
 #              'Population size = ' + str(size))
 
-#temps = getHighs()
-#popMean = sum(temps)/len(temps)
-#sampleSize = 200
-#numTrials = 10000
-#
-#random.seed(0)
-#numBad = 0
-#for t in range(numTrials):
+"""
+this is the last part:
+compare the random sampling to populations
+"""
+# temps = getHighs()
+# popMean = sum(temps)/len(temps)
+# sampleSize = 200
+# numTrials = 10000
+
+# random.seed(0)
+# numBad = 0
+# for t in range(numTrials):
 #    posStartingPts = range(0, len(temps) - sampleSize)
 #    start = random.choice(posStartingPts)
 #    sample = temps[start:start+sampleSize]
@@ -254,16 +263,16 @@ def compareDists():
 #    se = numpy.std(sample)/sampleSize**0.5
 #    if abs(popMean - sampleMean) > 1.96*se:
 #        numBad += 1
-#print('Fraction outside 95% confidence interval =',
+# print('Fraction outside 95% confidence interval =',
 #      numBad/numTrials)
-#
-#random.seed(0)      
-#numBad = 0
-#for t in range(numTrials):
+
+# random.seed(0)      
+# numBad = 0
+# for t in range(numTrials):
 #    sample = random.sample(temps, sampleSize)
 #    sampleMean = sum(sample)/sampleSize
 #    se = numpy.std(sample)/sampleSize**0.5
 #    if abs(popMean - sampleMean) > 1.96*se:
 #        numBad += 1
-#print('Fraction outside 95% confidence interval =',
+# print('Fraction outside 95% confidence interval =',
 #      numBad/numTrials)
