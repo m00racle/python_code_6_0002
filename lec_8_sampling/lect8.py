@@ -1,4 +1,7 @@
-import random, pylab, numpy
+import random, pylab, numpy, os
+
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -27,7 +30,7 @@ def makeHist(data, title, xlabel, ylabel, bins = 20):
     pylab.ylabel(ylabel)
 
 def getHighs():
-    inFile = open('temperatures.csv')
+    inFile = open(os.path.normpath(code_dir + "/temperatures.csv"))
     population = []
     for l in inFile:
         try:
@@ -58,27 +61,27 @@ def getMeansAndSDs(population, sample, verbose = False):
     return popMean, sampleMean,\
            numpy.std(population), numpy.std(sample)
 
-#random.seed(0)         
-#population = getHighs()
-#sample = random.sample(population, 100)
-#getMeansAndSDs(population, sample, True)
+random.seed(0)         
+population = getHighs()
+sample = random.sample(population, 100)
+getMeansAndSDs(population, sample, True)
 
-#random.seed(0) 
-#population = getHighs()
-#sampleSize = 100
-#numSamples = 1000
-#sampleMeans = []
-#for i in range(numSamples):
+# random.seed(0) 
+# population = getHighs()
+# sampleSize = 100
+# numSamples = 1000
+# sampleMeans = []
+# for i in range(numSamples):
 #    sample = random.sample(population, sampleSize)
 #    popMean, sampleMean, popSD, sampleSD =\
 #       getMeansAndSDs(population, sample, verbose = False)
 #    sampleMeans.append(sampleMean)
-#print('Mean of sample Means =',
+# print('Mean of sample Means =',
 #      round(sum(sampleMeans)/len(sampleMeans), 3))
-#print('Standard deviation of sample means =',
+# print('Standard deviation of sample means =',
 #      round(numpy.std(sampleMeans), 3))
-#makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
-#pylab.axvline(x = popMean, color = 'r')
+# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
+# pylab.axvline(x = popMean, color = 'r')
 
 def showErrorBars(population, sizes, numTrials):
     xVals = []
