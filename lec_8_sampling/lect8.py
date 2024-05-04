@@ -23,12 +23,12 @@ pylab.rcParams['lines.markersize'] = 10
 pylab.rcParams['legend.numpoints'] = 1
 
 
-def makeHist(data, title, xlabel, ylabel, bins = 20, show = False):
+def makeHist(data, title, xlabel, ylabel, bins = 20):
     pylab.hist(data, bins = bins)
     pylab.title(title)
     pylab.xlabel(xlabel)
     pylab.ylabel(ylabel)
-    if show : pylab.show()
+    pylab.show()
 
 def getHighs():
     inFile = open(os.path.normpath(code_dir + "/temperatures.csv"))
@@ -48,11 +48,11 @@ def getMeansAndSDs(population, sample, verbose = False):
         makeHist(population,
                  'Daily High 1961-2015, Population\n' +\
                  '(mean = '  + str(round(popMean, 2)) + ')',
-                 'Degrees C', 'Number Days', show=verbose)
+                 'Degrees C', 'Number Days')
         pylab.figure()
         makeHist(sample, 'Daily High 1961-2015, Sample\n' +\
                  '(mean = ' + str(round(sampleMean, 2)) + ')',
-                 'Degrees C', 'Number Days', show=verbose)   
+                 'Degrees C', 'Number Days')   
         print('Population mean =', popMean)
         print('Standard deviation of population =',
               numpy.std(population))
@@ -89,7 +89,7 @@ already verbose
 #      round(sum(sampleMeans)/len(sampleMeans), 3))
 # print('Standard deviation of sample means =',
 #      round(numpy.std(sampleMeans), 3))
-# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency', show = True)
+# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
 # pylab.axvline(x = popMean, color = 'r')
 
 def showErrorBars(population, sizes, numTrials):
@@ -162,7 +162,11 @@ def plotDistributions():
     pylab.figure()
     makeHist(exp, 'Exponential', 'Value', 'Frequency')
 
-plotDistributions()
+"""
+this is the main problems that the many plots kept showing up!!
+I will deactivate it for now
+"""
+# plotDistributions()
 
 def getDiffs(population, sampleSizes):
     popStd = numpy.std(population)
