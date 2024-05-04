@@ -62,7 +62,10 @@ def getMeanAndStd(X):
 
 # random.seed(1)
 # dist, numSamples = [], 1000000
-
+# """
+# 	basically this part just proving the random.gauss library
+#     uses normal distribution to generate its 'random' numbers
+# """
 # for i in range(numSamples):
 #    dist.append(random.gauss(0, 100))
    
@@ -70,7 +73,13 @@ def getMeanAndStd(X):
 # v = pylab.hist(dist, bins = 100,
 #               weights = [1/numSamples]*len(dist))
 # pylab.show()
-
+# """
+# print('Fraction within ~200 of mean =', sum(v[0][30:70])):
+# v[0]: Accesses the first element of the output from pylab.hist, which contains the counts for each bin.
+# [30:70]: Slices the counts array to get the values between bins 30 and 69 (inclusive). These bins represent values roughly within 200 of the mean (0) based on the standard deviation (100).
+# sum(): Calculates the sum of the counts within the specified range.
+# The final output prints the fraction of data points that fall within approximately 200 of the mean in the generated normal distribution.
+# """
 # print('Fraction within ~200 of mean =',
 #      sum(v[0][30:70]))
 
@@ -82,7 +91,11 @@ def gaussian(x, mu, sigma):
     factor2 = pylab.e**-(((x-mu)**2)/(2*sigma**2))
     return factor1*factor2
 
-
+# """
+# this is basically just run the gaussian function above
+# this will plot the gaussian / normal distribution peak curve
+# no real data here just plotting
+# """
 # xVals, yVals = [], []
 # mu, sigma = 0, 1
 # x = -4
@@ -96,10 +109,10 @@ def gaussian(x, mu, sigma):
 # pylab.show()
 
 
-import scipy.integrate
+# import scipy.integrate
 
 
-## Test Check empirical (uncomment)
+# # Test Check empirical (uncomment)
 # def checkEmpirical(numTrials):
 #   for t in range(numTrials):
 #      mu = random.randint(-10, 10)
