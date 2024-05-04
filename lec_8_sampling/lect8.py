@@ -194,10 +194,14 @@ def plotDiffs(sampleSizes, diffs, title, label, color = 'b'):
     pylab.ylabel('% Difference in SD')
     pylab.title(title)
     pylab.legend()
+    pylab.show()
 
-#sampleSizes = range(20, 600, 1)
-#diffs = getDiffs(getHighs(), sampleSizes)
-#plotDiffs(sampleSizes, diffs,
+"""
+5. trial plot diffs
+"""
+# sampleSizes = range(20, 600, 1)
+# diffs = getDiffs(getHighs(), sampleSizes)
+# plotDiffs(sampleSizes, diffs,
 #          'Sample SD vs Population SD, Temperatures',
 #          label = 'High temps')
 
@@ -222,7 +226,7 @@ def compareDists():
               'Sample SD vs Population SD',
               'Exponential population', 'r')
 
-#compareDists()  
+# compareDists()  
 #
 #popSizes = (10000, 100000, 1000000)
 #sampleSizes = range(20, 600, 1)
