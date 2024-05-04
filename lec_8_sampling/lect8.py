@@ -23,12 +23,12 @@ pylab.rcParams['lines.markersize'] = 10
 pylab.rcParams['legend.numpoints'] = 1
 
 
-def makeHist(data, title, xlabel, ylabel, bins = 20):
+def makeHist(data, title, xlabel, ylabel, bins = 20, show = False):
     pylab.hist(data, bins = bins)
     pylab.title(title)
     pylab.xlabel(xlabel)
     pylab.ylabel(ylabel)
-    pylab.show()
+    if show : pylab.show()
 
 def getHighs():
     inFile = open(os.path.normpath(code_dir + "/temperatures.csv"))
@@ -48,11 +48,11 @@ def getMeansAndSDs(population, sample, verbose = False):
         makeHist(population,
                  'Daily High 1961-2015, Population\n' +\
                  '(mean = '  + str(round(popMean, 2)) + ')',
-                 'Degrees C', 'Number Days')
+                 'Degrees C', 'Number Days', show=verbose)
         pylab.figure()
         makeHist(sample, 'Daily High 1961-2015, Sample\n' +\
                  '(mean = ' + str(round(sampleMean, 2)) + ')',
-                 'Degrees C', 'Number Days')   
+                 'Degrees C', 'Number Days', show=verbose)   
         print('Population mean =', popMean)
         print('Standard deviation of population =',
               numpy.std(population))
@@ -89,7 +89,7 @@ already verbose
 #      round(sum(sampleMeans)/len(sampleMeans), 3))
 # print('Standard deviation of sample means =',
 #      round(numpy.std(sampleMeans), 3))
-# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
+# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency', show = True)
 # pylab.axvline(x = popMean, color = 'r')
 
 def showErrorBars(population, sizes, numTrials):
@@ -116,10 +116,14 @@ def showErrorBars(population, sizes, numTrials):
     pylab.axhline(y = popMean, color ='r', label = 'Population Mean')
     pylab.xlim(0, sizes[-1] + 10)
     pylab.legend()
+    pylab.show()
 
-#random.seed(0)
-#population = getHighs()   
-#showErrorBars(population,
+"""
+3. run show errorbars
+"""
+# random.seed(0)
+# population = getHighs()   
+# showErrorBars(population,
 #              (50, 100, 200, 300, 400, 500, 600), 100)
 
 def sem(popSD, sampleSize):
