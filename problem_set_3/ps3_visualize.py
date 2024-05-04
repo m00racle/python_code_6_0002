@@ -8,8 +8,11 @@ import math
 import time
 
 from tkinter import *
+# tkinter is included in Python so no pipenv install is needed
 import matplotlib
 matplotlib.use('TkAgg')
+
+# no imp module is used here also
 
 class RobotVisualization:
     def __init__(self, num_robots, width, height, furniture_tiles, delay = 0.2):

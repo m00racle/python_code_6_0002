@@ -1,6 +1,7 @@
 # 6.0002 Problem Set 3:
 # Edited Fall 2016
 
+# most likely this is to accomodate older programmer which stil uses Python 2.7x
 import math
 import random
 import ps3_visualize
