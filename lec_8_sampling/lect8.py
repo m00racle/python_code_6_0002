@@ -168,7 +168,10 @@ def plotDistributions():
 
 """
 this is the main problems that the many plots kept showing up!!
-I will deactivate it for now
+basically this will shows histograms on various distributions
+- uniform
+- gaussian
+- exponential
 """
 # plotDistributions()
 
