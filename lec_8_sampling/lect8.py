@@ -89,8 +89,10 @@ already verbose
 #      round(sum(sampleMeans)/len(sampleMeans), 3))
 # print('Standard deviation of sample means =',
 #      round(numpy.std(sampleMeans), 3))
-# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
 # pylab.axvline(x = popMean, color = 'r')
+# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
+
+
 
 def showErrorBars(population, sizes, numTrials):
     xVals = []
