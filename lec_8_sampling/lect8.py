@@ -28,6 +28,7 @@ def makeHist(data, title, xlabel, ylabel, bins = 20):
     pylab.title(title)
     pylab.xlabel(xlabel)
     pylab.ylabel(ylabel)
+    pylab.show()
 
 def getHighs():
     inFile = open(os.path.normpath(code_dir + "/temperatures.csv"))
@@ -61,11 +62,19 @@ def getMeansAndSDs(population, sample, verbose = False):
     return popMean, sampleMean,\
            numpy.std(population), numpy.std(sample)
 
-random.seed(0)         
-population = getHighs()
-sample = random.sample(population, 100)
-getMeansAndSDs(population, sample, True)
+"""
+1. trial to run to prove that you can open temperature.csv
+then you can getMeanAndSDs which not need to print since it is 
+already verbose
+"""
+# random.seed(0)         
+# population = getHighs()
+# sample = random.sample(population, 100)
+# getMeansAndSDs(population, sample, True)
 
+"""
+2. Make histogram plots of the data from temperatures.csv data 
+"""
 # random.seed(0) 
 # population = getHighs()
 # sampleSize = 100
