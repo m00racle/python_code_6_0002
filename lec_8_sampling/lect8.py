@@ -228,12 +228,22 @@ def compareDists():
               'Sample SD vs Population SD',
               'Exponential population', 'r')
 """
-compare distributions
+6. compare distributions plots to prove does distribution affect 
+the standard deviation for population vs sample?
+distribution : uniform, normal, exponential 
 """
-# compareDists()  
+# compareDists()
 
 """
-compare multiple population size?
+7. compare multiple population size and its effect to 
+difference on standard deviation between population to sampling
+population is formed using random simulation according to exponent distribution
+(with population size: 10000, 100000, 1000000)
+
+Then from each population size we take sampling from 20 <= i < 600 with increment 1
+this is the x axis
+
+what we compare is each curves for population size 10000, 100000, and 1000000
 """
 # popSizes = (10000, 100000, 1000000)
 # sampleSizes = range(20, 600, 1)
@@ -246,9 +256,10 @@ compare multiple population size?
 #              'Sample SD vs Population SD, Uniform',
 #              'Population size = ' + str(size))
 
+
 """
-this is the last part:
-compare the random sampling to populations
+8. Does 200 sample enough to perform mean and standard deviation sampling
+of a population of temperatures?
 """
 # temps = getHighs()
 # popMean = sum(temps)/len(temps)
