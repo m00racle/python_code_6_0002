@@ -77,7 +77,7 @@ def make_two_curve_plot(x_coords,
 ##########################
 # PROBLEM 1
 ##########################
-
+random.seed(0) # for debug purposes.
 class SimpleBacteria(object):
     """A simple bacteria cell with no antibiotic resistance"""
 
@@ -88,7 +88,9 @@ class SimpleBacteria(object):
                 probability
             death_prob (float in [0, 1]): Maximum death probability
         """
-        pass  # TODO
+        # pass  # TODO
+        self.birth_prob = birth_prob
+        self.death_prob = death_prob
 
     def is_killed(self):
         """
@@ -99,7 +101,8 @@ class SimpleBacteria(object):
         Returns:
             bool: True with probability self.death_prob, False otherwise.
         """
-        pass  # TODO
+        # pass  # TODO
+        return random.random() <= self.death_prob
 
     def reproduce(self, pop_density):
         """
