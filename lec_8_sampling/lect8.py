@@ -1,4 +1,7 @@
-import random, pylab, numpy
+import random, pylab, numpy, os
+
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -25,9 +28,10 @@ def makeHist(data, title, xlabel, ylabel, bins = 20):
     pylab.title(title)
     pylab.xlabel(xlabel)
     pylab.ylabel(ylabel)
+    pylab.show()
 
 def getHighs():
-    inFile = open('temperatures.csv')
+    inFile = open(os.path.normpath(code_dir + "/temperatures.csv"))
     population = []
     for l in inFile:
         try:
@@ -58,27 +62,37 @@ def getMeansAndSDs(population, sample, verbose = False):
     return popMean, sampleMean,\
            numpy.std(population), numpy.std(sample)
 
-#random.seed(0)         
-#population = getHighs()
-#sample = random.sample(population, 100)
-#getMeansAndSDs(population, sample, True)
+"""
+1. trial to run to prove that you can open temperature.csv
+then you can getMeanAndSDs which not need to print since it is 
+already verbose
+"""
+# random.seed(0)         
+# population = getHighs()
+# sample = random.sample(population, 100)
+# getMeansAndSDs(population, sample, True)
 
-#random.seed(0) 
-#population = getHighs()
-#sampleSize = 100
-#numSamples = 1000
-#sampleMeans = []
-#for i in range(numSamples):
+"""
+2. Make histogram plots of the data from temperatures.csv data 
+"""
+# random.seed(0) 
+# population = getHighs()
+# sampleSize = 100
+# numSamples = 1000
+# sampleMeans = []
+# for i in range(numSamples):
 #    sample = random.sample(population, sampleSize)
 #    popMean, sampleMean, popSD, sampleSD =\
 #       getMeansAndSDs(population, sample, verbose = False)
 #    sampleMeans.append(sampleMean)
-#print('Mean of sample Means =',
+# print('Mean of sample Means =',
 #      round(sum(sampleMeans)/len(sampleMeans), 3))
-#print('Standard deviation of sample means =',
+# print('Standard deviation of sample means =',
 #      round(numpy.std(sampleMeans), 3))
-#makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
-#pylab.axvline(x = popMean, color = 'r')
+# pylab.axvline(x = popMean, color = 'r')
+# makeHist(sampleMeans, 'Means of Samples', 'Mean', 'Frequency')
+
+
 
 def showErrorBars(population, sizes, numTrials):
     xVals = []
@@ -104,35 +118,43 @@ def showErrorBars(population, sizes, numTrials):
     pylab.axhline(y = popMean, color ='r', label = 'Population Mean')
     pylab.xlim(0, sizes[-1] + 10)
     pylab.legend()
+    pylab.show()
 
-#random.seed(0)
-#population = getHighs()   
-#showErrorBars(population,
+"""
+3. run show errorbars
+"""
+# random.seed(0)
+# population = getHighs()   
+# showErrorBars(population,
 #              (50, 100, 200, 300, 400, 500, 600), 100)
 
 def sem(popSD, sampleSize):
     return popSD/sampleSize**0.5
 
-#sampleSizes = (25, 50, 100, 200, 300, 400, 500, 600)
-#numTrials = 50
-#population = getHighs()
-#popSD = numpy.std(population)
-#sems = []
-#sampleSDs = []
-#for size in sampleSizes:
+"""
+4. plot the sem
+"""
+# sampleSizes = (25, 50, 100, 200, 300, 400, 500, 600)
+# numTrials = 50
+# population = getHighs()
+# popSD = numpy.std(population)
+# sems = []
+# sampleSDs = []
+# for size in sampleSizes:
 #    sems.append(sem(popSD, size))
 #    means = []
 #    for t in range(numTrials):
 #        sample = random.sample(population, size)
 #        means.append(sum(sample)/len(sample))
 #    sampleSDs.append(numpy.std(means))
-#pylab.plot(sampleSizes, sampleSDs,
+# pylab.plot(sampleSizes, sampleSDs,
 #           label = 'Std of ' + str(numTrials) + ' means')
-#pylab.plot(sampleSizes, sems, 'r--', label = 'SEM')
-#pylab.xlabel('Sample Size')
-#pylab.ylabel('Std and SEM')
-#pylab.title('SD for ' + str(numTrials) + ' Means and SEM')
-#pylab.legend()
+# pylab.plot(sampleSizes, sems, 'r--', label = 'SEM')
+# pylab.xlabel('Sample Size')
+# pylab.ylabel('Std and SEM')
+# pylab.title('SD for ' + str(numTrials) + ' Means and SEM')
+# pylab.legend()
+# pylab.show()
 
 def plotDistributions():
     uniform, normal, exp = [], [], []
@@ -146,7 +168,14 @@ def plotDistributions():
     pylab.figure()
     makeHist(exp, 'Exponential', 'Value', 'Frequency')
 
-plotDistributions()
+"""
+this is the main problems that the many plots kept showing up!!
+basically this will shows histograms on various distributions
+- uniform
+- gaussian
+- exponential
+"""
+# plotDistributions()
 
 def getDiffs(population, sampleSizes):
     popStd = numpy.std(population)
@@ -167,10 +196,14 @@ def plotDiffs(sampleSizes, diffs, title, label, color = 'b'):
     pylab.ylabel('% Difference in SD')
     pylab.title(title)
     pylab.legend()
+    pylab.show()
 
-#sampleSizes = range(20, 600, 1)
-#diffs = getDiffs(getHighs(), sampleSizes)
-#plotDiffs(sampleSizes, diffs,
+"""
+5. trial plot diffs
+"""
+# sampleSizes = range(20, 600, 1)
+# diffs = getDiffs(getHighs(), sampleSizes)
+# plotDiffs(sampleSizes, diffs,
 #          'Sample SD vs Population SD, Temperatures',
 #          label = 'High temps')
 
@@ -194,12 +227,27 @@ def compareDists():
     plotDiffs(sampleSizes, ediffs,
               'Sample SD vs Population SD',
               'Exponential population', 'r')
+"""
+6. compare distributions plots to prove does distribution affect 
+the standard deviation for population vs sample?
+distribution : uniform, normal, exponential 
+"""
+# compareDists()
 
-#compareDists()  
-#
-#popSizes = (10000, 100000, 1000000)
-#sampleSizes = range(20, 600, 1)
-#for size in popSizes:
+"""
+7. compare multiple population size and its effect to 
+difference on standard deviation between population to sampling
+population is formed using random simulation according to exponent distribution
+(with population size: 10000, 100000, 1000000)
+
+Then from each population size we take sampling from 20 <= i < 600 with increment 1
+this is the x axis
+
+what we compare is each curves for population size 10000, 100000, and 1000000
+"""
+# popSizes = (10000, 100000, 1000000)
+# sampleSizes = range(20, 600, 1)
+# for size in popSizes:
 #    population = []
 #    for i in range(size):
 #        population.append(random.expovariate(0.5))
@@ -208,14 +256,19 @@ def compareDists():
 #              'Sample SD vs Population SD, Uniform',
 #              'Population size = ' + str(size))
 
-#temps = getHighs()
-#popMean = sum(temps)/len(temps)
-#sampleSize = 200
-#numTrials = 10000
-#
-#random.seed(0)
-#numBad = 0
-#for t in range(numTrials):
+
+"""
+8. Does 200 sample enough to perform mean and standard deviation sampling
+of a population of temperatures?
+"""
+# temps = getHighs()
+# popMean = sum(temps)/len(temps)
+# sampleSize = 200
+# numTrials = 10000
+
+# random.seed(0)
+# numBad = 0
+# for t in range(numTrials):
 #    posStartingPts = range(0, len(temps) - sampleSize)
 #    start = random.choice(posStartingPts)
 #    sample = temps[start:start+sampleSize]
@@ -223,16 +276,16 @@ def compareDists():
 #    se = numpy.std(sample)/sampleSize**0.5
 #    if abs(popMean - sampleMean) > 1.96*se:
 #        numBad += 1
-#print('Fraction outside 95% confidence interval =',
+# print('Fraction outside 95% confidence interval =',
 #      numBad/numTrials)
-#
-#random.seed(0)      
-#numBad = 0
-#for t in range(numTrials):
+
+# random.seed(0)      
+# numBad = 0
+# for t in range(numTrials):
 #    sample = random.sample(temps, sampleSize)
 #    sampleMean = sum(sample)/sampleSize
 #    se = numpy.std(sample)/sampleSize**0.5
 #    if abs(popMean - sampleMean) > 1.96*se:
 #        numBad += 1
-#print('Fraction outside 95% confidence interval =',
+# print('Fraction outside 95% confidence interval =',
 #      numBad/numTrials)
