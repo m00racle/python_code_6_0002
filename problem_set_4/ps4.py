@@ -7,7 +7,7 @@ import math
 import numpy as np
 import pylab as pl
 import random
-
+random.seed(0) # for debug purposes.
 
 ##########################
 # End helper code
@@ -77,7 +77,7 @@ def make_two_curve_plot(x_coords,
 ##########################
 # PROBLEM 1
 ##########################
-random.seed(0) # for debug purposes.
+
 class SimpleBacteria(object):
     """A simple bacteria cell with no antibiotic resistance"""
 
@@ -130,7 +130,11 @@ class SimpleBacteria(object):
         Raises:
             NoChildException if this bacteria cell does not reproduce.
         """
-        pass  # TODO
+        # pass  # TODO
+        if random.random() <= self.birth_prob * (1 - pop_density):
+            return SimpleBacteria(self.birth_prob, self.death_prob)
+        else:
+            raise NoChildException()
 
 
 class Patient(object):
