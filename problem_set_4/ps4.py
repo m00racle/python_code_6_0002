@@ -149,7 +149,9 @@ class Patient(object):
             max_pop (int): Maximum possible bacteria population size for
                 this patient
         """
-        pass  # TODO
+        # pass  # TODO
+        self.bacteria = bacteria
+        self.max_pop = max_pop
 
     def get_total_pop(self):
         """
@@ -158,7 +160,8 @@ class Patient(object):
         Returns:
             int: The total bacteria population
         """
-        pass  # TODO
+        # pass  # TODO
+        return len(self.bacteria)
 
     def update(self):
         """
@@ -184,8 +187,30 @@ class Patient(object):
         Returns:
             int: The total bacteria population at the end of the update
         """
-        pass  # TODO
+        # pass  # TODO
+        # 1. determine wheter each cell dies 
+        survived_bacteria = []
+        for cell in self.bacteria:
+            if cell.is_killed():
+                # pass the bacteria
+                continue
+            # is not killed put into the new survived bacteria list
+            survived_bacteria.append(cell)
+        # 2. calculate current pop density
+        pop_density = len(survived_bacteria)/self.max_pop
+        # 3. try reproduce
+        offspring_bacteria = []
+        for cell in survived_bacteria:
+            try:
+                offspring_bacteria.append(cell.reproduce(pop_density))
+            except NoChildException:
+                # just pass it to the next cell
+                continue
+        # reassign survived and offspring to self.bacteria
+        self.bacteria = survived_bacteria + offspring_bacteria
 
+        return len(self.bacteria)
+        
 
 ##########################
 # PROBLEM 2
