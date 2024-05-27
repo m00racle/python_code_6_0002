@@ -512,7 +512,25 @@ class TreatedPatient(Patient):
         Returns:
             int: The total bacteria population at the end of the update
         """
-        pass  # TODO
+        # pass  # TODO
+        survived_bacterias = []
+        for cell in self.bacteria:
+            if cell.is_killed():
+                continue
+            if self.on_antibiotic and not cell.get_resistant():
+                # bacteria dies so pass it on the survived list
+                continue
+            survived_bacterias.append(cell)
+        pop_density = len(survived_bacterias)/self.max_pop
+        offsrpings = []
+        for cell in survived_bacterias:
+            try:
+                offsrpings.append(cell.reproduce(pop_density))
+            except NoChildException:
+                continue
+        # combine all survived and offsprings bacterias
+        self.bacteria = survived_bacterias + offsrpings
+        return len(self.bacteria)
 
 
 ##########################
