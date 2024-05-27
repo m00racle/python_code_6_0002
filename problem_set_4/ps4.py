@@ -322,7 +322,14 @@ def calc_pop_std(populations, t):
         float: the standard deviation of populations across different trials at
              a specific time step
     """
-    pass  # TODO
+    # pass  # TODO
+    pop_avg = calc_pop_avg(populations, t)
+    # list all variance for each trial at the time step t:
+    var_at_time = []
+    for trial in populations:
+        var_at_time.append((trial[t] - pop_avg)**2)
+    
+    return math.sqrt(sum(var_at_time)/len(var_at_time))
 
 
 def calc_95_ci(populations, t):
@@ -346,7 +353,8 @@ def calc_95_ci(populations, t):
 
         I.e., you should return a tuple containing (mean, width)
     """
-    pass  # TODO
+    # pass  # TODO
+    return (calc_pop_avg(populations, t), 1.96*calc_pop_std(populations,t)/math.sqrt(len(populations)))
 
 
 ##########################
