@@ -279,7 +279,10 @@ def simulation_without_antibiotic(num_bacteria,
         # patient
         patient = Patient(bacterias, max_pop)
         for run in range(300):
-            
+            if run == 0 :
+                # append initial population
+                trial_pop.append(patient.get_total_pop())
+                continue
             trial_pop.append(patient.update())
         populations.append(trial_pop)
     # plotting the average bacteria population size
