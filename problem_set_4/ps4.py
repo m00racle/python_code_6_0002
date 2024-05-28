@@ -584,7 +584,30 @@ def simulation_with_antibiotic(num_bacteria,
             resistant_pop[i][j] is the number of resistant bacteria for
             trial i at time step j
     """
-    pass  # TODO
+    # pass  # TODO
+    populations = []
+    resistant_pop = []
+    for x in num_trials:
+        # prepare list of bacteria:
+        bacterias = []
+        for i in num_bacteria:
+            bacterias.append(ResistantBacteria(birth_prob, death_prob, resistant, mut_prob))
+        # patient
+        patient = TreatedPatient(bacterias, max_pop)
+        # total bacteria populations over step:
+        tot_pop = []
+        # total resistant bacteria population over step
+        tot_res = []
+        # simulate time steps
+        # 1 phase 150 steps patient not vaccinated
+        for t1 in range(150):
+            if t1 == 0:
+                tot_pop.append(patient.get_total_pop())
+                tot_res.append(patient.get_resist_pop())
+                continue
+            tot_pop.append(patient.update())
+            tot_res.append(patient.get_resist_pop())
+        # TODO the 2nd phase PATIENT VACCINATED! remember time steps continues!!
 
 
 # When you are ready to run the simulations, uncomment the next lines one
