@@ -378,9 +378,9 @@ class ResistantBacteria(SimpleBacteria):
                 offspring acquiring antibiotic resistance
         """
         # pass  # TODO
-        super().__init__(birth_prob,death_prob)
         self.resistant = resistant
         self.mut_prob = mut_prob
+        super().__init__(birth_prob,death_prob)
 
     def get_resistant(self):
         """Returns whether the bacteria has antibiotic resistance"""
@@ -400,8 +400,8 @@ class ResistantBacteria(SimpleBacteria):
                 and False otherwise.
         """
         # pass  # TODO
-        if self.get_resistant:
-            super().is_killed()
+        if self.resistant:
+            return super().is_killed()
         else:
             return random.random() <= self.death_prob/4
         
@@ -441,7 +441,10 @@ class ResistantBacteria(SimpleBacteria):
             if random.random() <= self.mut_prob * (1 - pop_density):
                 # return resistant bacteria regardless the parent
                 return ResistantBacteria(self.birth_prob, self.death_prob, True, self.mut_prob)
+            # otherwise return new Resistent bacteria but with the parent resistent status
             return ResistantBacteria(self.birth_prob, self.death_prob, self.resistant, self.mut_prob)
+        else:
+            raise NoChildException
 
 
 class TreatedPatient(Patient):
@@ -567,7 +570,8 @@ def simulation_with_antibiotic(num_bacteria,
         num_bacteria (int): number of ResistantBacteria to create for
             the patient
         max_pop (int): maximum bacteria population for patient
-        birth_prob (float int [0-1]): reproduction probability
+        birth_prob
+          (float int [0-1]): reproduction probability
         death_prob (float in [0, 1]): probability of a bacteria cell dying
         resistant (bool): whether the bacteria initially have
             antibiotic resistance
@@ -584,18 +588,70 @@ def simulation_with_antibiotic(num_bacteria,
             resistant_pop[i][j] is the number of resistant bacteria for
             trial i at time step j
     """
-    pass  # TODO
+    # pass  # TODO
+    populations = []
+    resistant_pop = []
+    for x in range(num_trials):
+         # total bacteria populations over step:
+        tot_pop = []
+        # total resistant bacteria population over step
+        tot_res = []
+        # prepare list of bacteria:
+        bacterias = []
+        for i in range(num_bacteria):
+            bacterias.append(ResistantBacteria(birth_prob, death_prob, resistant, mut_prob))
+        # patient
+        patient = TreatedPatient(bacterias, max_pop)
+       
+        # simulate time steps
+        
+        for t in range(400):
+            if t == 0:
+                tot_pop.append(patient.get_total_pop())
+                tot_res.append(patient.get_resist_pop())
+                continue
+            if t == 150:
+                # at step 150 we administer antibiotic and then update the treated patient
+                patient.set_on_antibiotic()
+            
+            tot_pop.append(patient.update())
+            tot_res.append(patient.get_resist_pop())
+        populations.append(tot_pop)
+        resistant_pop.append(tot_res)
+    
+    # plot the average bacteria populations sizefor both total and resist bacterias
+    # list of average total population bacterias per step:
+    y1_values = []
+    # list of averge total resistant bacterias per step
+    y2_values = []
+    # list of x coordinates which is time steps
+    x_values = []
+    y_name1 = "all bacterias"
+    y_name2 = "resistant bacterias"
+    x_label = "time step"
+    y_label = "populations"
+    title = "bacteria populations vs time step of vaccinated patient"
+    # fill the coordinates
+    for n in range(400):
+        x_values.append(n)
+        y1_values.append(calc_pop_avg(populations, n))
+        y2_values.append(calc_pop_avg(resistant_pop, n))
+    # plot the data
+    make_two_curve_plot(x_values,y1_values, y2_values, y_name1, y_name2, x_label, y_label, title)
+
+    return (populations, resistant_pop)
+
 
 
 # When you are ready to run the simulations, uncomment the next lines one
 # at a time
-# total_pop, resistant_pop = simulation_with_antibiotic(num_bacteria=100,
-#                                                       max_pop=1000,
-#                                                       birth_prob=0.3,
-#                                                       death_prob=0.2,
-#                                                       resistant=False,
-#                                                       mut_prob=0.8,
-#                                                       num_trials=50)
+total_pop, resistant_pop = simulation_with_antibiotic(num_bacteria=100,
+                                                      max_pop=1000,
+                                                      birth_prob=0.3,
+                                                      death_prob=0.2,
+                                                      resistant=False,
+                                                      mut_prob=0.8,
+                                                      num_trials=50)
 
 # total_pop, resistant_pop = simulation_with_antibiotic(num_bacteria=100,
 #                                                       max_pop=1000,
