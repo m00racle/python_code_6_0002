@@ -7,7 +7,9 @@ Created on Mon Sep 19 11:45:20 2016
 Modified: egrimson
 """
 
-import random, pylab, numpy
+import random, pylab, numpy, os
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -29,7 +31,7 @@ pylab.rcParams['lines.markersize'] = 10
 pylab.rcParams['legend.numpoints'] = 1
 
 def getData(fileName):
-    dataFile = open(fileName, 'r')
+    dataFile = open(os.path.normpath(code_dir + '/' + fileName), 'r')
     distances = []
     masses = []
     dataFile.readline() #discard header
@@ -87,8 +89,9 @@ def fitData1(fileName):
                label = 'Linear fit, k = '
                + str(round(1/model[0], 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
 
-#fitData1('springData.txt')
+# fitData1('springData.txt')
 
 #Demonstration using mystery data
 
