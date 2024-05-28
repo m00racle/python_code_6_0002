@@ -55,6 +55,10 @@ def plotData(fileName):
     pylab.plot(xVals, yVals, 'bo',
                label = 'Measured displacements')
     labelPlot()
+    pylab.show()
+
+# test plotting raw data from spring data:
+# plotData('springData.txt')
     
 def fitData(fileName):
     xVals, yVals = getData(fileName)
@@ -71,8 +75,10 @@ def fitData(fileName):
                label = 'Linear fit, k = '
                + str(round(1/a, 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
     
-#fitData('springData.txt')
+# fitting data least square polyfit on spring data:
+# fitData('springData.txt')
 
    
 def fitData1(fileName):
@@ -91,6 +97,7 @@ def fitData1(fileName):
     pylab.legend(loc = 'best')
     pylab.show()
 
+# fitting using pylab polyval on spring data:
 # fitData1('springData.txt')
 
 #Demonstration using mystery data
