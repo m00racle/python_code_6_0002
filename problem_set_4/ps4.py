@@ -639,6 +639,10 @@ def simulation_with_antibiotic(num_bacteria,
     # plot the data
     make_two_curve_plot(x_values,y1_values, y2_values, y_name1, y_name2, x_label, y_label, title)
 
+    # print 95% confidence intervals for total and resistant bacterias population at n = 299
+    print(f"95% confidence interval total population = {calc_95_ci(populations, 299)}")
+    print(f"95% confidence interval resistant population = {calc_95_ci(resistant_pop, 299)}")
+
     return (populations, resistant_pop)
 
 
