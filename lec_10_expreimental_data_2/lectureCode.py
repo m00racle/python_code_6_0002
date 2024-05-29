@@ -134,27 +134,27 @@ def genNoisyParabolicData(a, b, c, xVals, fName):
         theoreticalVal = a*x**2 + b*x + c
         yVals.append(theoreticalVal\
         + random.gauss(0, 35))
-    f = open(fName,'w')
+    f = open(os.path.normpath(code_dir + '/' + fName),'w')
     f.write('x        y\n')
     for i in range(len(yVals)):
         f.write(str(yVals[i]) + ' ' + str(xVals[i]) + '\n')
     f.close()
     
 ##parameters for generating data
-#xVals = range(-10, 11, 1)
-#a, b, c = 3.0, 0.0, 0.0
-#degrees = (2, 4, 8, 16)
-#
-##generate data
-#random.seed(0)
-#genNoisyParabolicData(a, b, c, xVals,
+# xVals = range(-10, 11, 1)
+# a, b, c = 3.0, 0.0, 0.0
+# degrees = (2, 4, 8, 16)
+
+# #generate data
+# random.seed(0)
+# genNoisyParabolicData(a, b, c, xVals,
 #                      'Dataset 1.txt')
-#genNoisyParabolicData(a, b, c, xVals,
+# genNoisyParabolicData(a, b, c, xVals,
 #                      'Dataset 2.txt')
-#
-#xVals1, yVals1 = getData('Dataset 1.txt')
-#models1 = genFits(xVals1, yVals1, degrees)
-#testFits(models1, degrees, xVals1, yVals1,
+
+# xVals1, yVals1 = getData('Dataset 1.txt')
+# models1 = genFits(xVals1, yVals1, degrees)
+# testFits(models1, degrees, xVals1, yVals1,
 #        'DataSet 1.txt')
 #
 #pylab.figure()
