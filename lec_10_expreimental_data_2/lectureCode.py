@@ -5,7 +5,9 @@ Created on Mon Sep 19 11:45:20 2016
 @author: johnguttag
 """
 
-import random, pylab, numpy
+import random, pylab, numpy, os
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -27,7 +29,7 @@ pylab.rcParams['lines.markersize'] = 10
 pylab.rcParams['legend.numpoints'] = 1
 
 def getData(fileName):
-    dataFile = open(fileName, 'r')
+    dataFile = open(os.path.normpath(code_dir + '/' + fileName), 'r')
     distances = []
     masses = []
     dataFile.readline() #discard header
@@ -67,8 +69,9 @@ def fitData(fileName):
                label = 'Linear fit, k = '
                + str(round(1/a, 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
     
-#fitData('springData.txt')
+# fitData('springData.txt')
 
    
 def fitData1(fileName):
@@ -85,8 +88,9 @@ def fitData1(fileName):
                label = 'Linear fit, k = '
                + str(round(1/model[0], 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
 
-
+# fitData1('springData.txt')
 
 def rSquared(observed, predicted):
     error = ((predicted - observed)**2).sum()
@@ -111,11 +115,12 @@ def testFits(models, degrees, xVals, yVals, title):
                    + ', R2 = ' + str(round(error, 5)))
     pylab.legend(loc = 'best')
     pylab.title(title)
+    pylab.show()
 
-#xVals, yVals = getData('mysteryData.txt')
-#degrees = (1, 2)
-#models = genFits(xVals, yVals, degrees)
-#testFits(models, degrees, xVals, yVals, 'Mystery Data')
+# xVals, yVals = getData('mysteryData.txt')
+# degrees = (1, 2)
+# models = genFits(xVals, yVals, degrees)
+# testFits(models, degrees, xVals, yVals, 'Mystery Data')
 
 ##Compare higher-order fits
 #degrees = (2, 4, 8, 16)
