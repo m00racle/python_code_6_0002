@@ -5,7 +5,9 @@ Created on Mon Sep 19 11:45:20 2016
 @author: johnguttag
 """
 
-import random, pylab, numpy
+import random, pylab, numpy, os
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -52,7 +54,7 @@ def testFits(models, degrees, xVals, yVals, title):
     pylab.title(title)
 
 def getData(fileName):
-    dataFile = open(fileName, 'r')
+    dataFile = open(os.path.normpath(code_dir + '/' + fileName), 'r')
     distances = []
     masses = []
     dataFile.readline() #discard header
