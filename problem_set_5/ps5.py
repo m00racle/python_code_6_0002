@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 # Problem Set 5: Experimental Analysis
-# Name: 
+# Name: Yanuar Heru P
 # Collaborators (discussion):
 # Time:
 
 import pylab
 import re
+import os
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 # cities in our weather data
 CITIES = [
@@ -52,7 +55,7 @@ class Climate(object):
         """
         self.rawdata = {}
 
-        f = open(filename, 'r')
+        f = open(os.path.normpath(code_dir + '/' + filename), 'r')
         header = f.readline().strip().split(',')
         for line in f:
             items = line.strip().split(',')
