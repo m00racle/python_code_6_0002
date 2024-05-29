@@ -69,6 +69,7 @@ def fitData(fileName):
                label = 'Measured points')
     labelPlot()                 
     a,b = pylab.polyfit(xVals, yVals, 1)
+    # manually insert the values by multiply a, b coeff from polyfit:
     estYVals = a*pylab.array(xVals) + b
     print('a =', a, 'b =', b)
     pylab.plot(xVals, estYVals, 'r',
@@ -90,6 +91,7 @@ def fitData1(fileName):
                label = 'Measured points')
     labelPlot()                 
     model = pylab.polyfit(xVals, yVals, 1)
+    # using polyval to estimate Y vals equivalent to the manual insert in fitData above
     estYVals = pylab.polyval(model, xVals)
     pylab.plot(xVals, estYVals, 'r',
                label = 'Linear fit, k = '
