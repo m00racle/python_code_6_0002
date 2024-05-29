@@ -7,7 +7,9 @@ Created on Mon Sep 19 11:45:20 2016
 Modified: egrimson
 """
 
-import random, pylab, numpy
+import random, pylab, numpy, os
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -29,7 +31,7 @@ pylab.rcParams['lines.markersize'] = 10
 pylab.rcParams['legend.numpoints'] = 1
 
 def getData(fileName):
-    dataFile = open(fileName, 'r')
+    dataFile = open(os.path.normpath(code_dir + '/' + fileName), 'r')
     distances = []
     masses = []
     dataFile.readline() #discard header
@@ -53,6 +55,10 @@ def plotData(fileName):
     pylab.plot(xVals, yVals, 'bo',
                label = 'Measured displacements')
     labelPlot()
+    pylab.show()
+
+# test plotting raw data from spring data:
+# plotData('springData.txt')
     
 def fitData(fileName):
     xVals, yVals = getData(fileName)
@@ -63,14 +69,17 @@ def fitData(fileName):
                label = 'Measured points')
     labelPlot()                 
     a,b = pylab.polyfit(xVals, yVals, 1)
+    # manually insert the values by multiply a, b coeff from polyfit:
     estYVals = a*pylab.array(xVals) + b
     print('a =', a, 'b =', b)
     pylab.plot(xVals, estYVals, 'r',
                label = 'Linear fit, k = '
                + str(round(1/a, 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
     
-#fitData('springData.txt')
+# fitting data least square polyfit on spring data:
+# fitData('springData.txt')
 
    
 def fitData1(fileName):
@@ -82,45 +91,51 @@ def fitData1(fileName):
                label = 'Measured points')
     labelPlot()                 
     model = pylab.polyfit(xVals, yVals, 1)
+    # using polyval to estimate Y vals equivalent to the manual insert in fitData above
     estYVals = pylab.polyval(model, xVals)
     pylab.plot(xVals, estYVals, 'r',
                label = 'Linear fit, k = '
                + str(round(1/model[0], 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
 
-#fitData1('springData.txt')
+# fitting using pylab polyval on spring data:
+# fitData1('springData.txt')
 
 #Demonstration using mystery data
 
-#xVals, yVals = getData('mysteryData.txt')
-#pylab.plot(xVals, yVals, 'o', label = 'Data Points')
-#pylab.title('Mystery Data')
-#
-##Try linear model
-#model1 = pylab.polyfit(xVals, yVals, 1)
-#pylab.plot(xVals, pylab.polyval(model1, xVals),
+# xVals, yVals = getData('mysteryData.txt')
+# pylab.plot(xVals, yVals, 'o', label = 'Data Points')
+# pylab.title('Mystery Data')
+
+# ##Try linear model
+# model1 = pylab.polyfit(xVals, yVals, 1)
+# pylab.plot(xVals, pylab.polyval(model1, xVals),
 #           label = 'Linear Model')
-#
-##Try a quadratic model
-#model2 = pylab.polyfit(xVals, yVals, 2)
-#pylab.plot(xVals, pylab.polyval(model2, xVals),
+
+# ##Try a quadratic model
+# model2 = pylab.polyfit(xVals, yVals, 2)
+# pylab.plot(xVals, pylab.polyval(model2, xVals),
 #           'r--', label = 'Quadratic Model')
-#pylab.legend()
+# pylab.legend()
+# pylab.show()
 
-##Compare models
-def aveMeanSquareError(data, predicted):
-    error = 0.0
-    for i in range(len(data)):
-        error += (data[i] - predicted[i])**2
-    return error/len(data)
+# ##Compare models
+# def aveMeanSquareError(data, predicted):
+#     error = 0.0
+#     for i in range(len(data)):
+#         error += (data[i] - predicted[i])**2
+#     return error/len(data)
 
-#code to compare fits for mystery data
-#estYVals = pylab.polyval(model1, xVals)  
-#print('Ave. mean square error for linear model =',
+# # code to compare fits for mystery data
+# estYVals = pylab.polyval(model1, xVals)  
+# print('Ave. mean square error for linear model =',
 #      aveMeanSquareError(yVals, estYVals))
-#estYVals = pylab.polyval(model2, xVals)
-#print('Ave. mean square error for quadratic model =',
+# estYVals = pylab.polyval(model2, xVals)
+# print('Ave. mean square error for quadratic model =',
 #      aveMeanSquareError(yVals, estYVals))
+
+# ==== end of Demo using mystery data === 
 
 def rSquared(observed, predicted):
     error = ((predicted - observed)**2).sum()
@@ -145,19 +160,23 @@ def testFits(models, degrees, xVals, yVals, title):
                    + ', R2 = ' + str(round(error, 5)))
     pylab.legend(loc = 'best')
     pylab.title(title)
+    pylab.show()
 
 #code for testing goodness of fit to parabolic data
 
-xVals, yVals = getData('mysteryData.txt')
-#degrees = (1, 2)
-#models = genFits(xVals, yVals, degrees)
-#testFits(models, degrees, xVals, yVals, 'Mystery Data')
+# xVals, yVals = getData('mysteryData.txt')
+# degrees = (1, 2)
+# models = genFits(xVals, yVals, degrees)
+# testFits(models, degrees, xVals, yVals, 'Mystery Data')
 
-##Compare higher-order fits
-#degrees = (2, 4, 8, 16)
-#models = genFits(xVals, yVals, degrees)
-#testFits(models, degrees, xVals, yVals, 'Mystery Data')
+# ##Compare higher-order fits
+# degrees = (2, 4, 8, 16)
+# models = genFits(xVals, yVals, degrees)
+# testFits(models, degrees, xVals, yVals, 'Mystery Data')
 
+# end of testing goodness of fit to parabolic data
+
+# I think this is for the next session 10 thus nothing to do here?
 def genNoisyParabolicData(a, b, c, xVals, fName):
     yVals = []
     for x in xVals:
