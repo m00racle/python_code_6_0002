@@ -132,6 +132,7 @@ def getYearlyMeans(data):
         years[y] = sum(years[y])/len(years[y])
     return years
     
+# FIRST DEMO: just to plot the data:
 data = getTempData()
 years = getYearlyMeans(data)
 xVals, yVals = [], []
@@ -142,6 +143,8 @@ pylab.plot(xVals, yVals)
 pylab.xlabel('Year')
 pylab.ylabel('Mean Daily High (C)')
 pylab.title('Select U.S. Cities')
+# show the plot above since this code does not call plotData
+pylab.show()
 
 def splitData(xVals, yVals):
     toTrain = random.sample(range(len(xVals)),
@@ -156,24 +159,24 @@ def splitData(xVals, yVals):
             testY.append(yVals[i])
     return trainX, trainY, testX, testY
     
-##UNCOVER FOR SECOND DEMO    
-#numSubsets = 10
-#dimensions = (1, 2, 3, 4)
-#rSquares = {}
-#for d in dimensions:
-#    rSquares[d] = []
-#        
-#for f in range(numSubsets):
-#    trainX, trainY, testX, testY = splitData(xVals, yVals)
-#    for d in dimensions:
-#        model = pylab.polyfit(trainX, trainY, d)
-#        estYVals = pylab.polyval(model, trainX)
-#        estYVals = pylab.polyval(model, testX)
-#        rSquares[d].append(rSquared(testY, estYVals))
-#print('Mean R-squares for test data')
-#for d in dimensions:
-#    mean = round(sum(rSquares[d])/len(rSquares[d]), 4)
-#    sd = round(numpy.std(rSquares[d]), 4)
-#    print('For dimensionality', d, 'mean =', mean,
-#          'Std =', sd)
-##print(rSquares[1])
+#UNCOVER FOR SECOND DEMO    
+numSubsets = 10
+dimensions = (1, 2, 3, 4)
+rSquares = {}
+for d in dimensions:
+   rSquares[d] = []
+       
+for f in range(numSubsets):
+   trainX, trainY, testX, testY = splitData(xVals, yVals)
+   for d in dimensions:
+       model = pylab.polyfit(trainX, trainY, d)
+       estYVals = pylab.polyval(model, trainX)
+       estYVals = pylab.polyval(model, testX)
+       rSquares[d].append(rSquared(testY, estYVals))
+print('Mean R-squares for test data')
+for d in dimensions:
+   mean = round(sum(rSquares[d])/len(rSquares[d]), 4)
+   sd = round(numpy.std(rSquares[d]), 4)
+   print('For dimensionality', d, 'mean =', mean,
+         'Std =', sd)
+print(rSquares[1])
