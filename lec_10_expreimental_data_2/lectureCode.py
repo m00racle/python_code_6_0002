@@ -140,6 +140,13 @@ def genNoisyParabolicData(a, b, c, xVals, fName):
         f.write(str(yVals[i]) + ' ' + str(xVals[i]) + '\n')
     f.close()
     
+"""  
+NOTE:
+this will create two models of getNoisyParabolicData 
+later on model 2 will be used to cross validate model 1 and vice versa
+meaning the fit from model 2 will be used to generate points and then used in model 1 real data
+and vice versa
+"""
 ##parameters for generating data
 # xVals = range(-10, 11, 1)
 # a, b, c = 3.0, 0.0, 0.0
@@ -154,33 +161,40 @@ def genNoisyParabolicData(a, b, c, xVals, fName):
 
 # xVals1, yVals1 = getData('Dataset 1.txt')
 # models1 = genFits(xVals1, yVals1, degrees)
+
+# xVals2, yVals2 = getData('Dataset 2.txt')
+# models2 = genFits(xVals2, yVals2, degrees)
+
+# # test fits to test absolute fitness of data:
 # testFits(models1, degrees, xVals1, yVals1,
 #        'DataSet 1.txt')
-#
-#pylab.figure()
-#xVals2, yVals2 = getData('Dataset 2.txt')
-#models2 = genFits(xVals2, yVals2, degrees)
-#testFits(models2, degrees, xVals2, yVals2,
+# testFits(models2, degrees, xVals2, yVals2,
 #         'DataSet 2.txt')
-#
-#pylab.figure()
-#testFits(models1, degrees, xVals2, yVals2,
+# #
+# # THIS IS WHERE THE CROSS VALIDATION OCCURS
+# # COMMENT OUT testFits calls above and uncomment test fits below:
+# pylab.figure()
+# testFits(models1, degrees, xVals2, yVals2,
 #         'DataSet 2/Model 1')
-#pylab.figure()
-#testFits(models2, degrees, xVals1, yVals1,
+# pylab.figure()
+# testFits(models2, degrees, xVals1, yVals1,
 #         'DataSet 1/Model 2')
 
 ##a line
-#xVals = (0,1,2,3)
-#yVals = xVals
-#pylab.plot(xVals, yVals, label = 'Actual values')
-#a,b,c = pylab.polyfit(xVals, yVals, 2)
-#print('a =', round(a, 4), 'b =', round(b, 4),
+""" 
+This is for example on fitting a Quadratic to a Perfect Line
+"""
+# xVals = (0,1,2,3)
+# yVals = xVals
+# pylab.plot(xVals, yVals, label = 'Actual values')
+# a,b,c = pylab.polyfit(xVals, yVals, 2)
+# print('a =', round(a, 4), 'b =', round(b, 4),
 #      'c =', round(c, 4))
-#estYVals = pylab.polyval((a,b,c), xVals)
-#pylab.plot(xVals, estYVals, 'r--', label = 'Predictive values')
-#print('R-squared = ', rSquared(yVals, estYVals))
-#pylab.legend(loc = 'best')
+# estYVals = pylab.polyval((a,b,c), xVals)
+# pylab.plot(xVals, estYVals, 'r--', label = 'Predictive values')
+# print('R-squared = ', rSquared(yVals, estYVals))
+# pylab.legend(loc = 'best')
+# pylab.show()
 
 ##OPEN FOR SECOND DEMO
 ##
