@@ -115,7 +115,7 @@ class tempDatum(object):
         return self.year
     
 def getTempData():
-    inFile = open('temperatures.csv')
+    inFile = open(os.path.normpath(code_dir + '/temperatures.csv'))
     data = []
     for l in inFile:
         data.append(tempDatum(l))
