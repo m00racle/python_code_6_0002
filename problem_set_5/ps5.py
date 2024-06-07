@@ -3,7 +3,7 @@
 # Name: Yanuar Heru P
 # Collaborators (discussion):
 # Time:
-
+import numpy
 import pylab
 import re
 import os
@@ -166,8 +166,11 @@ def generate_models(x, y, degs):
         a list of pylab arrays, where each array is a 1-d array of coefficients
         that minimizes the squared error of the fitting polynomial
     """
-    # TODO
-    pass
+    models = []
+    for degint in degs:
+        # produce model of each degree of order
+        models.append(pylab.polyfit(x, y, degint))
+    return models
 
 
 def r_squared(y, estimated):
@@ -183,8 +186,7 @@ def r_squared(y, estimated):
     Returns:
         a float for the R-squared error term
     """
-    # TODO
-    pass
+    return (1 - ((estimated - y)**2).sum()/(numpy.var(y)*len(y)))
 
 def evaluate_models_on_training(x, y, models):
     """
