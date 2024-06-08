@@ -214,8 +214,28 @@ def evaluate_models_on_training(x, y, models):
     Returns:
         None
     """
-    # TODO
-    pass
+    # PROBLEM 3:
+    for model in models:
+        # produce estimated_y:
+        deg = len(model) - 1
+        estimated_y = pylab.polyval(model, x)
+        r_2 = r_squared(y, estimated_y)
+        # plot the y vs x in blue dots
+        pylab.plot(x,y, 'bo')
+        # plot the estimated_y vs x in red line (curve)
+        pylab.plot(x, estimated_y, 'r')
+        # put the title of the plot includes degree of regression model and R-square
+        title = "Temperature Data with " + str(deg) + " degree model\n" + "R-square = " + str(round(r_2, 4))
+        # put the axis label
+        pylab.xlabel('years')
+        pylab.ylabel('temperature C')
+        # if the model order == 1 then add title with se_over_slope
+        if deg == 1 :
+            se = se_over_slope(pylab.array(x), pylab.array(y), pylab.array(estimated_y), model)
+            title += " Std Error = " + str(round(se, 4))
+        pylab.title(title)
+        pylab.show()
+
 
 def gen_cities_avg(climate, multi_cities, years):
     """
@@ -313,12 +333,23 @@ def evaluate_models_on_testing(x, y, models):
     # TODO
     pass
 
-if __name__ == '__main__':
-
-    pass 
-
-    # Part A.4
-    # TODO: replace this line with your code
+if __name__ == '__main__': 
+    # Part A.4-1
+    # create the data sample
+    # instantiate the climate data
+    climate_data = Climate("data.csv")
+    # prepare x axis:
+    years = []
+    # prepare y axis:
+    temps = []
+    # load the data value:
+    for year in TRAINING_INTERVAL:
+        # append the year
+        years.append(year)
+        temps.append(climate_data.get_daily_temp("NEW YORK", 1, 10, year))
+    
+    models = generate_models(years, temps, [1,])
+    evaluate_models_on_training(years, temps, models)
 
     # Part B
     # TODO: replace this line with your code
