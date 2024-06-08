@@ -19,7 +19,7 @@ class TestPS5(unittest.TestCase):
 		degrees = [1]
 		models = ps5.generate_models(x, y, degrees)
 
-		self.assertEquals(len(models), len(degrees), degs_msg)
+		self.assertEqual(len(models), len(degrees), degs_msg)
 		self.assertIsInstance(models, list, list_type_msg)
 		self.assertIsInstance(models[0], pylab.ndarray, array_type_msg)
 		self.assertListEqual(list(models[0]), list(pylab.polyfit(x, y, 1)), coefficient_mismatch)
@@ -28,7 +28,7 @@ class TestPS5(unittest.TestCase):
 		y = pylab.array(range(0,100,2))
 		degrees = [1, 2]
 		models = ps5.generate_models(x, y, degrees)
-		self.assertEquals(len(models), len(degrees), degs_msg)
+		self.assertEqual(len(models), len(degrees), degs_msg)
 		self.assertIsInstance(models, list, list_type_msg)
 		for m in models:
 			self.assertIsInstance(m, pylab.ndarray, array_type_msg)
@@ -38,7 +38,7 @@ class TestPS5(unittest.TestCase):
 		# three models 
 		degrees = [1,2,20]
 		models = ps5.generate_models(x, y, degrees)
-		self.assertEquals(len(models), len(degrees), degs_msg)
+		self.assertEqual(len(models), len(degrees), degs_msg)
 		self.assertIsInstance(models, list, list_type_msg)
 		for m in models:
 			self.assertIsInstance(m, pylab.ndarray, array_type_msg)
