@@ -252,8 +252,19 @@ def gen_cities_avg(climate, multi_cities, years):
         this array corresponds to the average annual temperature over the given
         cities for a given year.
     """
-    # TODO
-    pass
+    # PART B
+    # prepare list of all national avg temperatures of all years
+    temps = []
+    for year in years:
+        # prep for list national temperatures at certain year
+        national_temp = []
+        for city in multi_cities:
+            temp_array = climate.get_yearly_temp(city, year)
+            national_temp.append(numpy.mean(temp_array))
+        # note: up to this point national_temp data structure is still LIST 
+        # in order to calculate mean it is best to convert it into pylab.array
+        temps.append(numpy.mean(pylab.array(national_temp)))
+    return pylab.array(temps)
 
 def moving_average(y, window_length):
     """
@@ -354,22 +365,17 @@ if __name__ == '__main__':
     # models = generate_models(years, temps, [1,])
     # evaluate_models_on_training(years, temps, models)
 
+    # __name__ == main:
     # Part B
     climate_data = Climate("data.csv")
     years = []
-    temps = []
     for year in TRAINING_INTERVAL:
         years.append(year)
-        national_temp = []
-        for city in CITIES:
-            temp_array = climate_data.get_yearly_temp(city, year)
-            national_temp.append(numpy.mean(temp_array))
-        # note: up to this point national_temp data structure is still LIST 
-        # in order to calculate mean it is best to convert it into pylab.array
-        temps.append(numpy.mean(pylab.array(national_temp)))
-    models = generate_models(years, temps, [1,])
-    evaluate_models_on_training(years, temps, models)
-
+    py_years = pylab.array(years)
+    py_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    models = generate_models(py_years, py_temps, [1,])
+    evaluate_models_on_training(py_years, py_temps, models)
+    
     # Part C
     # TODO: replace this line with your code
 
