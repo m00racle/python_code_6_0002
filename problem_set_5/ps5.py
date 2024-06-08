@@ -334,28 +334,41 @@ def evaluate_models_on_testing(x, y, models):
     pass
 
 if __name__ == '__main__': 
-    # Part A.4-2
-    # create the data sample
-    # instantiate the climate data
-    climate_data = Climate("data.csv")
-    # prepare x axis:
-    years = []
-    # prepare y axis:
-    temps = []
-    # load the data value:
-    for year in TRAINING_INTERVAL:
-        # append the year
-        years.append(year)
-        # get the whole year daily temperature data
-        temp_array = climate_data.get_yearly_temp("NEW YORK", year)
-        # only append the average of the whole year temperature data for NEW YORK
-        temps.append(numpy.mean(temp_array))
+    # # Part A.4-2
+    # # create the data sample
+    # # instantiate the climate data
+    # climate_data = Climate("data.csv")
+    # # prepare x axis:
+    # years = []
+    # # prepare y axis:
+    # temps = []
+    # # load the data value:
+    # for year in TRAINING_INTERVAL:
+    #     # append the year
+    #     years.append(year)
+    #     # get the whole year daily temperature data
+    #     temp_array = climate_data.get_yearly_temp("NEW YORK", year)
+    #     # only append the average of the whole year temperature data for NEW YORK
+    #     temps.append(numpy.mean(temp_array))
     
-    models = generate_models(years, temps, [1,])
-    evaluate_models_on_training(years, temps, models)
+    # models = generate_models(years, temps, [1,])
+    # evaluate_models_on_training(years, temps, models)
 
     # Part B
-    # TODO: replace this line with your code
+    climate_data = Climate("data.csv")
+    years = []
+    temps = []
+    for year in TRAINING_INTERVAL:
+        years.append(year)
+        national_temp = []
+        for city in CITIES:
+            temp_array = climate_data.get_yearly_temp(city, year)
+            national_temp.append(numpy.mean(temp_array))
+        # note: up to this point national_temp data structure is still LIST 
+        # in order to calculate mean it is best to convert it into pylab.array
+        temps.append(numpy.mean(pylab.array(national_temp)))
+    models = generate_models(years, temps, [1,])
+    evaluate_models_on_training(years, temps, models)
 
     # Part C
     # TODO: replace this line with your code
