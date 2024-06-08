@@ -334,7 +334,7 @@ def evaluate_models_on_testing(x, y, models):
     pass
 
 if __name__ == '__main__': 
-    # Part A.4-1
+    # Part A.4-2
     # create the data sample
     # instantiate the climate data
     climate_data = Climate("data.csv")
@@ -346,7 +346,10 @@ if __name__ == '__main__':
     for year in TRAINING_INTERVAL:
         # append the year
         years.append(year)
-        temps.append(climate_data.get_daily_temp("NEW YORK", 1, 10, year))
+        # get the whole year daily temperature data
+        temp_array = climate_data.get_yearly_temp("NEW YORK", year)
+        # only append the average of the whole year temperature data for NEW YORK
+        temps.append(numpy.mean(temp_array))
     
     models = generate_models(years, temps, [1,])
     evaluate_models_on_training(years, temps, models)
