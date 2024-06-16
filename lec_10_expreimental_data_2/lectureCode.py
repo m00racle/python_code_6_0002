@@ -5,7 +5,9 @@ Created on Mon Sep 19 11:45:20 2016
 @author: johnguttag
 """
 
-import random, pylab, numpy
+import random, pylab, numpy, os
+# set the directory
+code_dir = os.path.dirname(__file__)
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -27,7 +29,7 @@ pylab.rcParams['lines.markersize'] = 10
 pylab.rcParams['legend.numpoints'] = 1
 
 def getData(fileName):
-    dataFile = open(fileName, 'r')
+    dataFile = open(os.path.normpath(code_dir + '/' + fileName), 'r')
     distances = []
     masses = []
     dataFile.readline() #discard header
@@ -67,8 +69,9 @@ def fitData(fileName):
                label = 'Linear fit, k = '
                + str(round(1/a, 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
     
-#fitData('springData.txt')
+# fitData('springData.txt')
 
    
 def fitData1(fileName):
@@ -85,8 +88,9 @@ def fitData1(fileName):
                label = 'Linear fit, k = '
                + str(round(1/model[0], 5)))
     pylab.legend(loc = 'best')
+    pylab.show()
 
-
+# fitData1('springData.txt')
 
 def rSquared(observed, predicted):
     error = ((predicted - observed)**2).sum()
@@ -111,11 +115,12 @@ def testFits(models, degrees, xVals, yVals, title):
                    + ', R2 = ' + str(round(error, 5)))
     pylab.legend(loc = 'best')
     pylab.title(title)
+    pylab.show()
 
-#xVals, yVals = getData('mysteryData.txt')
-#degrees = (1, 2)
-#models = genFits(xVals, yVals, degrees)
-#testFits(models, degrees, xVals, yVals, 'Mystery Data')
+# xVals, yVals = getData('mysteryData.txt')
+# degrees = (1, 2)
+# models = genFits(xVals, yVals, degrees)
+# testFits(models, degrees, xVals, yVals, 'Mystery Data')
 
 ##Compare higher-order fits
 #degrees = (2, 4, 8, 16)
@@ -129,53 +134,67 @@ def genNoisyParabolicData(a, b, c, xVals, fName):
         theoreticalVal = a*x**2 + b*x + c
         yVals.append(theoreticalVal\
         + random.gauss(0, 35))
-    f = open(fName,'w')
+    f = open(os.path.normpath(code_dir + '/' + fName),'w')
     f.write('x        y\n')
     for i in range(len(yVals)):
         f.write(str(yVals[i]) + ' ' + str(xVals[i]) + '\n')
     f.close()
     
+"""  
+NOTE:
+this will create two models of getNoisyParabolicData 
+later on model 2 will be used to cross validate model 1 and vice versa
+meaning the fit from model 2 will be used to generate points and then used in model 1 real data
+and vice versa
+"""
 ##parameters for generating data
-#xVals = range(-10, 11, 1)
-#a, b, c = 3.0, 0.0, 0.0
-#degrees = (2, 4, 8, 16)
-#
-##generate data
-#random.seed(0)
-#genNoisyParabolicData(a, b, c, xVals,
+# xVals = range(-10, 11, 1)
+# a, b, c = 3.0, 0.0, 0.0
+# degrees = (2, 4, 8, 16)
+
+# #generate data
+# random.seed(0)
+# genNoisyParabolicData(a, b, c, xVals,
 #                      'Dataset 1.txt')
-#genNoisyParabolicData(a, b, c, xVals,
+# genNoisyParabolicData(a, b, c, xVals,
 #                      'Dataset 2.txt')
-#
-#xVals1, yVals1 = getData('Dataset 1.txt')
-#models1 = genFits(xVals1, yVals1, degrees)
-#testFits(models1, degrees, xVals1, yVals1,
+
+# xVals1, yVals1 = getData('Dataset 1.txt')
+# models1 = genFits(xVals1, yVals1, degrees)
+
+# xVals2, yVals2 = getData('Dataset 2.txt')
+# models2 = genFits(xVals2, yVals2, degrees)
+
+# # test fits to test absolute fitness of data:
+# testFits(models1, degrees, xVals1, yVals1,
 #        'DataSet 1.txt')
-#
-#pylab.figure()
-#xVals2, yVals2 = getData('Dataset 2.txt')
-#models2 = genFits(xVals2, yVals2, degrees)
-#testFits(models2, degrees, xVals2, yVals2,
+# testFits(models2, degrees, xVals2, yVals2,
 #         'DataSet 2.txt')
-#
-#pylab.figure()
-#testFits(models1, degrees, xVals2, yVals2,
+# #
+# # THIS IS WHERE THE CROSS VALIDATION OCCURS
+# # COMMENT OUT testFits calls above and uncomment test fits below:
+# pylab.figure()
+# testFits(models1, degrees, xVals2, yVals2,
 #         'DataSet 2/Model 1')
-#pylab.figure()
-#testFits(models2, degrees, xVals1, yVals1,
+# pylab.figure()
+# testFits(models2, degrees, xVals1, yVals1,
 #         'DataSet 1/Model 2')
 
 ##a line
-#xVals = (0,1,2,3)
-#yVals = xVals
-#pylab.plot(xVals, yVals, label = 'Actual values')
-#a,b,c = pylab.polyfit(xVals, yVals, 2)
-#print('a =', round(a, 4), 'b =', round(b, 4),
+""" 
+This is for example on fitting a Quadratic to a Perfect Line
+"""
+# xVals = (0,1,2,3)
+# yVals = xVals
+# pylab.plot(xVals, yVals, label = 'Actual values')
+# a,b,c = pylab.polyfit(xVals, yVals, 2)
+# print('a =', round(a, 4), 'b =', round(b, 4),
 #      'c =', round(c, 4))
-#estYVals = pylab.polyval((a,b,c), xVals)
-#pylab.plot(xVals, estYVals, 'r--', label = 'Predictive values')
-#print('R-squared = ', rSquared(yVals, estYVals))
-#pylab.legend(loc = 'best')
+# estYVals = pylab.polyval((a,b,c), xVals)
+# pylab.plot(xVals, estYVals, 'r--', label = 'Predictive values')
+# print('R-squared = ', rSquared(yVals, estYVals))
+# pylab.legend(loc = 'best')
+# pylab.show()
 
 ##OPEN FOR SECOND DEMO
 ##
