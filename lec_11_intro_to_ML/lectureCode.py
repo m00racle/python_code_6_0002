@@ -85,20 +85,24 @@ def compareAnimals(animals, precision):
                         colWidths = [0.2]*len(animals))
     table.scale(1, 2.5)
     pylab.title('Eucliedan Distance Between Animals')
+    pylab.show()
 
-rattlesnake = Animal('rattlesnake', [1,1,1,1,0])
-boa = Animal('boa\nconstrictor', [0,1,0,1,0])
-dartFrog = Animal('dart frog', [1,0,1,0,4])
-animals = [rattlesnake, boa, dartFrog]
-compareAnimals(animals, 3)
-#
-#alligator = Animal('alligator', [1,1,0,1,4])
-#animals.append(alligator)
-#compareAnimals(animals, 3)
+# # PART 1:
+# rattlesnake = Animal('rattlesnake', [1,1,1,1,0])
+# boa = Animal('boa\nconstrictor', [0,1,0,1,0])
+# dartFrog = Animal('dart frog', [1,0,1,0,4])
+# animals = [rattlesnake, boa, dartFrog]
+# compareAnimals(animals, 3)
+# # NOTE: comment out the compareAnimals(animals,3) above if you want to run below
+# alligator = Animal('alligator', [1,1,0,1,4])
+# animals.append(alligator)
+# compareAnimals(animals, 3)
 
-#rattlesnake = Animal('rattlesnake', [1,1,1,1,0])
-#boa = Animal('boa\nconstrictor', [0,1,0,1,0])
-#dartFrog = Animal('dart frog', [1,0,1,0,1])
-#alligator = Animal('alligator', [1,1,0,1,1])
-#animals = [rattlesnake, boa, dartFrog, alligator]
-#compareAnimals(animals, 3)
+# # PART 2:
+# # NOTE: comment out above run code when you want to run this part:
+# rattlesnake = Animal('rattlesnake', [1,1,1,1,0])
+# boa = Animal('boa\nconstrictor', [0,1,0,1,0])
+# dartFrog = Animal('dart frog', [1,0,1,0,1])
+# alligator = Animal('alligator', [1,1,0,1,1])
+# animals = [rattlesnake, boa, dartFrog, alligator]
+# compareAnimals(animals, 3)
