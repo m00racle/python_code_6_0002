@@ -281,30 +281,24 @@ def moving_average(y, window_length):
         y-coordinates of the N sample points
     """
     result = []
-    # the first element will be automatically put in the first element of the result list
-    result.append(y[0])
-    shifted_max_index = len(y) + 1
-    # shifted max index to make the calculation easier on the index easier
-    # NOTE: index in the list starts with 0 thus it always shift the index to the left
-    # this will lead to confusion and human error when we want to subtract the index with 
-    # window_length to determine the starting index of the elements to be averaged
-
-    for i in range(2, shifted_max_index):
-        # NOTE: we start from 2 since the shifted max index is +1 to the right
-        # iterate i as index
+    for i in range(1,(len(y) + 1)):
+        inter_list = []
+        # inter_list will be used to store the elements to be averaged as part of moving average
 
         if i < window_length:
-            s = 0 # this is start of the sum to be averaged elements
-            # the averaged elements size is < window length thus starts from index 0
-            for k in range(0,i):
-                s += y[k]
-            result.append(s/(i))
+            starting_point = 0
         else:
-            # sum window_length element divided by window length! = mean of moving avg element
-            s = 0 # this is the sum start
-            for k in range(i - window_length, i):
-                s += y[k]
-            result.append(s/(window_length))
+            starting_point = i - window_length
+        
+        # append inter_list elements from starting point to the index i from array y
+        for k in range(starting_point, i):
+            inter_list.append(y[k])
+        
+        # just use the numpy mean to make it easier basically it averaging the inter_list
+        # then append the average into the result list
+        result.append(numpy.mean(pylab.array(inter_list)))
+    
+    # return the pylab.array type of the result list
     return pylab.array(result)
 
 def rmse(y, estimated):
