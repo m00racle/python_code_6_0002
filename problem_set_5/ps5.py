@@ -280,8 +280,32 @@ def moving_average(y, window_length):
         an 1-d pylab array with the same length as y storing moving average of
         y-coordinates of the N sample points
     """
-    # TODO
-    pass
+    result = []
+    # the first element will be automatically put in the first element of the result list
+    result.append(y[0])
+    shifted_max_index = len(y) + 1
+    # shifted max index to make the calculation easier on the index easier
+    # NOTE: index in the list starts with 0 thus it always shift the index to the left
+    # this will lead to confusion and human error when we want to subtract the index with 
+    # window_length to determine the starting index of the elements to be averaged
+
+    for i in range(2, shifted_max_index):
+        # NOTE: we start from 2 since the shifted max index is +1 to the right
+        # iterate i as index
+
+        if i < window_length:
+            s = 0 # this is start of the sum to be averaged elements
+            # the averaged elements size is < window length thus starts from index 0
+            for k in range(0,i):
+                s += y[k]
+            result.append(s/(i))
+        else:
+            # sum window_length element divided by window length! = mean of moving avg element
+            s = 0 # this is the sum start
+            for k in range(i - window_length, i):
+                s += y[k]
+            result.append(s/(window_length))
+    return pylab.array(result)
 
 def rmse(y, estimated):
     """
