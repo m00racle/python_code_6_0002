@@ -384,18 +384,28 @@ if __name__ == '__main__':
     # evaluate_models_on_training(years, temps, models)
 
     # __name__ == main:
-    # Part B
+    # # Part B
+    # climate_data = Climate("data.csv")
+    # years = []
+    # for year in TRAINING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # py_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # models = generate_models(py_years, py_temps, [1,])
+    # evaluate_models_on_training(py_years, py_temps, models)
+    
+    # Part C
     climate_data = Climate("data.csv")
     years = []
     for year in TRAINING_INTERVAL:
         years.append(year)
     py_years = pylab.array(years)
     py_temps = gen_cities_avg(climate_data, CITIES, py_years)
-    models = generate_models(py_years, py_temps, [1,])
-    evaluate_models_on_training(py_years, py_temps, models)
+    py_temp_mov_avg = moving_average(py_temps, 5)
     
-    # Part C
-    # TODO: replace this line with your code
+    models = generate_models(py_years, py_temp_mov_avg, [1,])
+    
+    evaluate_models_on_training(py_years, py_temp_mov_avg, models)
 
     # Part D.2
     # TODO: replace this line with your code
