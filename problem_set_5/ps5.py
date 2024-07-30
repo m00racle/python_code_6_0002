@@ -425,8 +425,23 @@ if __name__ == '__main__':
     # evaluate_models_on_training(py_years, py_temp_mov_avg, models)
 
     # Part D.2
-    # TODO: replace this line with your code
-    pass
+    # create the data sample
+    # instantiate the climate data
+    climate_data = Climate("data.csv")
+    # prepare x axis:
+    years = []
+    # prepare y axis:
+    temps = []
+    # load the data value:
+    for year in TESTING_INTERVAL:
+        # append the year
+        years.append(year)
+        # get the whole year daily temperature data
+        temp_array = climate_data.get_yearly_temp("NEW YORK", year)
+        # only append the average of the whole year temperature data for NEW YORK
+        temps.append(numpy.mean(temp_array))
+    models = generate_models(years, temps, [1,])
+    evaluate_models_on_testing(years, temps, models)
 
     # Part E
     # TODO: replace this line with your code
