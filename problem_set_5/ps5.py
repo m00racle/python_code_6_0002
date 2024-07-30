@@ -430,18 +430,21 @@ if __name__ == '__main__':
     climate_data = Climate("data.csv")
     # prepare x axis:
     years = []
-    # prepare y axis:
-    temps = []
-    # load the data value:
-    for year in TESTING_INTERVAL:
-        # append the year
+    for year in TRAINING_INTERVAL:
         years.append(year)
-        # get the whole year daily temperature data
-        temp_array = climate_data.get_yearly_temp("NEW YORK", year)
-        # only append the average of the whole year temperature data for NEW YORK
-        temps.append(numpy.mean(temp_array))
-    models = generate_models(years, temps, [1,])
-    evaluate_models_on_testing(years, temps, models)
+    py_years = pylab.array(years)
+    # prepare train data
+    train_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    models = generate_models(py_years, train_temps, [1,])
+    # tests the training models
+    years = []
+    for year in TESTING_INTERVAL:
+        years.append(year)
+    py_years = pylab.array(years)
+    # prepare test data
+    test_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # we already have models then we just want to test it
+    evaluate_models_on_testing(years, test_temps, models)
 
     # Part E
     # TODO: replace this line with your code
