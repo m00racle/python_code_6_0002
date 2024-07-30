@@ -363,8 +363,21 @@ def evaluate_models_on_testing(x, y, models):
     Returns:
         None
     """
-    # TODO
-    pass
+    for model in models:
+        # tag the degree
+        deg = len(model) - 1
+        # produce estimated data
+        estimated_y = pylab.polyval(model, x)
+        # evaluate the data
+        rmse_y = rmse(y,estimated_y)
+        # plot the data and evaluation
+        pylab.plot(x, y, 'bo')
+        pylab.plot(x, estimated_y, 'r')
+        title = "Testing Temperature Date with " + str(deg) + " degree model\n" + "RMSE = " + str(round(rmse_y, 4))
+        pylab.xlabel('years')
+        pylab.ylabel('temperature C')
+        pylab.title(title)
+        pylab.show()
 
 if __name__ == '__main__': 
     # # Part A.4-2
@@ -399,20 +412,21 @@ if __name__ == '__main__':
     # evaluate_models_on_training(py_years, py_temps, models)
     
     # Part C
-    climate_data = Climate("data.csv")
-    years = []
-    for year in TRAINING_INTERVAL:
-        years.append(year)
-    py_years = pylab.array(years)
-    py_temps = gen_cities_avg(climate_data, CITIES, py_years)
-    py_temp_mov_avg = moving_average(py_temps, 5)
+    # climate_data = Climate("data.csv")
+    # years = []
+    # for year in TRAINING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # py_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # py_temp_mov_avg = moving_average(py_temps, 5)
     
-    models = generate_models(py_years, py_temp_mov_avg, [1,])
+    # models = generate_models(py_years, py_temp_mov_avg, [1,])
     
-    evaluate_models_on_training(py_years, py_temp_mov_avg, models)
+    # evaluate_models_on_training(py_years, py_temp_mov_avg, models)
 
     # Part D.2
     # TODO: replace this line with your code
+    pass
 
     # Part E
     # TODO: replace this line with your code
