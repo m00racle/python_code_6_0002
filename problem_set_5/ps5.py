@@ -426,25 +426,44 @@ if __name__ == '__main__':
 
     # Part D.2
     # create the data sample
-    # instantiate the climate data
+    # # instantiate the climate data
+    # climate_data = Climate("data.csv")
+    # # prepare x axis:
+    # years = []
+    # for year in TRAINING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # # prepare train data
+    # train_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # models = generate_models(py_years, train_temps, [1,])
+    # # tests the training models
+    # years = []
+    # for year in TESTING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # # prepare test data
+    # test_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # # we already have models then we just want to test it
+    # evaluate_models_on_testing(years, test_temps, models)
+
+    # PROBLEM 2.1 Generate more models:
     climate_data = Climate("data.csv")
-    # prepare x axis:
-    years = []
-    for year in TRAINING_INTERVAL:
-        years.append(year)
+    # NOTE : this is shortcut to append years in TRAINING INTERVAL
+    years = [*TRAINING_INTERVAL]
+    train_temps = gen_cities_avg(climate_data, CITIES, years)
+    mov_train_temps_avg = moving_average(train_temps, 5)
     py_years = pylab.array(years)
-    # prepare train data
-    train_temps = gen_cities_avg(climate_data, CITIES, py_years)
-    models = generate_models(py_years, train_temps, [1,])
-    # tests the training models
-    years = []
-    for year in TESTING_INTERVAL:
-        years.append(year)
+    models = generate_models(py_years, mov_train_temps_avg, [1,2,20])
+    # evaluate the train models
+    evaluate_models_on_training(py_years, mov_train_temps_avg, models)
+
+    # testings
+    years = [*TESTING_INTERVAL]
+    test_temps = gen_cities_avg(climate_data, CITIES, years)
+    mov_test_temps_avg = moving_average(test_temps, 5)
     py_years = pylab.array(years)
-    # prepare test data
-    test_temps = gen_cities_avg(climate_data, CITIES, py_years)
-    # we already have models then we just want to test it
-    evaluate_models_on_testing(years, test_temps, models)
+    # evaluate the testing
+    evaluate_models_on_testing(py_years, mov_test_temps_avg, models)
 
     # Part E
     # TODO: replace this line with your code
