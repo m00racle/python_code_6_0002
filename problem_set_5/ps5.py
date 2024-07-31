@@ -446,24 +446,28 @@ if __name__ == '__main__':
     # # we already have models then we just want to test it
     # evaluate_models_on_testing(years, test_temps, models)
 
-    # PROBLEM 2.1 Generate more models:
+    # PROBLEM 2.2 added Generate more models but only for NEW YORK
     climate_data = Climate("data.csv")
     # NOTE : this is shortcut to append years in TRAINING INTERVAL
     years = [*TRAINING_INTERVAL]
-    train_temps = gen_cities_avg(climate_data, CITIES, years)
-    mov_train_temps_avg = moving_average(train_temps, 5)
+    # NOTE: this still will use gen_cities_avg but will use 1 element list consists only NEW YORK
+    train_temps = gen_cities_avg(climate_data, ['NEW YORK',], years)
+    # we can loop all years to append data using the get yearly temp from Climate class 
+    # but this is less practical
+    
     py_years = pylab.array(years)
-    models = generate_models(py_years, mov_train_temps_avg, [1,2,20])
+    models = generate_models(py_years, train_temps, [1,2,20])
     # evaluate the train models
-    evaluate_models_on_training(py_years, mov_train_temps_avg, models)
+    evaluate_models_on_training(py_years, train_temps, models)
 
     # testings
     years = [*TESTING_INTERVAL]
-    test_temps = gen_cities_avg(climate_data, CITIES, years)
-    mov_test_temps_avg = moving_average(test_temps, 5)
+    # get the test data with the same concept as train_temps data
+    test_temps = gen_cities_avg(climate_data, ['NEW YORK',], years)
+    
     py_years = pylab.array(years)
     # evaluate the testing
-    evaluate_models_on_testing(py_years, mov_test_temps_avg, models)
+    evaluate_models_on_testing(py_years, test_temps, models)
 
     # Part E
     # TODO: replace this line with your code
