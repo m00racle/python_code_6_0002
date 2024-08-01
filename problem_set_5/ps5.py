@@ -349,9 +349,10 @@ def gen_std_devs(climate, multi_cities, years):
                     except:
                         # just break out the loop of city and proceed to next day
                         break
-                daily_avg_temps.append(numpy.mean(pylab.array(cities_daily_temps)))
+                if len(cities_daily_temps) > 0:
+                    daily_avg_temps.append(numpy.mean(pylab.array(cities_daily_temps)))
         # NOTE: using nanstd instead of std since the dayly avg temps often contains NaN
-        temps_stdev.append(numpy.nanstd(pylab.array(daily_avg_temps)))
+        temps_stdev.append(numpy.std(pylab.array(daily_avg_temps)))
 
     return pylab.array(temps_stdev)
 
