@@ -280,8 +280,26 @@ def moving_average(y, window_length):
         an 1-d pylab array with the same length as y storing moving average of
         y-coordinates of the N sample points
     """
-    # TODO
-    pass
+    result = []
+    for i in range(1,(len(y) + 1)):
+        inter_list = []
+        # inter_list will be used to store the elements to be averaged as part of moving average
+
+        if i < window_length:
+            starting_point = 0
+        else:
+            starting_point = i - window_length
+        
+        # append inter_list elements from starting point to the index i from array y
+        for k in range(starting_point, i):
+            inter_list.append(y[k])
+        
+        # just use the numpy mean to make it easier basically it averaging the inter_list
+        # then append the average into the result list
+        result.append(numpy.mean(pylab.array(inter_list)))
+    
+    # return the pylab.array type of the result list
+    return pylab.array(result)
 
 def rmse(y, estimated):
     """
@@ -296,8 +314,12 @@ def rmse(y, estimated):
     Returns:
         a float for the root mean square error term
     """
-    # TODO
-    pass
+    N = len(y)
+    SSE = 0
+    for i in range(N):
+        SSE += (y[i] - estimated[i])**2
+    
+    return (SSE/N)**0.5
 
 def gen_std_devs(climate, multi_cities, years):
     """
@@ -314,8 +336,25 @@ def gen_std_devs(climate, multi_cities, years):
         this array corresponds to the standard deviation of the average annual 
         city temperatures for the given cities in a given year.
     """
-    # TODO
-    pass
+    temps_stdev = []
+    for year in years:
+        daily_avg_temps = []
+        for month in range(1,13):
+            for day in range(1,32):
+                # try to access dayly data on the specific city in multi_cities
+                cities_daily_temps = []
+                for city in multi_cities:
+                    try:
+                        cities_daily_temps.append(climate.get_daily_temp(city, month, day, year))
+                    except:
+                        # just break out the loop of city and proceed to next day
+                        break
+                if len(cities_daily_temps) > 0:
+                    daily_avg_temps.append(numpy.mean(pylab.array(cities_daily_temps)))
+        # NOTE: using nanstd instead of std since the dayly avg temps often contains NaN
+        temps_stdev.append(numpy.std(pylab.array(daily_avg_temps)))
+
+    return pylab.array(temps_stdev)
 
 def evaluate_models_on_testing(x, y, models):
     """
@@ -341,14 +380,30 @@ def evaluate_models_on_testing(x, y, models):
     Returns:
         None
     """
-    # TODO
-    pass
+    for model in models:
+        # tag the degree
+        deg = len(model) - 1
+        # produce estimated data
+        estimated_y = pylab.polyval(model, x)
+        # evaluate the data
+        rmse_y = rmse(y,estimated_y)
+        # plot the data and evaluation
+        pylab.plot(x, y, 'bo')
+        pylab.plot(x, estimated_y, 'r')
+        title = "Testing Temperature Date with " + str(deg) + " degree model\n" + "RMSE = " + str(round(rmse_y, 4))
+        pylab.xlabel('years')
+        pylab.ylabel('temperature C')
+        pylab.title(title)
+        pylab.show()
 
 if __name__ == '__main__': 
+    # THIS climate_data is used over and over again so I put it in front for all to use
+    climate_data = Climate("data.csv")
+    
     # # Part A.4-2
     # # create the data sample
     # # instantiate the climate data
-    # climate_data = Climate("data.csv")
+    
     # # prepare x axis:
     # years = []
     # # prepare y axis:
@@ -366,21 +421,81 @@ if __name__ == '__main__':
     # evaluate_models_on_training(years, temps, models)
 
     # __name__ == main:
-    # Part B
-    climate_data = Climate("data.csv")
-    years = []
-    for year in TRAINING_INTERVAL:
-        years.append(year)
-    py_years = pylab.array(years)
-    py_temps = gen_cities_avg(climate_data, CITIES, py_years)
-    models = generate_models(py_years, py_temps, [1,])
-    evaluate_models_on_training(py_years, py_temps, models)
+    # # Part B
+    
+    # years = []
+    # for year in TRAINING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # py_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # models = generate_models(py_years, py_temps, [1,])
+    # evaluate_models_on_training(py_years, py_temps, models)
     
     # Part C
-    # TODO: replace this line with your code
+    
+    # years = []
+    # for year in TRAINING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # py_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # py_temp_mov_avg = moving_average(py_temps, 5)
+    
+    # models = generate_models(py_years, py_temp_mov_avg, [1,])
+    
+    # evaluate_models_on_training(py_years, py_temp_mov_avg, models)
 
     # Part D.2
-    # TODO: replace this line with your code
+    # create the data sample
+    # # instantiate the climate data
+    # climate_data = Climate("data.csv")
+    # # prepare x axis:
+    # years = []
+    # for year in TRAINING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # # prepare train data
+    # train_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # models = generate_models(py_years, train_temps, [1,])
+    # # tests the training models
+    # years = []
+    # for year in TESTING_INTERVAL:
+    #     years.append(year)
+    # py_years = pylab.array(years)
+    # # prepare test data
+    # test_temps = gen_cities_avg(climate_data, CITIES, py_years)
+    # # we already have models then we just want to test it
+    # evaluate_models_on_testing(years, test_temps, models)
+
+    # PROBLEM 2.2 added Generate more models but only for NEW YORK
+    
+    # # NOTE : this is shortcut to append years in TRAINING INTERVAL
+    # years = [*TRAINING_INTERVAL]
+    # # NOTE: this still will use gen_cities_avg but will use 1 element list consists only NEW YORK
+    # train_temps = gen_cities_avg(climate_data, ['NEW YORK',], years)
+    # # we can loop all years to append data using the get yearly temp from Climate class 
+    # # but this is less practical
+    
+    # py_years = pylab.array(years)
+    # models = generate_models(py_years, train_temps, [1,2,20])
+    # # evaluate the train models
+    # evaluate_models_on_training(py_years, train_temps, models)
+
+    # # testings
+    # years = [*TESTING_INTERVAL]
+    # # get the test data with the same concept as train_temps data
+    # test_temps = gen_cities_avg(climate_data, ['NEW YORK',], years)
+    
+    # py_years = pylab.array(years)
+    # # evaluate the testing
+    # evaluate_models_on_testing(py_years, test_temps, models)
 
     # Part E
-    # TODO: replace this line with your code
+    # NOTE: in gen std devs we use [*TRAINING_INTERVAL] since TRAINING_INTERVAL is a range NOT a list!
+    std_devs = gen_std_devs(climate_data, CITIES, [*TRAINING_INTERVAL])
+    # make 5-year moving averaga
+    mov_std_devs_avg = moving_average(std_devs, 5)
+    # genereate model (1 deg polynomial) using the moving average
+    py_years = pylab.array([*TRAINING_INTERVAL])
+    models = generate_models(py_years, mov_std_devs_avg, [1,])
+    # evaluate and plot the model
+    evaluate_models_on_training(py_years, mov_std_devs_avg, models)
