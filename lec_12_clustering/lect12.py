@@ -1,7 +1,7 @@
-import cluster
+import os, cluster
 import random, pylab, numpy
 
-class Patient(cluster.Example):
+class Patient(cluster.Example): # sub-class of Example class in cluster.py
     pass
 
 def scaleAttrs(vals):
@@ -14,7 +14,7 @@ def scaleAttrs(vals):
 def getData(toScale = False):
     #read in data
     hrList, stElevList, ageList, prevACSList, classList = [],[],[],[],[]
-    cardiacData = open('cardiacData.txt', 'r')
+    cardiacData = open(os.path.normpath(os.path.dirname(__file__) + '/cardiacData.txt'), 'r')
     for l in cardiacData:
         l = l.split(',')
         hrList.append(int(l[0]))
