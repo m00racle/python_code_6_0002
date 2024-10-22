@@ -114,7 +114,7 @@ def compareAnimals(animals, precision):
     pylab.axis('off')
     pylab.savefig('distances')
 
-compareAnimals(animals, 3)
+# compareAnimals(animals, 3)
 # assert False
 
 class Passenger(object):
