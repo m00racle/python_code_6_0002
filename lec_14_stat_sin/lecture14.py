@@ -4,7 +4,7 @@ Created on Mon Sep 19 11:45:20 2016
 
 @author: johnguttag
 """
-import pylab, random
+import pylab, random, os
 
 #set line width
 pylab.rcParams['lines.linewidth'] = 4
@@ -72,7 +72,7 @@ def getTitanicData(fname):
     data = {}
     data['class'], data['survived'], data['age'] = [], [], []
     data['gender'], data['name'] = [], []
-    f = open(fname)
+    f = open(os.path.normpath(os.path.dirname(__file__)) + '/' +fname)
     line = f.readline()
     while line != '':
         split = line.split(',')
@@ -210,15 +210,15 @@ def lr(trainingData, testData, prob = 0.5):
     
 examples = buildTitanicExamples('TitanicPassengers.txt')
 
-random.seed(0)
-numSplits = 20
-print('Average of', numSplits, '80/20 splits LR')
-truePos, falsePos, trueNeg, falseNeg =\
-      randomSplits(examples, lr, numSplits)
+# random.seed(0)
+# numSplits = 20
+# print('Average of', numSplits, '80/20 splits LR')
+# truePos, falsePos, trueNeg, falseNeg =\
+#       randomSplits(examples, lr, numSplits)
 
 #Look at weights
-trainingSet, testSet = split80_20(examples)
-model = buildModel(trainingSet, True)
+# trainingSet, testSet = split80_20(examples)
+# model = buildModel(trainingSet, True)
 
 ##Look at changing prob
 #random.seed(0)
