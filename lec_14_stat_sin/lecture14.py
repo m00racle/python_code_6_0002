@@ -244,7 +244,7 @@ def buildROC(trainingSet, testSet, title, plot = True):
         xVals.append(1.0 - specificity(trueNeg, falsePos))
         yVals.append(sensitivity(truePos, falseNeg))
         p += 0.01
-    auroc = sklearn.metrics.auc(xVals, yVals, True)
+    auroc = sklearn.metrics.auc(xVals, yVals)
     if plot:
         pylab.plot(xVals, yVals)
         pylab.plot([0,1], [0,1])
@@ -252,8 +252,9 @@ def buildROC(trainingSet, testSet, title, plot = True):
         pylab.title(title)
         pylab.xlabel('1 - specificity')
         pylab.ylabel('Sensitivity')
+        pylab.show()
     return auroc
 
-#random.seed(0)
-#trainingSet, testSet = split80_20(examples)
-#buildROC(trainingSet, testSet, 'ROC for Predicting Survival, 1 Split')
+# random.seed(0)
+# trainingSet, testSet = split80_20(examples)
+# buildROC(trainingSet, testSet, 'ROC for Predicting Survival, 1 Split')
