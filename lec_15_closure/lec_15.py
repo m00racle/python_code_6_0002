@@ -36,24 +36,24 @@ pylab.rcParams['legend.numpoints'] = 1
 # pylab.ylim(97,102)
 # pylab.show()
 
-random.seed(0)
-numCasesPerYear = 36000
-numYears = 3
-stateSize = 10000
-communitySize = 10
-numCommunities = stateSize//communitySize
+# random.seed(0)
+# numCasesPerYear = 36000
+# numYears = 3
+# stateSize = 10000
+# communitySize = 10
+# numCommunities = stateSize//communitySize
 
-numTrials = 100
-numGreater = 0
-for t in range(numTrials):
-    locs = [0]*numCommunities
-    for i in range(numYears*numCasesPerYear):
-        locs[random.choice(range(numCommunities))] += 1
-    if locs[111] >= 143:
-        numGreater += 1
-prob = round(numGreater/numTrials, 4)
-print('Est. probability of region 111 having\
- at least 143 cases =', prob)
+# numTrials = 100
+# numGreater = 0
+# for t in range(numTrials):
+#     locs = [0]*numCommunities
+#     for i in range(numYears*numCasesPerYear):
+#         locs[random.choice(range(numCommunities))] += 1
+#     if locs[111] >= 143:
+#         numGreater += 1
+# prob = round(numGreater/numTrials, 4)
+# print('Est. probability of region 111 having\
+#  at least 143 cases =', prob)
 
 ## Uncomment these second part of the code and Comment out the first part above to compare:
 
